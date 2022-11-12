@@ -1,13 +1,13 @@
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 
-export default function LoginBtn() {
+export default function Btn({ text }) {
   const handlePress = () => {
-    alert("click");
+    alert(text);
   };
   return (
     <View style={styles.buttonView}>
       <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.text}>로그인하기</Text>
+        <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
     </View>
   );
