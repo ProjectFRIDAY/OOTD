@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09d1b2e2-e416-4b11-9e68-06627c6d03c5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/auth/CheckNameDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/auth/CheckPasswordDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/domain/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/service/user/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/service/user/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/user/UpdateUserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/user/UpdateUserDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
