@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function JoinMembership() {
-  const handleClick = () => {
-    alert("가입");
-  };
+export default function JoinMembership({ navigation }) {
   return (
     <View style={styles.textJoinMembershipView}>
-      <Text style={styles.textJoinMembership} onPress={handleClick}>
+      <Text
+        style={styles.textJoinMembership}
+        onPress={() => navigation.navigate("JoinMembershipView")}
+      >
         회원가입
       </Text>
     </View>
