@@ -1,2 +1,8 @@
-package OOTD.demo.api.controller;public class AuthController {
+package OOTD.demo.api.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class AuthController {
+
 }
