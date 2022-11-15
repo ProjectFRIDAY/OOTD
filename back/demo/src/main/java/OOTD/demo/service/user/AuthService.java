@@ -60,4 +60,13 @@ public class AuthService implements UserDetailsService {
     public boolean existName(String name) {
         return userRepository.existByName(name);
     }
+
+    public boolean checkPassword(Long id, String pw){
+        User user = userRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("not found uwer"));
+        if(!passwordEncoder.matches(pw, user.getPassword())){
+            throw new IllegalArgumentException("wrong password");
+        }
+        return true;
+    }
 }
