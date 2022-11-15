@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09d1b2e2-e416-4b11-9e68-06627c6d03c5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/auth/CreateUserDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/auth/LoginDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/config/WebSecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/config/security/Encoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/config/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/config/security/JwtTokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/domain/user/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/repository/user/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/service/user/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/.idea/demo.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/demo/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/demo/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/user/ReadUserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/user/UpdateUserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/service/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
