@@ -67,6 +67,7 @@ export default function CalendarView() {
           arrowColor: "#2B4036",
           dotColor: "#1B4B66",
           todayTextColor: "#2B4036",
+          todayBackgroundColor: "#E6EBE9",
         }}
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
@@ -81,5 +82,6 @@ const styles = StyleSheet.create({
   calendar: {
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
+    padding: 20,
   },
 });
