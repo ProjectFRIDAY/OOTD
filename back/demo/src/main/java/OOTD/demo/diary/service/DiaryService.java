@@ -2,6 +2,7 @@ package OOTD.demo.diary.service;
 
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
+import OOTD.demo.diary.dto.PostDiaryResDTO;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +28,11 @@ public class DiaryService {
      * TODO : 파일 업로드 관련 로직 추가
      * @param dto 게시글 생성 관련 엔티티
      * @param user 게시글 생성 User
-     * @return 생성된 게시글 엔티티
+     * @return 생성된 게시글 엔티티의 ID를 포함한 DTO
      */
-    public Diary createPost(PostDiaryReqDTO dto, User user) {
-        return diaryRepository.save(Diary.createPost(dto, user));
+    public PostDiaryResDTO createPost(PostDiaryReqDTO dto, User user) {
+        Diary diary = diaryRepository.save(Diary.createPost(dto, user));
+        return new PostDiaryResDTO(diary.getId());
     }
+
 }
