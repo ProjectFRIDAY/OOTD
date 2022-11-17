@@ -41,6 +41,7 @@ public class DiaryService {
     /**
      * 게시글 엔티티 수정 메서드입니다.
      * @param dto 수정할 게시글의 사항 관련 DTO
+     * @param user 현재 로그인된 사용자
      * @return 수정된 게시글의 ID를 포함한 DTO
      */
     public PostDiaryResDTO updatePost(UpdateDiaryReqDTO dto, User user) {
@@ -62,12 +63,17 @@ public class DiaryService {
     /**
      * 게시글 삭제 메서드입니다.
      * @param id 삭제할 게시글 ID
+     * @param user 현재 로그인된 사용자
      */
-    public void deleteDiary(Long id) {
+    public void deleteDiary(Long id, User user) {
         Optional<Diary> diary = diaryRepository.findById(id);
 
         if (diary.isEmpty()) {
             // TODO : 예외 처리 시 반환할 공통 메서드 필요
+        }
+
+        if (diary.get().getId() != user.getId()) {
+            // TODO : 게시글을 삭제하려는 사용자가 해당 게시글의 작성자가 아닐 경우 퍼미션 오류 관련 처리 필요
         }
 
         diaryRepository.delete(diary.get());

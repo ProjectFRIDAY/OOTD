@@ -60,4 +60,20 @@ public class DiaryController {
         return diaryService.updatePost(dto, null);
     }
 
+    /**
+     * 게시글 삭제 관련 컨트롤러 메서드입니다.
+     * @param id 삭제할 게시글 id
+     * @return 성공 여부
+     */
+    @GetMapping("/api/diary/delete/{id}")
+    public String deleteDiary(@PathVariable(name = "id") Long id) {
+
+        // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
+
+        diaryService.deleteDiary(id, null);
+
+        // TODO : 반환할 값이 없는 경우 반환할 양식 규정 필요
+        return "success";
+    }
+
 }
