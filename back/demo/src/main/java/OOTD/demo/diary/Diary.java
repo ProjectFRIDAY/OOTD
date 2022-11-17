@@ -62,4 +62,15 @@ public class Diary {
     public static Diary createPost(PostDiaryReqDTO dto, User user) {
         return new Diary(dto.getTitle(), dto.getContent(), user);
     }
+
+    /**
+     * 게시글 엔티티 수정 메서드입니다.
+     * @param dto 게시글 update 관련 DTO
+     */
+    public void updateDiary(PostDiaryReqDTO dto) {
+        title = dto.getTitle();
+        content = dto.getContent();
+        updateDate = LocalDateTime.now();
+        isUpdated = true;
+    }
 }

@@ -4,6 +4,7 @@ import OOTD.demo.domain.user.User;
 import OOTD.demo.diary.Diary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JPA Diary repository 입니다.
@@ -12,4 +13,5 @@ import java.util.List;
  */
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findByUser(User user);
+    Optional<Diary> findById(Long id);
 }
