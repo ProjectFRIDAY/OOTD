@@ -10,7 +10,6 @@ const TabIcon = ({ name, size, color }) => {
 };
 
 const Tab = createBottomTabNavigator();
-
 export default function TabNavigation({ navigation }) {
   return (
     <Tab.Navigator initialRouteName=" ">
