@@ -1,7 +1,7 @@
-package OOTD.demo.post.repository;
+package OOTD.demo.diary.repository;
 
 import OOTD.demo.domain.user.User;
-import OOTD.demo.post.Diary;
+import OOTD.demo.diary.Diary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

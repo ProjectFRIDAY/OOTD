@@ -1,5 +1,6 @@
-package OOTD.demo.post;
+package OOTD.demo.diary;
 
+import OOTD.demo.diary.dto.PostDiaryReqDTO;
 import OOTD.demo.domain.user.User;
 import lombok.Getter;
 import javax.persistence.*;
@@ -54,12 +55,11 @@ public class Diary {
     /**
      * 게시글 엔티티 생성 메서드입니다.
      * 게시글 생성은 해당 메서드로만 진행됩니다.
-     * @param title 게시글 제목
-     * @param content 게시글 내용
+     * @param dto 게시글 생성 관련 DTO
      * @param user 게시글 작성자
      * @return 생성된 Post 엔티티
      */
-    public static Diary createPost(String title, String content, User user) {
-        return new Diary(title, content, user);
+    public static Diary createPost(PostDiaryReqDTO dto, User user) {
+        return new Diary(dto.getTitle(), dto.getContent(), user);
     }
 }
