@@ -1,19 +1,28 @@
+import { useEffect, useState } from "react";
 import { View, TouchableOpacity, Image } from "react-native";
 
-export default function TabMiddleBtn() {
+export default function TabMiddleBtn({ navigation, isClick }) {
   return (
     <View
-      style={{
-        width: 85,
-        height: 85,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#E6EBE9",
-        borderRadius: 100,
-        marginBottom: 30,
-      }}
+      style={
+        isClick
+          ? {
+              width: 85,
+              height: 85,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#E6EBE9",
+              borderRadius: 100,
+              marginBottom: 35,
+            }
+          : {}
+      }
     >
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(" ");
+        }}
+      >
         <View
           style={{
             width: 70,
