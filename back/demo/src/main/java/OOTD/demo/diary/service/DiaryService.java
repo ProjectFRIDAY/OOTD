@@ -4,6 +4,7 @@ import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.dto.DiaryDTO;
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
 import OOTD.demo.diary.dto.PostDiaryResDTO;
+import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -39,15 +40,18 @@ public class DiaryService {
 
     /**
      * 게시글 엔티티 수정 메서드입니다.
-     * @param id 수정할 게시글 ID
      * @param dto 수정할 게시글의 사항 관련 DTO
      * @return 수정된 게시글의 ID를 포함한 DTO
      */
-    public PostDiaryResDTO updatePost(Long id, PostDiaryReqDTO dto) {
-        Optional<Diary> diary = diaryRepository.findById(id);
+    public PostDiaryResDTO updatePost(UpdateDiaryReqDTO dto, User user) {
+        Optional<Diary> diary = diaryRepository.findById(dto.getId());
 
         if (diary.isEmpty()) {
             // TODO : 예외 처리 시 반환할 공통 메서드 필요
+        }
+
+        if (user.getId() != diary.get().getId()) {
+            // TODO : 권한이 없는 사용자가 게시글 수정 시도시 예외 발생 로직 필요
         }
 
         diary.get().updateDiary(dto);

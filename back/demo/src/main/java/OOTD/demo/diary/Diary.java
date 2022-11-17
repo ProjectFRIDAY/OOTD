@@ -1,6 +1,7 @@
 package OOTD.demo.diary;
 
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
+import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
 import OOTD.demo.domain.user.User;
 import lombok.Getter;
 import javax.persistence.*;
@@ -67,7 +68,7 @@ public class Diary {
      * 게시글 엔티티 수정 메서드입니다.
      * @param dto 게시글 update 관련 DTO
      */
-    public void updateDiary(PostDiaryReqDTO dto) {
+    public void updateDiary(UpdateDiaryReqDTO dto) {
         title = dto.getTitle();
         content = dto.getContent();
         updateDate = LocalDateTime.now();
