@@ -13,36 +13,36 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Getter
-@Table(name = "POST")
-public class Post {
+@Table(name = "DIARY")
+public class Diary {
 
     @Id
     @GeneratedValue
-    @Column(name = "post_id")
+    @Column(name = "diary_id")
     private Long id;
 
-    @Column(name = "post_title", nullable = false)
+    @Column(name = "diary_title", nullable = false)
     private String title;
 
-    @Column(name = "post_content", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "diary_content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(name = "post_created_date", nullable = false)
+    @Column(name = "diary_created_date", nullable = false)
     private LocalDateTime createDate;
 
-    @Column(name = "post_update_date", nullable = false)
+    @Column(name = "diary_update_date", nullable = false)
     private LocalDateTime updateDate;
 
-    @Column(name = "post_is_updated")
+    @Column(name = "diary_is_updated")
     private boolean isUpdated;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "diary_id", nullable = false)
     private User user;
 
-    protected Post() { }
+    protected Diary() { }
 
-    private Post(String title, String content, User user) {
+    private Diary(String title, String content, User user) {
         this.title = title;
         this.content = content;
         this.createDate = LocalDateTime.now();
@@ -59,7 +59,7 @@ public class Post {
      * @param user 게시글 작성자
      * @return 생성된 Post 엔티티
      */
-    public static Post createPost(String title, String content, User user) {
-        return new Post(title, content, user);
+    public static Diary createPost(String title, String content, User user) {
+        return new Diary(title, content, user);
     }
 }
