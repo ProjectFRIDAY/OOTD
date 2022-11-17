@@ -44,7 +44,7 @@ public class DiaryService {
      */
     public PostDiaryResDTO updatePost(Long id, PostDiaryReqDTO dto) {
         Optional<Diary> diary = diaryRepository.findById(id);
-        
+
         if (diary.isEmpty()) {
             // TODO : 예외 처리 시 반환할 공통 메서드 필요
         }
@@ -52,6 +52,20 @@ public class DiaryService {
         diary.get().updateDiary(dto);
         return new PostDiaryResDTO(diary.get().getId());
 
+    }
+
+    /**
+     * 게시글 삭제 메서드입니다.
+     * @param id 삭제할 게시글 ID
+     */
+    public void deleteDiary(Long id) {
+        Optional<Diary> diary = diaryRepository.findById(id);
+
+        if (diary.isEmpty()) {
+            // TODO : 예외 처리 시 반환할 공통 메서드 필요
+        }
+
+        diaryRepository.delete(diary.get());
     }
 
 }
