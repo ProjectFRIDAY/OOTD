@@ -18,7 +18,7 @@ export default function LoginPage({ navigation }) {
         </View>
       </View>
       <LoginInputView />
-      <Btn text={"로그인하기"} />
+      <Btn text={"로그인하기"} navigation={navigation} />
       <ForgotPassword />
       <JoinMembership navigation={navigation} />
       <SnsLoginView />

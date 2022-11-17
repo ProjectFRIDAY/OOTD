@@ -1,8 +1,8 @@
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 
-export default function Btn({ text }) {
+export default function Btn({ text, navigation }) {
   const handlePress = () => {
-    alert(text);
+    text === "로그인하기" ? navigation.navigate("MainPage") : alert("인증");
   };
   return (
     <View style={styles.buttonView}>
