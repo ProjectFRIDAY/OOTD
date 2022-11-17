@@ -1,13 +1,12 @@
 package OOTD.demo.diary.controller;
 
+import OOTD.demo.diary.dto.DiaryDTO;
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
 import OOTD.demo.diary.dto.PostDiaryResDTO;
 import OOTD.demo.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Diary 엔티티 관련 컨트롤러입니다.
@@ -27,6 +26,14 @@ public class DiaryController {
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
 
         return diaryService.createPost(dto, null);
+    }
+
+    @GetMapping("/api/diary/{id}")
+    public DiaryDTO findDiary(@PathVariable(name = "id") Long id) {
+
+        // TODO : 공개 여부에 따라 퍼미션 거부 로직 필요
+
+        return diaryService.findDiaryById(id);
     }
 
 }

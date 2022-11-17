@@ -1,6 +1,7 @@
 package OOTD.demo.diary.service;
 
 import OOTD.demo.diary.Diary;
+import OOTD.demo.diary.dto.DiaryDTO;
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
 import OOTD.demo.diary.dto.PostDiaryResDTO;
 import OOTD.demo.diary.repository.DiaryRepository;
@@ -66,6 +67,22 @@ public class DiaryService {
         }
 
         diaryRepository.delete(diary.get());
+    }
+
+    /**
+     * 게시글 ID를 이용하여 특정 게시글을 조회하는 메서드입니다.
+     * @param id 게시글 ID
+     * @return 해당 게시글의 정보를 담고 있는 DTO
+     */
+    public DiaryDTO findDiaryById(Long id) {
+        Optional<Diary> diary = diaryRepository.findById(id);
+
+        if (diary.isEmpty()) {
+            // TODO : 예외 처리 시 반환할 공통 메서드 필요
+        }
+
+        return new DiaryDTO(diary.get().getId(), diary.get().getTitle(), diary.get().getContent(),
+                diary.get().getCreateDate(), diary.get().getUpdateDate(), diary.get().getUser().getId());
     }
 
 }
