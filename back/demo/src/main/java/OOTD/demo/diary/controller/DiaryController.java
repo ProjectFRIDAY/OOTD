@@ -3,18 +3,16 @@ package OOTD.demo.diary.controller;
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
 import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
 import OOTD.demo.diary.service.DiaryService;
-import OOTD.demo.domain.Message;
+import OOTD.demo.domain.HttpResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.OK;
 
 /**
  * Diary 엔티티 관련 컨트롤러입니다.
- * @version 1.0.0
+ * @version 1.0.1
  * @author CHO Min Ho
  */
 @RestController
@@ -23,6 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final HttpResponseUtil httpResponseUtil;
 
     /**
      * 게시글 생성 컨트롤러 메서드입니다.
@@ -34,7 +33,7 @@ public class DiaryController {
 
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
 
-        return createResponseEntity(diaryService.createPost(dto, null), "게시글 생성에 성공했습니다.");
+        return httpResponseUtil.createOKHttpResponse(diaryService.createPost(dto, null), "게시글 생성에 성공했습니다.");
     }
 
     /**
@@ -47,7 +46,7 @@ public class DiaryController {
 
         // TODO : 공개 여부에 따라 퍼미션 거부 로직 필요
 
-        return createResponseEntity(diaryService.findDiaryById(id), "게시글 조회에 성공했습니다.");
+        return httpResponseUtil.createOKHttpResponse(diaryService.findDiaryById(id), "게시글 조회에 성공했습니다.");
     }
 
     /**
@@ -60,7 +59,7 @@ public class DiaryController {
 
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
 
-        return createResponseEntity(diaryService.updatePost(dto, null), "게시글 수정에 성공했습니다.");
+        return httpResponseUtil.createOKHttpResponse(diaryService.updatePost(dto, null), "게시글 수정에 성공했습니다.");
     }
 
     /**
@@ -76,22 +75,8 @@ public class DiaryController {
         diaryService.deleteDiary(id, null);
 
         // TODO : 반환할 값이 없는 경우 반환할 양식 규정 필요
-        return createResponseEntity(null, "게시글 삭제에 성공했습니다.");
+        return httpResponseUtil.createOKHttpResponse(null, "게시글 삭제에 성공했습니다.");
     }
 
-    /**
-     * 컨트롤러에서 반환할 객체를 생성하는 메서드입니다.
-     * @param object 실제 return되는 데이터
-     * @param responseMessage 응답 메시지
-     * @return 반환할 responseEntity 객체
-     */
-    private ResponseEntity<?> createResponseEntity(Object object, String responseMessage) {
-        Message message = new Message();
-        HttpHeaders headers = new HttpHeaders();
-        message.setStatus(Message.StatusEnum.OK);
-        message.setMessage(responseMessage);
-        message.setData(object);
-        return new ResponseEntity<>(message, headers, OK);
-    }
 
 }
