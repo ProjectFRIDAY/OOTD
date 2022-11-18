@@ -1,7 +1,7 @@
-package OOTD.demo.api.dto.user;
+package OOTD.demo.user.dto;
 
 
-import OOTD.demo.domain.user.User;
+import OOTD.demo.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

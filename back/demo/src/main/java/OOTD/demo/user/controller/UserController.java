@@ -1,13 +1,13 @@
-package OOTD.demo.api.controller;
+package OOTD.demo.user.controller;
 
 
-import OOTD.demo.api.dto.user.ReadUserDto;
-import OOTD.demo.api.dto.user.UpdateUserDto;
+import OOTD.demo.user.dto.ReadUserDto;
+import OOTD.demo.user.dto.UpdateUserDto;
 import OOTD.demo.config.security.JwtTokenProvider;
-import OOTD.demo.domain.Message;
-import OOTD.demo.domain.user.User;
-import OOTD.demo.service.user.AuthService;
-import OOTD.demo.service.user.UserService;
+import OOTD.demo.common.Message;
+import OOTD.demo.user.User;
+import OOTD.demo.auth.service.AuthService;
+import OOTD.demo.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

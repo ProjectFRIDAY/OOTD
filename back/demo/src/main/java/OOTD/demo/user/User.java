@@ -1,4 +1,4 @@
-package OOTD.demo.domain.user;
+package OOTD.demo.user;
 
 
 import lombok.AllArgsConstructor;

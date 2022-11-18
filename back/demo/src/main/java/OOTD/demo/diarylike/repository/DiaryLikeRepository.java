@@ -2,7 +2,7 @@ package OOTD.demo.diarylike.repository;
 
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diarylike.DiaryLike;
-import OOTD.demo.domain.user.User;
+import OOTD.demo.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

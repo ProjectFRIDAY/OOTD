@@ -1,6 +1,6 @@
-package OOTD.demo.repository.user;
+package OOTD.demo.user.repository;
 
-import OOTD.demo.domain.user.User;
+import OOTD.demo.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

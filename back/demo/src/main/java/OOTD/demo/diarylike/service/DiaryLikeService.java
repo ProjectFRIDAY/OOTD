@@ -6,7 +6,7 @@ import OOTD.demo.diarylike.DiaryLike;
 import OOTD.demo.diarylike.dto.PostDiaryLikeReqDTO;
 import OOTD.demo.diarylike.dto.PostDiaryLikeResDTO;
 import OOTD.demo.diarylike.repository.DiaryLikeRepository;
-import OOTD.demo.domain.user.User;
+import OOTD.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

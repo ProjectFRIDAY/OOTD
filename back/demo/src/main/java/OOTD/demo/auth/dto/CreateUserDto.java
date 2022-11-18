@@ -1,4 +1,4 @@
-package OOTD.demo.api.dto.auth;
+package OOTD.demo.auth.dto;
 
 
 import lombok.Getter;

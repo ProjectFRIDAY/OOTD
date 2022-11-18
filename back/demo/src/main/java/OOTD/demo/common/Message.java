@@ -1,4 +1,4 @@
-package OOTD.demo.domain;
+package OOTD.demo.common;
 
 
 import lombok.Data;
