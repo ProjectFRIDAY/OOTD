@@ -39,7 +39,7 @@ public class Diary {
     private boolean isUpdated;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     protected Diary() { }
