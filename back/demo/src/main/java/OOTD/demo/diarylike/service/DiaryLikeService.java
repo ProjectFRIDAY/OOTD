@@ -43,4 +43,23 @@ public class DiaryLikeService {
         DiaryLike diaryLike = diaryLikeRepository.save(DiaryLike.createDiaryLike(user, diary.get()));
         return new PostDiaryLikeResDTO(diaryLike.getId());
     }
+
+    /**
+     * 게시글 좋아요 엔티티를 삭제하는 메서드입니다.
+     * @param diaryLikeId 삭제하려는 DiaryLIke 엔티티의 ID
+     * @param user 삭제를 요청하는 사용자
+     */
+    public void deleteDiaryLike(Long diaryLikeId, User user) {
+        Optional<DiaryLike> diaryLike = diaryLikeRepository.findById(diaryLikeId);
+
+        if (diaryLike.isEmpty()) {
+            // TODO : 유효하지 않은 ID인 경우 예외 처리 로직 필요
+        }
+
+        if (diaryLike.get().getUser().getId() != user.getId()) {
+            // TODO : 좋아요를 누른 사용자가 요청하는 경우가 아닌 경우 (퍼미션 거부) 예외 처리 로직 필요
+        }
+
+        diaryLikeRepository.delete(diaryLike.get());
+    }
 }
