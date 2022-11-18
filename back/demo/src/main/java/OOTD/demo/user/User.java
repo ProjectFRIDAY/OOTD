@@ -1,6 +1,7 @@
-package OOTD.demo.domain.user;
+package OOTD.demo.user;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Data
 @Entity
 @Builder
+@AllArgsConstructor
 public class User implements UserDetails
 {
     @Id
@@ -39,6 +41,10 @@ public class User implements UserDetails
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    protected User() {
+
+    }
 
 
     @Override

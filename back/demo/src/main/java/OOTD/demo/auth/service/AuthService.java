@@ -1,10 +1,10 @@
-package OOTD.demo.service.user;
+package OOTD.demo.auth.service;
 
 
-import OOTD.demo.api.dto.auth.CreateUserDto;
-import OOTD.demo.api.dto.auth.LoginDto;
-import OOTD.demo.domain.user.User;
-import OOTD.demo.repository.user.UserRepository;
+import OOTD.demo.auth.dto.CreateUserDto;
+import OOTD.demo.auth.dto.LoginDto;
+import OOTD.demo.user.User;
+import OOTD.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -58,7 +58,7 @@ public class AuthService implements UserDetailsService {
     }
 
     public boolean existName(String name) {
-        return userRepository.existByName(name);
+        return userRepository.existsByName(name);
     }
 
     public boolean checkPassword(Long id, String pw){

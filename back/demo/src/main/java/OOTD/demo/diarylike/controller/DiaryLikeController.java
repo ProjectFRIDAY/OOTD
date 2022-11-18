@@ -3,7 +3,7 @@ package OOTD.demo.diarylike.controller;
 import OOTD.demo.diarylike.dto.PostDiaryLikeReqDTO;
 import OOTD.demo.diarylike.dto.PostDiaryLikeResDTO;
 import OOTD.demo.diarylike.service.DiaryLikeService;
-import OOTD.demo.domain.HttpResponseUtil;
+import OOTD.demo.common.HttpResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

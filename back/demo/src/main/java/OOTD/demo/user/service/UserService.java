@@ -1,10 +1,10 @@
-package OOTD.demo.service.user;
+package OOTD.demo.user.service;
 
 
-import OOTD.demo.api.dto.user.ReadUserDto;
-import OOTD.demo.api.dto.user.UpdateUserDto;
-import OOTD.demo.domain.user.User;
-import OOTD.demo.repository.user.UserRepository;
+import OOTD.demo.user.dto.ReadUserDto;
+import OOTD.demo.user.dto.UpdateUserDto;
+import OOTD.demo.user.User;
+import OOTD.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

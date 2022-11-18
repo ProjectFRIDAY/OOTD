@@ -1,7 +1,7 @@
 package OOTD.demo.diarylike;
 
 import OOTD.demo.diary.Diary;
-import OOTD.demo.domain.user.User;
+import OOTD.demo.user.User;
 import lombok.Getter;
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package OOTD.demo.api.dto.auth;
+package OOTD.demo.auth.dto;
 
 
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginDto {
-    private String email;
+public class CheckPasswordDto {
     private String password;
 }

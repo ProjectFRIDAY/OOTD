@@ -2,7 +2,7 @@ package OOTD.demo.diary;
 
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
 import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
-import OOTD.demo.domain.user.User;
+import OOTD.demo.user.User;
 import lombok.Getter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,7 +39,7 @@ public class Diary {
     private boolean isUpdated;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     protected Diary() { }

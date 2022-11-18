@@ -1,4 +1,4 @@
-package OOTD.demo.api.dto.user;
+package OOTD.demo.user.dto;
 
 
 import lombok.Getter;
