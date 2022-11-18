@@ -58,7 +58,7 @@ public class AuthService implements UserDetailsService {
     }
 
     public boolean existName(String name) {
-        return userRepository.existByName(name);
+        return userRepository.existsByName(name);
     }
 
     public boolean checkPassword(Long id, String pw){
