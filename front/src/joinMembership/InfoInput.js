@@ -1,48 +1,186 @@
-import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import InputText from "../input/LoginInput";
 
 export default function InfoInput() {
-  const [idChange, setIdChange] = useState("");
-  const handleIdChange = (text) => {
-    setIdChange(text);
+  const [accountChange, setAccountChange] = useState("");
+  const handleAccountChange = (text) => {
+    setAccountChange(text);
   };
+
+  const [nicNameChange, setNickNameChange] = useState("");
+  const handleNickNameChange = (text) => {
+    setNickNameChange(text);
+  };
+
+  const [emailChange, setEmailChange] = useState("");
+  const handleEmailChange = (text) => {
+    setEmailChange(text);
+  };
+
+  const [passwordChange, setPasswordChange] = useState("");
+  const handlePasswordChange = (text) => {
+    setPasswordChange(text);
+  };
+
+  const [passwordConfirmationChange, setPasswordConfirmationChange] =
+    useState("");
+  const handlepasswordConfirmationChange = (text) => {
+    setPasswordConfirmationChange(text);
+  };
+
+  const [birthChange, setBirthChange] = useState("");
+  const handleBirthChange = (text) => {
+    setBirthChange(text);
+  };
+
+  const [clickDuplicate, setClickDuplicate] = useState(false);
+  const handleDuplicate = () => {
+    if (clickDuplicate) {
+      console.log("hihi");
+    }
+  };
+
+  const [checkPassword, setCheckPassword] = useState(false);
+  useEffect(() => {
+    handleCheckPassword();
+  }, [passwordConfirmationChange]);
+
+  const handleCheckPassword = () => {
+    if (passwordChange === passwordConfirmationChange) {
+      setCheckPassword(true);
+    } else {
+      setCheckPassword(false);
+    }
+  };
+
+  const [checkPasswordFormText, setCheckPasswordFormText] = useState("");
+
+  const checkPasswordForm = () => {
+    if (0 < passwordChange.length) {
+      if (passwordChange.length < 8) {
+        setCheckPasswordFormText("* 8자리 이상으로 입력해주세요");
+      } else if (passwordChange.search(/\s/) != -1) {
+        setCheckPasswordFormText("* 비밀번호는 공백 없이 입력해주세요");
+      } else if (passwordChange.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi) < 0) {
+        setCheckPasswordFormText("* 특수문자를 혼합하여 입력해주세요");
+      } else {
+        setCheckPasswordFormText("");
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkPasswordForm();
+  }, [passwordChange]);
+
+  const [clickSend, setClickSend] = useState(false);
+
   return (
     <View>
       <View>
-        <Text style={styles.titleText}>UserID</Text>
+        <View style={styles.titleView}>
+          <Text style={styles.titleText}>Account Name *</Text>
+          <Text style={styles.warningMessage}>
+            * 이미 존재하는 닉네임입니다.
+          </Text>
+        </View>
         <InputText
-          placeHoldText={"@사용자 이름을 입력해주세요."}
+          placeHoldText={"@Account_Name을 입력해주세요."}
           keyboardType={"email-address"}
           textType="false"
-          handleChange={handleIdChange}
+          handleChange={handleAccountChange}
         />
+        <TouchableOpacity style={styles.inputBtn}>
+          <Text style={{ color: "#456A5A" }}>중복확인</Text>
+        </TouchableOpacity>
       </View>
       <View>
-        <Text style={styles.titleText}>Password</Text>
+        <Text style={styles.titleText}>NickName *</Text>
         <InputText
-          placeHoldText={"비밀번호를 입력해주세요."}
+          placeHoldText={"닉네임을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="true"
-          handleChange={handleIdChange}
+          textType="false"
+          handleChange={handleNickNameChange}
         />
       </View>
       <View>
-        <Text style={styles.titleText}>Password Confirmation</Text>
-        <InputText
-          placeHoldText={"비밀번호를 다시 입력해주세요."}
-          keyboardType={"email-address"}
-          textType="true"
-          handleChange={handleIdChange}
-        />
-      </View>
-      <View>
-        <Text style={styles.titleText}>EmailAddress</Text>
+        <Text style={styles.titleText}>E-mail *</Text>
         <InputText
           placeHoldText={"이메일을 입력해주세요."}
           keyboardType={"email-address"}
           textType="false"
-          handleChange={handleIdChange}
+          handleChange={handleEmailChange}
+        />
+        <TouchableOpacity
+          style={styles.inputBtn}
+          onPress={() => {
+            setClickSend(true);
+          }}
+        >
+          <Text style={{ color: "#456A5A" }}>인증코드 전송</Text>
+        </TouchableOpacity>
+      </View>
+      {clickSend && (
+        <View>
+          <InputText
+            placeHoldText={"인증번호를 입력하세요."}
+            keyboardType={"email-address"}
+            textType="false"
+            handleChange={handleEmailChange}
+          />
+          <TouchableOpacity
+            style={styles.checkBtn}
+            onPress={() => {
+              setClickSend(false);
+            }}
+          >
+            <Text style={{ textAlign: "center", color: "#E6EBE9" }}>확인</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      <View>
+        <View style={styles.titleView}>
+          <Text style={styles.titleText}>Password *</Text>
+          <Text style={styles.warningMessage}>{checkPasswordFormText}</Text>
+        </View>
+        <InputText
+          placeHoldText={"비밀번호(8~15자 특수문자 포함)를 입력해주세요."}
+          keyboardType={"email-address"}
+          textType="true"
+          handleChange={handlePasswordChange}
+          maxLength="15"
+        />
+      </View>
+      <View>
+        <View style={styles.titleView}>
+          <Text style={styles.titleText}>Password Confirmation *</Text>
+          {!checkPassword && 0 < passwordConfirmationChange.length && (
+            <Text style={styles.warningMessage}>
+              * 비밀번호가 일치하지 않습니다.
+            </Text>
+          )}
+          {checkPassword && 0 < passwordConfirmationChange.length && (
+            <Text style={[styles.warningMessage, { color: "blue" }]}>
+              * 비밀번호가 일치합니다.
+            </Text>
+          )}
+        </View>
+        <InputText
+          placeHoldText={"비밀번호를 다시 입력해주세요."}
+          keyboardType={"email-address"}
+          textType="true"
+          onPressDone={handleCheckPassword}
+          handleChange={handlepasswordConfirmationChange}
+        />
+      </View>
+      <View>
+        <Text style={styles.titleText}>Date of Birth</Text>
+        <InputText
+          placeHoldText={"YY-MM-DD"}
+          keyboardType={"email-address"}
+          textType="true"
+          handleChange={handleBirthChange}
         />
       </View>
     </View>
@@ -50,9 +188,35 @@ export default function InfoInput() {
 }
 
 const styles = StyleSheet.create({
+  titleView: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    width: 290,
+  },
   titleText: {
     color: "#456A5A",
     fontSize: 13,
     fontWeight: "400",
+    marginLeft: 10,
+  },
+  inputBtn: {
+    position: "absolute",
+    right: 20,
+    top: 43,
+  },
+  warningMessage: {
+    fontSize: 10,
+    color: "red",
+  },
+  checkBtn: {
+    backgroundColor: "#456A5A",
+    position: "absolute",
+    right: 20,
+    top: 23,
+    width: 40,
+    height: 25,
+    borderRadius: 20,
+    justifyContent: "center",
   },
 });
