@@ -6,6 +6,7 @@ export default function InputText({
   handleChange,
   keyboardType,
   textType,
+  maxLength,
 }) {
   const [changeText, setChangeText] = useState("");
   useEffect(() => {
@@ -19,6 +20,8 @@ export default function InputText({
       keyboardType={keyboardType}
       onChangeText={(text) => setChangeText(text)}
       secureTextEntry={textType}
+      returnKeyType="done"
+      maxLength={maxLength}
       editablex
     />
   );
@@ -32,5 +35,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 10,
     margin: 10,
+    fontSize: 13,
   },
 });

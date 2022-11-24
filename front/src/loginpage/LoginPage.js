@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import ForgotPassword from "../button/loginpage/ForgotPassword";
+import ForgotPassword from "../button/loginpage/ForgotPasswordBtn";
 import Btn from "../button/Btn";
 import SnsLoginView from "./SnsLoginView";
 import LoginInputView from "./LoginInputView";
-import JoinMembership from "../button/loginpage/JoinMembership";
+import JoinMembership from "../button/loginpage/JoinMembershipBtn";
 
 export default function LoginPage({ navigation }) {
   return (
@@ -19,8 +19,8 @@ export default function LoginPage({ navigation }) {
       </View>
       <LoginInputView />
       <Btn text={"로그인하기"} navigation={navigation} />
-      <ForgotPassword />
       <JoinMembership navigation={navigation} />
+      <ForgotPassword />
       <SnsLoginView />
       <Text style={styles.copyrightText}>
         &#9426; FRIDAY, All rights reserved.
