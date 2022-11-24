@@ -37,7 +37,7 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy
-          cp back/demo/build/libs/*.jar deploy/application.jar
+          cp back/demo/build/libs/*.jar back/demo/deploy/application.jar
           cp back/demo/Procfile back/demo/deploy/Procfile
           cp -r back/demo/.ebextensions back/demo/deploy/.ebextensions
           cd back/demo/deploy && zip -r back/demo/deploy.zip .
