@@ -36,7 +36,7 @@ jobs:
       # EB에 CD 하기 위해 추가 작성
       - name: Generate deployment package
         run: |
-          mkdir -p deploy
+          mkdir -p back/demo/deploy
           cp back/demo/build/libs/*.jar back/demo/deploy/application.jar
           cp back/demo/Procfile back/demo/deploy/Procfile
           cp -r back/demo/.ebextensions back/demo/deploy/.ebextensions
