@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import InputText from "../input/LoginInput";
 
-export default function InfoInput() {
+export default function InfoInput({ handleCheckEssentialFill }) {
   const [accountChange, setAccountChange] = useState("");
   const handleAccountChange = (text) => {
     setAccountChange(text);
   };
 
-  const [nicNameChange, setNickNameChange] = useState("");
+  const [nickNameChange, setNickNameChange] = useState("");
   const handleNickNameChange = (text) => {
     setNickNameChange(text);
   };
@@ -16,6 +16,19 @@ export default function InfoInput() {
   const [emailChange, setEmailChange] = useState("");
   const handleEmailChange = (text) => {
     setEmailChange(text);
+  };
+
+  const [clickSend, setClickSend] = useState(false);
+
+  const [checkAuthenticate, setCheckAuthenticate] = useState(false);
+
+  const handleAuthenticate = () => {
+    console.log("데이터 전송");
+    console.log("데이터 받기");
+    if (true) {
+      setClickSend(false);
+      setCheckAuthenticate(true);
+    }
   };
 
   const [passwordChange, setPasswordChange] = useState("");
@@ -36,21 +49,8 @@ export default function InfoInput() {
 
   const [clickDuplicate, setClickDuplicate] = useState(false);
   const handleDuplicate = () => {
-    if (clickDuplicate) {
-      console.log("hihi");
-    }
-  };
-
-  const [checkPassword, setCheckPassword] = useState(false);
-  useEffect(() => {
-    handleCheckPassword();
-  }, [passwordConfirmationChange]);
-
-  const handleCheckPassword = () => {
-    if (passwordChange === passwordConfirmationChange) {
-      setCheckPassword(true);
-    } else {
-      setCheckPassword(false);
+    if (true) {
+      setClickDuplicate(true);
     }
   };
 
@@ -69,12 +69,51 @@ export default function InfoInput() {
       }
     }
   };
-
   useEffect(() => {
     checkPasswordForm();
   }, [passwordChange]);
 
-  const [clickSend, setClickSend] = useState(false);
+  const [checkPassword, setCheckPassword] = useState(false);
+
+  const handleCheckPassword = () => {
+    if (0 < passwordConfirmationChange.length)
+      if (passwordChange === passwordConfirmationChange) {
+        setCheckPassword(true);
+      } else {
+        setCheckPassword(false);
+      }
+  };
+
+  useEffect(() => {
+    handleCheckPassword();
+  }, [passwordConfirmationChange]);
+
+  const [checkEssentialFill, setCheckEssentialFill] = useState(false);
+  useEffect(() => {
+    if (
+      clickDuplicate &&
+      nickNameChange !== "" &&
+      checkAuthenticate &&
+      checkPassword
+    ) {
+      setCheckEssentialFill(true);
+    } else {
+      setCheckEssentialFill(false);
+    }
+  });
+
+  useEffect(() => {
+    handleCheckEssentialFill(checkEssentialFill);
+  });
+
+  useEffect(() => {
+    console.log("--------------");
+    console.log(clickDuplicate + "hi");
+    console.log(nickNameChange + "hihi");
+    console.log(checkAuthenticate + "hihihi");
+    console.log(checkPassword + "hihihihi");
+    console.log("--------------");
+  });
 
   return (
     <View>
@@ -91,7 +130,7 @@ export default function InfoInput() {
           textType="false"
           handleChange={handleAccountChange}
         />
-        <TouchableOpacity style={styles.inputBtn}>
+        <TouchableOpacity style={styles.inputBtn} onPress={handleDuplicate}>
           <Text style={{ color: "#456A5A" }}>중복확인</Text>
         </TouchableOpacity>
       </View>
@@ -131,9 +170,7 @@ export default function InfoInput() {
           />
           <TouchableOpacity
             style={styles.checkBtn}
-            onPress={() => {
-              setClickSend(false);
-            }}
+            onPress={handleAuthenticate}
           >
             <Text style={{ textAlign: "center", color: "#E6EBE9" }}>확인</Text>
           </TouchableOpacity>
