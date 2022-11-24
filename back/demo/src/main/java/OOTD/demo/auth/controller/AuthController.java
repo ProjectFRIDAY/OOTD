@@ -31,7 +31,7 @@ public class AuthController {
     public ResponseEntity createUser(@RequestBody CreateUserDto user){
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
-        if(authService.existEmail(user.getEmail())){
+        if(authService.existsEmail(user.getEmail())){
             message.setStatus(Message.StatusEnum.NOT_ACCEPTABLE);
             message.setMessage("이미 존재하는 이메일입니다.");
             return new ResponseEntity<>(message, headers, HttpStatus.NOT_ACCEPTABLE);
@@ -46,7 +46,7 @@ public class AuthController {
     public ResponseEntity<?> checkName(@RequestBody CheckNameDto name){
         Message message = new Message();
         HttpHeaders headers = new HttpHeaders();
-        if(authService.existName(name.getName())){
+        if(authService.existsName(name.getName())){
             message.setStatus(Message.StatusEnum.NOT_ACCEPTABLE);
             message.setMessage("이미 존재하는 닉네임입니다.");
             return new ResponseEntity<>(message, headers, HttpStatus.NOT_ACCEPTABLE);

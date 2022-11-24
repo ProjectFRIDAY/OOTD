@@ -53,11 +53,12 @@ public class AuthService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
     }
 
-    public boolean existEmail(String email) {
+    public boolean existsEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    public boolean existName(String name) {
+
+    public boolean existsName(String name) {
         return userRepository.existsByName(name);
     }
 

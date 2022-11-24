@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09d1b2e2-e416-4b11-9e68-06627c6d03c5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/config/EmailConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/email/ConfirmationToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/email/Controller/EmailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/email/repository/ConfirmationTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/email/service/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back/demo/src/main/resources/email.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/user/UpdateUserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/api/dto/user/UpdateUserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/demo/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/demo/src/main/java/OOTD/demo/auth/service/AuthService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +33,28 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/back/demo">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="demo" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="demo" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="demo" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <item name="compileClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -79,6 +106,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -88,7 +116,20 @@
       <recent name="C:\Users\Yun\Downloads\demo\back" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.demo [dependencies]">
+  <component name="RunManager" selected="Gradle.demo">
+    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="OOTD.demo.DemoApplication" />
+      <module name="OOTD.demo.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="OOTD.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="C:/Users/Yun/Downloads/demo/back/demo/build.gradle (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -169,8 +210,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.demo [dependencies]" />
         <item itemvalue="Gradle.demo" />
+        <item itemvalue="Gradle.demo [dependencies]" />
+        <item itemvalue="Application.DemoApplication" />
         <item itemvalue="Gradle.C:/Users/Yun/Downloads/demo/back/demo/build.gradle (1)" />
         <item itemvalue="Gradle.C:/Users/Yun/Downloads/demo/back/demo/build.gradle" />
       </list>
