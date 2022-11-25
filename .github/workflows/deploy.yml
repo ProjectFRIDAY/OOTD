@@ -19,7 +19,9 @@ jobs:
         run: chmod +x back/demo/gradlew
         shell: bash
       - name: Build with Gradle
-        run: back/demo/gradlew clean build
+        run: |
+          cd back/demo
+          ./gradlew clean build
         shell: bash
 
       # UTC가 기준이기 때문에 한국시간으로 맞추려면 +9시간 해야 한다.
