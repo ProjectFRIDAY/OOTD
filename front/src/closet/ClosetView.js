@@ -9,69 +9,70 @@ import {
 } from "react-native";
 import AddClothBtn from "../button/closet/AddClothBtn";
 import ClosetSearchBar from "../input/ClosetSearchBar";
+import ClosetFlatList from "./ClosetFlatList";
 
 // 가데이터
-const flatListData = [
+const outerFlatListData = [
+  // {
+  //   // key: "3",
+  //   hashTag: ["긴팔", "오리털"],
+  //   type: "아우터",
+  //   day: 1,
+  //   name: "패딩",
+  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/baboon.png",
+  //   numberOfWear: 7,
+  // },
+  // {
+  //   // key: "4",
+  //   hashTag: ["긴팔", "떡볶이"],
+  //   type: "아우터",
+  //   day: 5,
+  //   name: "코트",
+  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/frymire.png",
+  //   numberOfWear: 2,
+  // },
+  // {
+  //   // key: "1",
+  //   hashTag: ["2WAY", "긴팔", "기모"],
+  //   type: "아우터",
+  //   day: 2,
+  //   name: "2WAY 아노락",
+  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+  //   numberOfWear: 5,
+  // },
+  // {
+  //   // key: "2",
+  //   hashTag: ["2WAY", "긴팔", "기모"],
+  //   type: "아우터",
+  //   day: 3,
+  //   name: "베이직 아노락",
+  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
+  //   numberOfWear: 4,
+  // },
+];
+
+const highFlatListData = [
   {
     // key: "1",
     hashTag: ["2WAY", "긴팔", "기모"],
+    type: "상의",
     day: 2,
     name: "2WAY 아노락",
     imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+    numberOfWear: 5,
   },
   {
     // key: "2",
     hashTag: ["2WAY", "긴팔", "기모"],
+    type: "상의",
     day: 3,
     name: "베이직 아노락",
     imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
-  },
-  {
-    // key: "3",
-    hashTag: ["긴팔", "오리털"],
-    day: 1,
-    name: "패딩",
-    imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/baboon.png",
-  },
-  {
-    // key: "4",
-    hashTag: ["긴팔", "떡볶이"],
-    day: 5,
-    name: "코트",
-    imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/frymire.png",
+    numberOfWear: 4,
   },
 ];
 
-const FlatListItem = ({ item, index }) => {
-  return (
-    // <TouchableOpacity>
-    <View
-      style={{
-        flex: 1,
-        margin: 15,
-        justifyContent: "center",
-      }}
-    >
-      <TouchableOpacity style={{ backgroundColor: "white", borderRadius: 25 }}>
-        <Image source={{ uri: item.imageUrl, width: 200, height: 200 }}></Image>
-      </TouchableOpacity>
-      <Text numberOfLines={1} style={styles.hashTag}>
-        {item.hashTag.map((value) => (
-          <TouchableOpacity>
-            <Text style={{ color: "#456A5A" }}>#{value} </Text>
-          </TouchableOpacity>
-        ))}
-      </Text>
-      <Text numberOfLines={1} style={styles.itemName}>
-        {item.name}
-      </Text>
-      <Text style={styles.lastWearDay}>{item.day}일 전에 입음</Text>
-    </View>
-    // </TouchableOpacity>
-  );
-};
-
-export default function ClosetView() {
+export default function ClosetView({ navigation }) {
   return (
     <>
       <View style={{ alignItems: "center", margin: 15 }}>
@@ -89,13 +90,10 @@ export default function ClosetView() {
           >
             아우터
           </Text>
-          <FlatList
-            data={flatListData}
-            horizontal={true}
-            renderItem={({ item, index }) => {
-              return <FlatListItem item={item} index={index} />;
-            }}
-          ></FlatList>
+          <ClosetFlatList
+            flatListData={outerFlatListData}
+            navigation={navigation}
+          />
         </View>
         <View>
           <Text
@@ -108,13 +106,10 @@ export default function ClosetView() {
           >
             상의
           </Text>
-          <FlatList
-            data={flatListData}
-            horizontal={true}
-            renderItem={({ item, index }) => {
-              return <FlatListItem item={item} index={index} />;
-            }}
-          ></FlatList>
+          <ClosetFlatList
+            flatListData={highFlatListData}
+            navigation={navigation}
+          />
         </View>
         <View>
           <Text
@@ -127,31 +122,14 @@ export default function ClosetView() {
           >
             하의
           </Text>
-          <FlatList
-            data={flatListData}
-            horizontal={true}
-            renderItem={({ item, index }) => {
-              return <FlatListItem item={item} index={index} />;
-            }}
-          ></FlatList>
+          <ClosetFlatList
+            flatListData={highFlatListData}
+            navigation={navigation}
+          />
         </View>
       </ScrollView>
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  hashTag: {
-    width: 200,
-    color: "#456A5A",
-    marginTop: 10,
-  },
-  itemName: {
-    width: 200,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  lastWearDay: {
-    color: "#456A5A",
-  },
-});
+const styles = StyleSheet.create({});
