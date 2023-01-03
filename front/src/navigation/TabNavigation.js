@@ -4,8 +4,6 @@ import TabMiddleBtn from "./TabMiddleBtn";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import FeedPage from "../feed/FeedPage";
 import ClosetView from "../closet/ClosetView";
-import { useState } from "react";
-import { TouchableOpacity } from "react-native";
 
 const TabIcon = ({ name, size, color }) => {
   return <MaterialCommunityIcons name={name} size={size} color={color} />;
