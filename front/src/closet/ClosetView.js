@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import AddClothBtn from "../button/closet/AddClothBtn";
 import ClosetSearchBar from "../input/ClosetSearchBar";
 import ClosetFlatList from "./ClosetFlatList";
 
