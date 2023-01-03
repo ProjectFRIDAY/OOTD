@@ -4,7 +4,10 @@ import LoginPage from "../loginpage/LoginPage";
 import LogoTitle from "./LogoTitle";
 import TabNavigation from "./TabNavigation";
 import TabMiddleBtn from "./TabMiddleBtn";
-import { NavigationContainer } from "@react-navigation/native";
+import AddCloth from "../closet/AddCloth";
+import ClosetDetail from "../closet/CLosetDetail";
+import ClosetView from "../closet/ClosetView";
+import AddClothBtn from "../button/closet/AddClothBtn";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,14 +36,35 @@ export default function StackNavigation() {
           headerStyle: {
             backgroundColor: "#3B5448",
           },
+          // headerRight: () => <AddClothBtn />,
           headerTitle: (props) => <LogoTitle {...props} />,
           headerBackVisible: false,
         }}
       ></Stack.Screen>
       <Stack.Screen
-        name="TabMiddleBtn"
-        component={TabMiddleBtn}
+        name="AddCloth"
+        component={AddCloth}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerBackVisible: false,
+        }}
       ></Stack.Screen>
+      <Stack.Screen name="TabMiddleBtn" component={TabMiddleBtn}></Stack.Screen>
+      <Stack.Screen
+        name="ClosetDetail"
+        component={ClosetDetail}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerBackTitle: "",
+        }}
+      ></Stack.Screen>
+      <Stack.Screen name="CLosetView" component={ClosetView}></Stack.Screen>
     </Stack.Navigator>
   );
 }

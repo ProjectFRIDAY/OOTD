@@ -106,15 +106,6 @@ export default function InfoInput({ handleCheckEssentialFill }) {
     handleCheckEssentialFill(checkEssentialFill);
   });
 
-  useEffect(() => {
-    console.log("--------------");
-    console.log(clickDuplicate + "hi");
-    console.log(nickNameChange + "hihi");
-    console.log(checkAuthenticate + "hihihi");
-    console.log(checkPassword + "hihihihi");
-    console.log("--------------");
-  });
-
   return (
     <View>
       <View>

@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MainPage from "../mainpage/MainPage";
 import TabMiddleBtn from "./TabMiddleBtn";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import FeedPage from "../feed/FeedPage";
+import ClosetView from "../closet/ClosetView";
 import { useState } from "react";
+import { TouchableOpacity } from "react-native";
 
 const TabIcon = ({ name, size, color }) => {
   return <MaterialCommunityIcons name={name} size={size} color={color} />;
@@ -34,7 +36,7 @@ export default function TabNavigation({ navigation }) {
       />
       <Tab.Screen
         name="Closet"
-        component={Closet}
+        component={ClosetView}
         options={{
           headerShown: false,
           tabBarActiveTintColor: "#2B4036",
@@ -44,12 +46,4 @@ export default function TabNavigation({ navigation }) {
       />
     </Tab.Navigator>
   );
-}
-
-function EmptyScreen() {
-  return <></>;
-}
-
-function Closet() {
-  return <></>;
 }
