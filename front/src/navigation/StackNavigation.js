@@ -6,6 +6,7 @@ import TabNavigation from "./TabNavigation";
 import TabMiddleBtn from "./TabMiddleBtn";
 import ClosetDetail from "../closet/CLosetDetail";
 import ClosetView from "../closet/ClosetView";
+import AddCloth from "../closet/AddCloth";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,21 @@ export default function StackNavigation() {
         }}
       ></Stack.Screen>
       <Stack.Screen name="CLosetView" component={ClosetView}></Stack.Screen>
+      <Stack.Screen
+        name="AddCloth"
+        component={AddCloth}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: "의상 추가하기",
+          headerTitleStyle: {
+            color: "white",
+            fontSize: 20,
+          },
+          headerBackTitle: "",
+        }}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 }
