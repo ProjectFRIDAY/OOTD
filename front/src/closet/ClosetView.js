@@ -128,7 +128,10 @@ export default function ClosetView({ navigation }) {
           />
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.plusBtn}>
+      <TouchableOpacity
+        style={styles.plusBtn}
+        onPress={() => navigation.navigate("AddCloth")}
+      >
         <AntDesign name="plus" size={45} color="white" />
       </TouchableOpacity>
     </>
