@@ -1,0 +1,112 @@
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+// import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
+
+export default function AddCloth() {
+  const [category, setCategory] = useState("");
+
+  return (
+    <ScrollView>
+      {/* <Picker
+        selectedValue={category}
+        onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
+        mode={"dropdown"}
+        placeholder={"카테고리"}
+      >
+        <Picker.Item label="Java" value="java" />
+        <Picker.Item label="JavaScript" value="js" />
+      </Picker> */}
+      <View style={{ margin: 15 }}>
+        <View
+          style={{
+            margin: 10,
+            alignItems: "flex-end",
+          }}
+        >
+          <View style={styles.categoryBox}>
+            <Text style={{ color: "#456A5A" }}>카테고리</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              width: "100%",
+              paddingTop: "40%",
+              paddingBottom: "40%",
+              borderStyle: "dashed",
+              borderWidth: 2,
+              borderRadius: 25,
+              borderColor: "#73968B",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <AntDesign name="picture" size={40} color={"#73968B"} />
+            <Text style={{ fontSize: 15, color: "#73968B" }}>
+              사진을 추가해주세요.
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.inputTitle}>의상 이름</Text>
+        <TextInput
+          placeholder="이름을 입력해주세요"
+          placeholderTextColor={"#A2C3B9"}
+          style={styles.textInput}
+        ></TextInput>
+        <Text style={styles.inputTitle}>해시태그</Text>
+        <TextInput
+          placeholder="해시태그를 생성해주세요"
+          placeholderTextColor={"#A2C3B9"}
+          style={styles.textInput}
+        ></TextInput>
+        <TouchableOpacity style={styles.saveBtn}>
+          <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  categoryBox: {
+    backgroundColor: "white",
+    padding: 5,
+    paddingRight: 10,
+    paddingLeft: 10,
+    borderRadius: 10,
+  },
+  inputTitle: {
+    margin: 15,
+    fontSize: 17,
+    color: "#456A5A",
+  },
+  textInput: {
+    margin: 15,
+    marginTop: 0,
+    fontSize: 15,
+    borderBottomWidth: 1,
+    padding: 5,
+    borderBottomColor: "#A2C3B9",
+  },
+  saveBtn: {
+    backgroundColor: "#3B5448",
+    margin: 25,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
