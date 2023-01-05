@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import ClosetSearchBar from "../input/ClosetSearchBar";
 import ClosetFlatList from "./ClosetFlatList";
+import { AntDesign } from "@expo/vector-icons";
 
 // 가데이터
 const outerFlatListData = [
@@ -127,8 +128,26 @@ export default function ClosetView({ navigation }) {
           />
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.plusBtn}
+        onPress={() => navigation.navigate("AddCloth")}
+      >
+        <AntDesign name="plus" size={45} color="white" />
+      </TouchableOpacity>
     </>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  plusBtn: {
+    width: 65,
+    height: 65,
+    backgroundColor: "#2B4036",
+    position: "absolute",
+    right: 20,
+    bottom: 20,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
