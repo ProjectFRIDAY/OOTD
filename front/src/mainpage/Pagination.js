@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
-export default function Pagination({ rankingData, handlePageNumber }) {
+export default function Pagination({
+  rankingData,
+  handlePageNumber,
+  pageNumber,
+}) {
   const [page, setPage] = useState([]);
 
   useEffect(() => {
@@ -23,12 +28,28 @@ export default function Pagination({ rankingData, handlePageNumber }) {
     });
   };
 
+  const handlePressLeft = () => {
+    if (pageNumber !== 1) {
+      handlePressPage(pageNumber - 1);
+    }
+  };
+
+  const handlePressRight = () => {
+    if (pageNumber !== page.length) {
+      handlePressPage(pageNumber + 1);
+    }
+  };
+
   return (
     <View
       style={{
         flexDirection: "row",
+        alignItems: "center",
       }}
     >
+      <TouchableOpacity onPress={() => handlePressLeft()}>
+        <AntDesign name="left" size={20} color={"#456A5A"} />
+      </TouchableOpacity>
       {page.map((isClick, index) => (
         <TouchableOpacity onPress={() => handlePressPage(index + 1)}>
           <Text
@@ -41,6 +62,9 @@ export default function Pagination({ rankingData, handlePageNumber }) {
           </Text>
         </TouchableOpacity>
       ))}
+      <TouchableOpacity onPress={() => handlePressRight()}>
+        <AntDesign name="right" size={20} color={"#456A5A"} />
+      </TouchableOpacity>
     </View>
   );
 }
