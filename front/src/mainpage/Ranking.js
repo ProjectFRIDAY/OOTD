@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Pagination from "./Pagination";
 
 const rankingData = [
@@ -79,15 +72,6 @@ const rankingData = [
     type: "상의",
     day: 3,
     name: "베이직 아노락",
-    imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
-    numberOfWear: 4,
-  },
-  {
-    // key: "2",
-    hashTag: ["2WAY", "긴팔", "기모"],
-    type: "상의",
-    day: 3,
-    name: "베이직",
     imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
     numberOfWear: 4,
   },
@@ -268,6 +252,7 @@ export default function Ranking({ navigation }) {
           >
             <Pagination
               rankingData={rankingData}
+              pageNumber={pageNumber}
               handlePageNumber={handlePageNumber}
             />
           </View>
