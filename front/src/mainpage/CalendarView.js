@@ -64,7 +64,7 @@ export default function CalendarView() {
   };
 
   return (
-    <View>
+    <View style={{ height: "50%" }}>
       <Calendar
         style={styles.calendar}
         markedDates={markedSelectedDates}
