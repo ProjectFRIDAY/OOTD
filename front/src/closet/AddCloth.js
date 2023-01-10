@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import CategoryPicker from "./CategoryPicker";
+import HashTagPicker from "./HashTagPicker";
 
 export default function AddCloth({ navigation }) {
   const [category, setCategory] = useState("");
@@ -108,11 +109,12 @@ export default function AddCloth({ navigation }) {
           style={styles.textInput}
         ></TextInput>
         <Text style={styles.inputTitle}>해시태그</Text>
-        <TextInput
+        {/* <TextInput
           placeholder="해시태그를 생성해주세요"
           placeholderTextColor={"#A2C3B9"}
           style={styles.textInput}
-        ></TextInput>
+        ></TextInput> */}
+        <HashTagPicker />
         <TouchableOpacity
           style={styles.saveBtn}
           onPress={() => navigation.goBack()}
