@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import Pagination from "./Pagination";
 
 const rankingData = [
   {
@@ -171,34 +165,27 @@ const rankingData = [
     imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
     numberOfWear: 4,
   },
-  {
-    // key: "2",
-    hashTag: ["2WAY", "긴팔", "기모"],
-    type: "상의",
-    day: 3,
-    name: "베이직",
-    imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
-    numberOfWear: 4,
-  },
 ];
 
 export default function Ranking({ navigation }) {
-  const [pageNumber, setPageNumber] = useState(4);
-  const [page, setPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
+  const handlePageNumber = (pageNumber) => {
+    setPageNumber(pageNumber);
+  };
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(5);
 
   useEffect(() => {
-    if (rankingData.length % 5 === 0)
-      setPage(Math.floor(rankingData.length / 5));
-    else setPage(Math.floor(rankingData.length / 5) + 1);
-  });
+    setStart((pageNumber - 1) * 5);
+    setEnd(pageNumber * 5);
+  }, [pageNumber]);
 
   const RankingView = ({ item, index }) => {
     return (
       <TouchableOpacity
         style={{
-          margin: 15,
           flexDirection: "row",
-          height: 35,
+          height: "18%",
           justifyContent: "space-between",
           alignItems: "center",
         }}
@@ -235,8 +222,8 @@ export default function Ranking({ navigation }) {
             flexDirection: "row",
           }}
         >
-          <Text>{item?.numberOfWear}회</Text>
-          <Text style={{ marginLeft: 10 }}>3</Text>
+          <Text style={{ height: "100%" }}>{item?.numberOfWear}회</Text>
+          <Text style={{ marginLeft: 10, height: "100%" }}>3</Text>
         </View>
       </TouchableOpacity>
     );
@@ -247,29 +234,29 @@ export default function Ranking({ navigation }) {
       <Text>전체</Text>
       <View
         style={{
-          //   width: "100%",
-          height: "90%",
+          height: "85%",
           backgroundColor: "#FFFFFF",
           borderRadius: 20,
+          padding: 15,
         }}
       >
-        <FlatList
-          data={rankingData}
-          renderItem={({ item, index }) => {
-            // if (pageNumber === 1 && index < 5) {
-            //   return <RankingView item={item} index={index + 1} />;
-            // } else if (
-            //   pageNumber !== 1 &&
-            //   index >= (pageNumber - 1) * 5 &&
-            //   index < pageNumber * 5
-            // ) {
-            //   return <RankingView item={item} index={index + 1} />;
-            // }
-            // return null;
-            return <RankingView item={item} index={index + 1} />;
-          }}
-          //   scrollEnabled={false}
-        ></FlatList>
+        {rankingData.slice(start, end).map((item, idx) => (
+          <RankingView item={item} index={start + idx + 1} />
+        ))}
+        <View style={{ position: "absolute", bottom: 10, left: 0, right: 0 }}>
+          <View
+            style={{
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Pagination
+              rankingData={rankingData}
+              pageNumber={pageNumber}
+              handlePageNumber={handlePageNumber}
+            />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -302,6 +289,7 @@ const styles = StyleSheet.create({
   },
   itemName: {
     width: "100%",
+    height: "100%",
     fontSize: 17,
     fontWeight: "500",
     color: "#456A5A",
