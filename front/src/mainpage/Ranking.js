@@ -183,22 +183,52 @@ const rankingData = [
 ];
 
 export default function Ranking({ navigation }) {
-  const [pageNumber, setPageNumber] = useState(4);
-  const [page, setPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(5);
+
+  const [page, setPage] = useState([]);
 
   useEffect(() => {
-    if (rankingData.length % 5 === 0)
-      setPage(Math.floor(rankingData.length / 5));
-    else setPage(Math.floor(rankingData.length / 5) + 1);
+    // const newArr = Array(Math.ceil(rankingData?.length / 5) - 1);
+    const newArr = [];
+    for (let i = 0; i < Math.ceil(rankingData?.length / 5) - 1; i++) {
+      newArr.push(false);
+    }
+    newArr.unshift(true);
+    setPage([...newArr]);
+  }, []);
+
+  // for (let i = 0; i < Math.ceil(rankingData?.length / 5); i++) {
+  //   page.push(false);
+  // }
+
+  const handlePressPage = (pageNumber) => {
+    setPageNumber(pageNumber);
+    const newArr = Array(page.length).fill(false);
+    page.splice(0);
+    newArr[pageNumber - 1] = true;
+    newArr.map((isClick) => {
+      page.push(isClick);
+      // console.log(isClick);
+    });
+  };
+
+  useEffect(() => {
+    console.log(page);
   });
+
+  useEffect(() => {
+    setStart((pageNumber - 1) * 5);
+    setEnd(pageNumber * 5);
+  }, [pageNumber]);
 
   const RankingView = ({ item, index }) => {
     return (
       <TouchableOpacity
         style={{
-          margin: 15,
           flexDirection: "row",
-          height: 35,
+          height: "18%",
           justifyContent: "space-between",
           alignItems: "center",
         }}
@@ -235,10 +265,33 @@ export default function Ranking({ navigation }) {
             flexDirection: "row",
           }}
         >
-          <Text>{item?.numberOfWear}회</Text>
-          <Text style={{ marginLeft: 10 }}>3</Text>
+          <Text style={{ height: "100%" }}>{item?.numberOfWear}회</Text>
+          <Text style={{ marginLeft: 10, height: "100%" }}>3</Text>
         </View>
       </TouchableOpacity>
+    );
+  };
+
+  const Pagination = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+        }}
+      >
+        {page.map((isClick, index) => (
+          <TouchableOpacity onPress={() => handlePressPage(index + 1)}>
+            <Text
+              style={[
+                styles.paginationText,
+                isClick ? { color: "#456A5A" } : { color: "#B4D0C5" },
+              ]}
+            >
+              {index + 1}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     );
   };
 
@@ -247,29 +300,25 @@ export default function Ranking({ navigation }) {
       <Text>전체</Text>
       <View
         style={{
-          //   width: "100%",
-          height: "90%",
+          height: "85%",
           backgroundColor: "#FFFFFF",
           borderRadius: 20,
+          padding: 15,
         }}
       >
-        <FlatList
-          data={rankingData}
-          renderItem={({ item, index }) => {
-            // if (pageNumber === 1 && index < 5) {
-            //   return <RankingView item={item} index={index + 1} />;
-            // } else if (
-            //   pageNumber !== 1 &&
-            //   index >= (pageNumber - 1) * 5 &&
-            //   index < pageNumber * 5
-            // ) {
-            //   return <RankingView item={item} index={index + 1} />;
-            // }
-            // return null;
-            return <RankingView item={item} index={index + 1} />;
-          }}
-          //   scrollEnabled={false}
-        ></FlatList>
+        {rankingData.slice(start, end).map((item, idx) => (
+          <RankingView item={item} index={start + idx + 1} />
+        ))}
+        <View style={{ position: "absolute", bottom: 10, left: 0, right: 0 }}>
+          <View
+            style={{
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Pagination />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -302,8 +351,14 @@ const styles = StyleSheet.create({
   },
   itemName: {
     width: "100%",
+    height: "100%",
     fontSize: 17,
     fontWeight: "500",
     color: "#456A5A",
+  },
+  paginationText: {
+    fontSize: 18,
+    textAlign: "center",
+    margin: 10,
   },
 });
