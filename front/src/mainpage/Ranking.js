@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import Pagination from "./Pagination";
 
 const rankingData = [
   {
@@ -184,39 +185,11 @@ const rankingData = [
 
 export default function Ranking({ navigation }) {
   const [pageNumber, setPageNumber] = useState(1);
+  const handlePageNumber = (pageNumber) => {
+    setPageNumber(pageNumber);
+  };
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(5);
-
-  const [page, setPage] = useState([]);
-
-  useEffect(() => {
-    // const newArr = Array(Math.ceil(rankingData?.length / 5) - 1);
-    const newArr = [];
-    for (let i = 0; i < Math.ceil(rankingData?.length / 5) - 1; i++) {
-      newArr.push(false);
-    }
-    newArr.unshift(true);
-    setPage([...newArr]);
-  }, []);
-
-  // for (let i = 0; i < Math.ceil(rankingData?.length / 5); i++) {
-  //   page.push(false);
-  // }
-
-  const handlePressPage = (pageNumber) => {
-    setPageNumber(pageNumber);
-    const newArr = Array(page.length).fill(false);
-    page.splice(0);
-    newArr[pageNumber - 1] = true;
-    newArr.map((isClick) => {
-      page.push(isClick);
-      // console.log(isClick);
-    });
-  };
-
-  useEffect(() => {
-    console.log(page);
-  });
 
   useEffect(() => {
     setStart((pageNumber - 1) * 5);
@@ -272,29 +245,6 @@ export default function Ranking({ navigation }) {
     );
   };
 
-  const Pagination = () => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-        }}
-      >
-        {page.map((isClick, index) => (
-          <TouchableOpacity onPress={() => handlePressPage(index + 1)}>
-            <Text
-              style={[
-                styles.paginationText,
-                isClick ? { color: "#456A5A" } : { color: "#B4D0C5" },
-              ]}
-            >
-              {index + 1}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
-  };
-
   return (
     <View style={{ margin: 20, height: "50%" }}>
       <Text>전체</Text>
@@ -316,7 +266,10 @@ export default function Ranking({ navigation }) {
               width: "100%",
             }}
           >
-            <Pagination />
+            <Pagination
+              rankingData={rankingData}
+              handlePageNumber={handlePageNumber}
+            />
           </View>
         </View>
       </View>
@@ -355,10 +308,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "500",
     color: "#456A5A",
-  },
-  paginationText: {
-    fontSize: 18,
-    textAlign: "center",
-    margin: 10,
   },
 });
