@@ -64,7 +64,7 @@ export default function CalendarView() {
   };
 
   return (
-    <View style={{ height: "50%" }}>
+    <View>
       <Calendar
         style={styles.calendar}
         markedDates={markedSelectedDates}
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
   calendar: {
     // borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
-    padding: 20,
+    marginTop: 15,
   },
 });

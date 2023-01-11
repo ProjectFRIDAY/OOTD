@@ -6,25 +6,26 @@ import {
   ScrollView,
   StyleSheet,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 // import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
+import CategoryPicker from "./CategoryPicker";
+import HashTagPicker from "./HashTagPicker";
 
 export default function AddCloth({ navigation }) {
-  const [category, setCategory] = useState("");
-
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUrl, setImageUrl] = useState("");
 
   const uploadImage = async () => {
-    // if (!status?.granted) {
-    //   const permission = await requestPermission();
-    //   if (!permission.granted) {
-    //     return null;
-    //   }
-    // }
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        return null;
+      }
+    }
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -34,30 +35,20 @@ export default function AddCloth({ navigation }) {
     if (result.canceled) {
       return null;
     }
-    // console.log(result.assets[0].uri);
     setImageUrl(result.assets[0].uri);
   };
 
   return (
     <ScrollView>
-      {/* <Picker
-        selectedValue={category}
-        onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
-        mode={"dropdown"}
-        placeholder={"카테고리"}
-      >
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker> */}
       <View style={{ margin: 15 }}>
-        <View
-          style={{
-            margin: 10,
-            alignItems: "flex-end",
-          }}
-        >
-          <View style={styles.categoryBox}>
-            <Text style={{ color: "#456A5A" }}>카테고리</Text>
+        <View style={{ width: "100%", alignItems: "flex-end", zIndex: 1 }}>
+          <View
+            style={{
+              margin: 10,
+              width: 120,
+            }}
+          >
+            <CategoryPicker />
           </View>
         </View>
         {imageUrl ? (
@@ -106,11 +97,9 @@ export default function AddCloth({ navigation }) {
           style={styles.textInput}
         ></TextInput>
         <Text style={styles.inputTitle}>해시태그</Text>
-        <TextInput
-          placeholder="해시태그를 생성해주세요"
-          placeholderTextColor={"#A2C3B9"}
-          style={styles.textInput}
-        ></TextInput>
+        <View style={{ margin: 9, marginTop: 0, zIndex: 1 }}>
+          <HashTagPicker />
+        </View>
         <TouchableOpacity
           style={styles.saveBtn}
           onPress={() => navigation.goBack()}
