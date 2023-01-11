@@ -23,9 +23,9 @@ export default function HashTagPicker() {
       setOpen={setOpen}
       setValue={setValue}
       setItems={setItems}
-      placeholder={"카테고리"}
+      placeholder={"해시태그"}
       placeholderStyle={{
-        color: "#456A5A",
+        color: "#A2C3B9",
       }}
       listMode="SCROLLVIEW"
       dropDownContainerStyle={{
@@ -42,8 +42,6 @@ export default function HashTagPicker() {
       style={{
         borderWidth: 0,
         borderBottomWidth: 1,
-
-        // borderRadius: 30,
         borderBottomColor: "#A2C3B9",
         backgroundColor: "transparent",
         minHeight: 30,
@@ -52,15 +50,6 @@ export default function HashTagPicker() {
       mode={"BADGE"}
       badgeColors={"#B4D0C5"}
       showBadgeDot={false}
-      badgeDotColors={[
-        "#e76f51",
-        "#00b4d8",
-        "#e9c46a",
-        "#e76f51",
-        "#8ac926",
-        "#00b4d8",
-        "#e9c46a",
-      ]}
       searchable={true}
       categorySelectable={false}
     />
