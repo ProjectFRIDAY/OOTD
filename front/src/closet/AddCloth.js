@@ -9,15 +9,13 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 // import { Picker } from "@react-native-picker/picker";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import CategoryPicker from "./CategoryPicker";
 import HashTagPicker from "./HashTagPicker";
 
 export default function AddCloth({ navigation }) {
-  const [category, setCategory] = useState("");
-
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUrl, setImageUrl] = useState("");
 
@@ -37,21 +35,11 @@ export default function AddCloth({ navigation }) {
     if (result.canceled) {
       return null;
     }
-    // console.log(result.assets[0].uri);
     setImageUrl(result.assets[0].uri);
   };
 
   return (
     <ScrollView>
-      {/* <Picker
-        selectedValue={category}
-        onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
-        mode={"dropdown"}
-        placeholder={"카테고리"}
-      >
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker> */}
       <View style={{ margin: 15 }}>
         <View style={{ width: "100%", alignItems: "flex-end", zIndex: 1 }}>
           <View
@@ -109,12 +97,9 @@ export default function AddCloth({ navigation }) {
           style={styles.textInput}
         ></TextInput>
         <Text style={styles.inputTitle}>해시태그</Text>
-        {/* <TextInput
-          placeholder="해시태그를 생성해주세요"
-          placeholderTextColor={"#A2C3B9"}
-          style={styles.textInput}
-        ></TextInput> */}
-        <HashTagPicker />
+        <View style={{ margin: 9, marginTop: 0, zIndex: 1 }}>
+          <HashTagPicker />
+        </View>
         <TouchableOpacity
           style={styles.saveBtn}
           onPress={() => navigation.goBack()}
