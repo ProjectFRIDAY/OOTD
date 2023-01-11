@@ -41,8 +41,11 @@ export default function HashTagPicker() {
       }}
       style={{
         borderWidth: 0,
-        borderRadius: 30,
-        backgroundColor: "#F5F7F6",
+        borderBottomWidth: 1,
+
+        // borderRadius: 30,
+        borderBottomColor: "#A2C3B9",
+        backgroundColor: "transparent",
         minHeight: 30,
       }}
       multiple={true}
