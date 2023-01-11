@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import CategoryPicker from "./CategoryPicker";
 import Pagination from "./Pagination";
 
 const rankingData = [
@@ -230,8 +231,10 @@ export default function Ranking({ navigation }) {
   };
 
   return (
-    <View style={{ margin: 20, height: "50%" }}>
-      <Text>전체</Text>
+    <View style={{ margin: 20, marginTop: 0, height: "50%" }}>
+      <View style={{ marginTop: 15, marginBottom: 10, zIndex: 1, width: 100 }}>
+        <CategoryPicker />
+      </View>
       <View
         style={{
           height: "85%",
