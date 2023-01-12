@@ -42,15 +42,20 @@ public class Diary {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "diary_public_scope", nullable = false)
+    private PublicScope publicScope;
+
     protected Diary() { }
 
-    private Diary(String title, String content, User user) {
+    private Diary(String title, String content, User user, PublicScope scope) {
         this.title = title;
         this.content = content;
         this.createDate = LocalDateTime.now();
         this.updateDate = LocalDateTime.now();
         this.isUpdated = false;
         this.user = user;
+        this.publicScope = scope;
     }
 
     /**
@@ -61,7 +66,7 @@ public class Diary {
      * @return 생성된 Post 엔티티
      */
     public static Diary createPost(PostDiaryReqDTO dto, User user) {
-        return new Diary(dto.getTitle(), dto.getContent(), user);
+        return new Diary(dto.getTitle(), dto.getContent(), user, dto.getScope());
     }
 
     /**
