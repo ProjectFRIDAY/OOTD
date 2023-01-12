@@ -36,6 +36,6 @@ AWS t2.small 인스턴스 (RAM 용량 2GB)를 사용하였습니다.
 
 # 🗺️ ERD
 
-![OOTD](https://user-images.githubusercontent.com/66549638/211743575-7f2f6618-1ebe-4914-9212-58ce136c8d16.png)
+![ERD](https://user-images.githubusercontent.com/66549638/212027616-fe3e90a2-96aa-4e59-9a57-704ef0fe065f.png)
 
 # 🧑‍💻 프로젝트를 진행하면서 겪은 과정들
