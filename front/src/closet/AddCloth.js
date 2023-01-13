@@ -6,14 +6,18 @@ import {
   ScrollView,
   StyleSheet,
   Image,
+  Platform,
   KeyboardAvoidingView,
+  NativeModules,
 } from "react-native";
 // import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import CategoryPicker from "./CategoryPicker";
 import HashTagPicker from "./HashTagPicker";
+
+const { StatusBarManager } = NativeModules;
 
 export default function AddCloth({ navigation }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
@@ -37,81 +41,99 @@ export default function AddCloth({ navigation }) {
     }
     setImageUrl(result.assets[0].uri);
   };
+  useEffect(() => {
+    Platform.OS == "ios"
+      ? StatusBarManager.getHeight((statusBarFrameData) => {
+          setStatusBarHeight(statusBarFrameData.height);
+        })
+      : null;
+  }, []);
+
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
 
   return (
-    <ScrollView>
-      <View style={{ margin: 15 }}>
-        <View style={{ width: "100%", alignItems: "flex-end", zIndex: 1 }}>
-          <View
-            style={{
-              margin: 10,
-              width: 120,
-            }}
-          >
-            <CategoryPicker />
-          </View>
-        </View>
-        {imageUrl ? (
-          <View>
-            <Image
-              source={{ uri: imageUrl }}
+    <KeyboardAvoidingView
+      style={styles.keyboard}
+      keyboardVerticalOffset={statusBarHeight + 44}
+      behavior={"padding"}
+    >
+      <ScrollView>
+        <View style={{ margin: 15 }}>
+          <View style={{ width: "100%", alignItems: "flex-end", zIndex: 1 }}>
+            <View
               style={{
-                width: "100%",
-                paddingBottom: "100%",
-                borderRadius: 25,
+                margin: 10,
+                width: 120,
               }}
-            />
-          </View>
-        ) : (
-          <View
-            style={{
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                width: "100%",
-                paddingTop: "40%",
-                paddingBottom: "40%",
-                borderStyle: "dashed",
-                borderWidth: 2,
-                borderRadius: 25,
-                borderColor: "#73968B",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={uploadImage}
             >
-              <AntDesign name="picture" size={40} color={"#73968B"} />
-              <Text style={{ fontSize: 15, color: "#73968B" }}>
-                사진을 추가해주세요.
-              </Text>
-            </TouchableOpacity>
+              <CategoryPicker />
+            </View>
           </View>
-        )}
-        <Text style={styles.inputTitle}>의상 이름</Text>
-        <TextInput
-          placeholder="이름을 입력해주세요"
-          placeholderTextColor={"#A2C3B9"}
-          style={styles.textInput}
-        ></TextInput>
-        <Text style={styles.inputTitle}>해시태그</Text>
-        <View style={{ margin: 9, marginTop: 0, zIndex: 1 }}>
-          <HashTagPicker />
+          {imageUrl ? (
+            <View>
+              <Image
+                source={{ uri: imageUrl }}
+                style={{
+                  width: "100%",
+                  paddingBottom: "100%",
+                  borderRadius: 25,
+                }}
+              />
+            </View>
+          ) : (
+            <View
+              style={{
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  width: "100%",
+                  paddingTop: "40%",
+                  paddingBottom: "40%",
+                  borderStyle: "dashed",
+                  borderWidth: 2,
+                  borderRadius: 25,
+                  borderColor: "#73968B",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={uploadImage}
+              >
+                <AntDesign name="picture" size={40} color={"#73968B"} />
+                <Text style={{ fontSize: 15, color: "#73968B" }}>
+                  사진을 추가해주세요.
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          <Text style={styles.inputTitle}>의상 이름</Text>
+          <TextInput
+            placeholder="이름을 입력해주세요"
+            placeholderTextColor={"#A2C3B9"}
+            style={styles.textInput}
+          ></TextInput>
+          <Text style={styles.inputTitle}>해시태그</Text>
+          <View style={{ margin: 9, marginTop: 0, zIndex: 1 }}>
+            <HashTagPicker />
+          </View>
+          <TouchableOpacity
+            style={styles.saveBtn}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.saveBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  keyboard: {
+    flex: 1,
+  },
   categoryBox: {
     backgroundColor: "white",
     padding: 5,
