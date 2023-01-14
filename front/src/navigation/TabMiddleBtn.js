@@ -7,12 +7,12 @@ export default function TabMiddleBtn({ navigation, isClick }) {
       style={
         isClick
           ? {
-              width: 85,
-              height: 85,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#E6EBE9",
-              borderRadius: 100,
+              // width: 85,
+              // height: 85,
+              // justifyContent: "center",
+              // alignItems: "center",
+              // backgroundColor: "#E6EBE9",
+              // borderRadius: 100,
               marginBottom: 35,
             }
           : {}
