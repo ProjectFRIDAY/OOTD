@@ -10,6 +10,9 @@ import {
 import ClosetSearchBar from "../input/ClosetSearchBar";
 import ClosetFlatList from "./ClosetFlatList";
 import { AntDesign } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 가데이터
 const outerFlatListData = [
@@ -73,6 +76,28 @@ const highFlatListData = [
 ];
 
 export default function ClosetView({ navigation }) {
+  const [isHashtag, setIsHashtag] = useState(true);
+  const handleHashtag = () => {
+    setIsHashtag(!isHashtag);
+    const data = !isHashtag;
+    AsyncStorage.setItem("isHashtag", data.toString());
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await AsyncStorage.getItem("isHashtag");
+        if (data === "true") setIsHashtag(true);
+        else setIsHashtag(false);
+      } catch (e) {
+        // console.log(e);
+        console.log("hihihiihihihihih");
+        setIsHashtag(true);
+      }
+    };
+    getData();
+  }, []);
+
   return (
     <>
       <View style={{ alignItems: "center", margin: 15 }}>
@@ -80,19 +105,45 @@ export default function ClosetView({ navigation }) {
       </View>
       <ScrollView>
         <View>
-          <Text
+          <View
             style={{
-              fontSize: 17,
-              fontWeight: "bold",
               margin: 15,
-              marginBottom: 0,
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            아우터
-          </Text>
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: "bold",
+                marginBottom: 0,
+              }}
+            >
+              아우터
+            </Text>
+            <TouchableOpacity
+              onPress={() => handleHashtag()}
+              style={{ flexDirection: "row", alignItems: "center" }}
+            >
+              {isHashtag ? (
+                <Image
+                  source={require("../../assets/images/checkHashtag.png")}
+                />
+              ) : (
+                <MaterialCommunityIcons
+                  name="circle-outline"
+                  color={"#456A5A"}
+                />
+              )}
+              <Text style={{ color: "#456A5A", marginLeft: 3 }}>
+                해쉬태그 포함
+              </Text>
+            </TouchableOpacity>
+          </View>
           <ClosetFlatList
             flatListData={outerFlatListData}
             navigation={navigation}
+            isHashtag={isHashtag}
           />
         </View>
         <View>
@@ -109,6 +160,7 @@ export default function ClosetView({ navigation }) {
           <ClosetFlatList
             flatListData={highFlatListData}
             navigation={navigation}
+            isHashtag={isHashtag}
           />
         </View>
         <View>
@@ -125,6 +177,7 @@ export default function ClosetView({ navigation }) {
           <ClosetFlatList
             flatListData={highFlatListData}
             navigation={navigation}
+            isHashtag={isHashtag}
           />
         </View>
       </ScrollView>

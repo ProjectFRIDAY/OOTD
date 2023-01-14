@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function ClosetFlatList({ flatListData, navigation }) {
+export default function ClosetFlatList({
+  flatListData,
+  navigation,
+  isHashtag,
+}) {
   const FlatListItem = ({ item, index }) => {
     return (
       <View
@@ -35,14 +39,19 @@ export default function ClosetFlatList({ flatListData, navigation }) {
             source={{ uri: item.imageUrl, width: 200, height: 200 }}
           ></Image>
         </TouchableOpacity>
-        <Text numberOfLines={1} style={styles.hashTag}>
-          {item.hashTag.map((value) => (
-            <TouchableOpacity>
-              <Text style={{ color: "#456A5A" }}>#{value} </Text>
-            </TouchableOpacity>
-          ))}
-        </Text>
-        <Text numberOfLines={1} style={styles.itemName}>
+        {isHashtag ? (
+          <Text numberOfLines={1} style={styles.hashTag}>
+            {item.hashTag.map((value) => (
+              <TouchableOpacity>
+                <Text style={{ color: "#456A5A" }}>#{value} </Text>
+              </TouchableOpacity>
+            ))}
+          </Text>
+        ) : null}
+        <Text
+          numberOfLines={1}
+          style={[styles.itemName, isHashtag ? null : { marginTop: 10 }]}
+        >
           {item.name}
         </Text>
         <Text style={styles.lastWearDay}>{item.day}일 전에 입음</Text>
