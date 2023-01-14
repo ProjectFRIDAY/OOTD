@@ -92,7 +92,7 @@ export default function TabNavigation({ navigation }) {
         }}
       />
       <Tab.Screen
-        name="Closet"
+        name="옷장"
         component={ClosetView}
         options={{
           headerShown: false,
