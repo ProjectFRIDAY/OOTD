@@ -4,7 +4,7 @@ import TabMiddleBtn from "./TabMiddleBtn";
 import { MaterialCommunityIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import FeedPage from "../feed/FeedPage";
 import ClosetView from "../closet/ClosetView";
-import MyPage from "../mypage/MyPage";
+import MyPage from "../profile/MyPage";
 
 const MaterialTabIcon = ({ name, size, color, focused }) => {
   return (
