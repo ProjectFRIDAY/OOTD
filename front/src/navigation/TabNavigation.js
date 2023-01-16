@@ -4,6 +4,7 @@ import TabMiddleBtn from "./TabMiddleBtn";
 import { MaterialCommunityIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import FeedPage from "../feed/FeedPage";
 import ClosetView from "../closet/ClosetView";
+import { Image } from "react-native";
 import MyPage from "../profile/MyPage";
 
 const MaterialTabIcon = ({ name, size, color, focused }) => {
@@ -45,7 +46,21 @@ export default function TabNavigation({ navigation }) {
     <Tab.Navigator
       initialRouteName="월간 켈린더"
       screenOptions={{
-        tabBarStyle: { backgroundColor: "#2B4036", height: 89 },
+        tabBarStyle: {
+          backgroundColor: "transparent",
+          borderTopWidth: 0,
+          position: "absolute",
+          height: 90,
+          left: 0,
+          right: 0,
+          elevation: 0,
+        },
+        tabBarBackground: () => (
+          <Image
+            source={require("../../assets/images/tabbar.png")}
+            style={{ width: "100%", height: 90 }}
+          />
+        ),
       }}
     >
       <Tab.Screen
@@ -92,7 +107,7 @@ export default function TabNavigation({ navigation }) {
         }}
       />
       <Tab.Screen
-        name="Closet"
+        name="옷장"
         component={ClosetView}
         options={{
           headerShown: false,

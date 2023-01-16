@@ -180,6 +180,7 @@ export default function ClosetView({ navigation }) {
             isHashtag={isHashtag}
           />
         </View>
+        <View style={{ height: 90 }}></View>
       </ScrollView>
       <TouchableOpacity
         style={styles.plusBtn}
@@ -202,5 +203,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 80,
   },
 });
