@@ -13,7 +13,7 @@ export default function TabMiddleBtn({ navigation, isClick }) {
               // alignItems: "center",
               // backgroundColor: "#E6EBE9",
               // borderRadius: 100,
-              marginBottom: 35,
+              marginBottom: 25,
             }
           : {}
       }
@@ -27,7 +27,7 @@ export default function TabMiddleBtn({ navigation, isClick }) {
           style={{
             width: 70,
             height: 70,
-            backgroundColor: "#2B4036",
+            // backgroundColor: "#2B4036",
             borderRadius: 100,
             justifyContent: "center",
             alignItems: "center",
@@ -35,11 +35,12 @@ export default function TabMiddleBtn({ navigation, isClick }) {
           }}
         >
           <Image
-            source={require("../../assets/images/logotitle.png")}
+            source={require("../../assets/images/tabbarLogo.png")}
             style={{
-              width: 25,
-              height: 25,
-              tintColor: "white",
+              width: 60,
+              height: 60,
+              marginBottom: 20,
+              // tintColor: "white",
             }}
           ></Image>
         </View>
