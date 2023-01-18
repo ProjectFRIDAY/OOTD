@@ -1,11 +1,11 @@
-package OOTD.demo.diarylike.service;
+package OOTD.demo.diary_like.service;
 
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
-import OOTD.demo.diarylike.DiaryLike;
-import OOTD.demo.diarylike.dto.PostDiaryLikeReqDTO;
-import OOTD.demo.diarylike.dto.PostDiaryLikeResDTO;
-import OOTD.demo.diarylike.repository.DiaryLikeRepository;
+import OOTD.demo.diary_like.DiaryLike;
+import OOTD.demo.diary_like.dto.PostDiaryLikeReqDTO;
+import OOTD.demo.diary_like.dto.PostDiaryLikeResDTO;
+import OOTD.demo.diary_like.repository.DiaryLikeRepository;
 import OOTD.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
