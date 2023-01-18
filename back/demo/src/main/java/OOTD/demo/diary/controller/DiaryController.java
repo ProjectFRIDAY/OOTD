@@ -1,9 +1,16 @@
 package OOTD.demo.diary.controller;
 
 import OOTD.demo.diary.dto.PostDiaryReqDTO;
+import OOTD.demo.diary.dto.PostDiaryResDTO;
 import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
 import OOTD.demo.diary.service.DiaryService;
 import OOTD.demo.common.HttpResponseUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +40,20 @@ public class DiaryController {
      * @param files 게시글 이미지
      * @return 생성된 게시글의 ID
      */
+    @Operation(summary = "게시글 생성 API", description = "게시글 생성 API입니다. (TODO : 현재 User가 NULL로 들어갑니다.)",
+            tags = { "Diary Controller" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = PostDiaryResDTO.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST - validation 오류 등",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR - 내부 서버 오류",
+                    content = @Content)
+    })
     @PostMapping("/api/diary/create")
-    public ResponseEntity<?> createDiary(@RequestPart @Valid PostDiaryReqDTO dto,
-                                         @RequestPart List<MultipartFile> files) {
+    public ResponseEntity<?> createDiary(
+            @Parameter(name = "dto", description = "게시글 생성 관련 DTO") @RequestPart @Valid PostDiaryReqDTO dto,
+            @Parameter(name = "files", description = "게시글 사진들") @RequestPart List<MultipartFile> files) {
 
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
 
@@ -48,6 +66,8 @@ public class DiaryController {
      * @param id 게시글 ID
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
+    @Operation(summary = "게시글 조회 API", description = "게시글 조회 API입니다.",
+            tags = { "Diary Controller" })
     @GetMapping("/api/diary/{id}")
     public ResponseEntity<?> findDiary(@PathVariable(name = "id") Long id) {
 
@@ -61,6 +81,8 @@ public class DiaryController {
      * @param dto 업데이트할 게시글 정보를 담고 있는 DTO
      * @return 업데이트한 게시글 엔티티의 ID
      */
+    @Operation(summary = "게시글 수정 API", description = "게시글 수정 API입니다. (TODO : 현재 User가 NULL로 들어갑니다.)",
+            tags = { "Diary Controller" })
     @PostMapping("/api/diary/update")
     public ResponseEntity<?> updateDiary(@RequestBody UpdateDiaryReqDTO dto) {
 
@@ -74,6 +96,8 @@ public class DiaryController {
      * @param id 삭제할 게시글 id
      * @return 성공 여부
      */
+    @Operation(summary = "게시글 삭제 API", description = "게시글 삭제 API입니다.",
+            tags = { "Diary Controller" })
     @GetMapping("/api/diary/delete/{id}")
     public ResponseEntity<?> deleteDiary(@PathVariable(name = "id") Long id) {
 

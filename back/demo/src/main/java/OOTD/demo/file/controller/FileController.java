@@ -3,6 +3,7 @@ package OOTD.demo.file.controller;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.file.dto.DeleteFileReqDTO;
 import OOTD.demo.file.dto.UploadFileReqDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,8 @@ public class FileController {
      * @param dto 파일의 유형, 실제 파일을 담고 있는 DTO
      * @return 저장된 파일의 URL
      */
+    @Operation(summary = "(테스트용) 파일 업로드 API", description = "파일 업로드 API 입니다. (테스트용)",
+            tags = { "Test Controller" })
     @PostMapping("/test/file/upload")
     public String uploadSingleFile(@RequestPart UploadFileReqDTO dto, @RequestPart MultipartFile file) {
         return fileUploadUtil.uploadFile(dto.getCategory(), file);
@@ -38,6 +41,8 @@ public class FileController {
      * @param dto 삭제할 파일의 URL을 담고 있는 dto
      * @return 삭제 성공 메시지
      */
+    @Operation(summary = "(테스트용) 파일 삭제 API", description = "파일 삭제 API 입니다. (테스트용)",
+            tags = { "Test Controller" })
     @PostMapping("/test/file/delete")
     public String deleteSingleFile(@RequestBody DeleteFileReqDTO dto) {
         fileUploadUtil.deleteFile(dto.getFileUrl());
