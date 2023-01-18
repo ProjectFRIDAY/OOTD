@@ -1,8 +1,8 @@
-package OOTD.demo.diarylike.controller;
+package OOTD.demo.diary_like.controller;
 
-import OOTD.demo.diarylike.dto.PostDiaryLikeReqDTO;
-import OOTD.demo.diarylike.dto.PostDiaryLikeResDTO;
-import OOTD.demo.diarylike.service.DiaryLikeService;
+import OOTD.demo.diary_like.dto.PostDiaryLikeReqDTO;
+import OOTD.demo.diary_like.dto.PostDiaryLikeResDTO;
+import OOTD.demo.diary_like.service.DiaryLikeService;
 import OOTD.demo.common.HttpResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
