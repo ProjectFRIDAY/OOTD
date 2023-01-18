@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.util.List;
 
 
 /**
@@ -26,14 +30,17 @@ public class DiaryController {
     /**
      * 게시글 생성 컨트롤러 메서드입니다.
      * @param dto 게시글 생성 DTO
+     * @param files 게시글 이미지
      * @return 생성된 게시글의 ID
      */
     @PostMapping("/api/diary/create")
-    public ResponseEntity<?> createDiary(@RequestBody PostDiaryReqDTO dto) {
+    public ResponseEntity<?> createDiary(@RequestPart @Valid PostDiaryReqDTO dto,
+                                         @RequestPart List<MultipartFile> files) {
 
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
 
-        return httpResponseUtil.createOKHttpResponse(diaryService.createPost(dto, null), "게시글 생성에 성공했습니다.");
+        return httpResponseUtil.createOKHttpResponse(diaryService.createPost(dto, files, null),
+                "게시글 생성에 성공했습니다.");
     }
 
     /**
