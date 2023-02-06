@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { checkName } from "../api/api";
 import InputText from "../input/LoginInput";
 
 export default function InfoInput({ handleCheckEssentialFill }) {
@@ -48,10 +49,12 @@ export default function InfoInput({ handleCheckEssentialFill }) {
   };
 
   const [clickDuplicate, setClickDuplicate] = useState(false);
+  const handleClickDuplicate = (bool) => {
+    setClickDuplicate(bool);
+  };
+
   const handleDuplicate = () => {
-    if (true) {
-      setClickDuplicate(true);
-    }
+    checkName(accountChange, handleClickDuplicate);
   };
 
   const [checkPasswordFormText, setCheckPasswordFormText] = useState("");
@@ -91,7 +94,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
   const [checkEssentialFill, setCheckEssentialFill] = useState(false);
   useEffect(() => {
     if (
-      clickDuplicate &&
+      !clickDuplicate &&
       nickNameChange !== "" &&
       checkAuthenticate &&
       checkPassword
@@ -111,9 +114,15 @@ export default function InfoInput({ handleCheckEssentialFill }) {
       <View>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>Account Name *</Text>
-          <Text style={styles.warningMessage}>
-            * 이미 존재하는 닉네임입니다.
-          </Text>
+          {clickDuplicate && 0 < accountChange.length ? (
+            <Text style={styles.warningMessage}>
+              * 이미 존재하는 닉네임입니다.
+            </Text>
+          ) : 0 < accountChange.length ? (
+            <Text style={[styles.warningMessage, { color: "blue" }]}>
+              * 사용 가능한 닉네임입니다.
+            </Text>
+          ) : null}
         </View>
         <InputText
           placeHoldText={"@Account_Name을 입력해주세요."}
