@@ -3,7 +3,8 @@ import {
   View,
   Image,
   Text,
-  FlatList, // here
+  FlatList,
+  TouchableOpacity, // here
 } from "react-native";
 
 export default class FeedPage extends React.Component {
@@ -13,10 +14,54 @@ export default class FeedPage extends React.Component {
   };
 
   _renderItem = ({ item }) => (
-    <View style={{ borderBottomWidth: 1, marginTop: 20 }}>
-      <Image source={{ uri: item.url }} style={{ height: 400 }} />
-      <Text>{item.title}</Text>
-      <Text>{item.id}</Text>
+    <View style={{ width: "100%", alignItems: "center" }}>
+      <View
+        style={{
+          width: "100%",
+          padding: 20,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              width: 37,
+              height: 37,
+              borderRadius: 100,
+              marginRight: 10,
+              backgroundColor: "#2B4036",
+            }}
+          />
+          <View>
+            <Text>@OOTD_Friday</Text>
+            <Text>닉네임</Text>
+          </View>
+        </View>
+        <TouchableOpacity>
+          <Image
+            source={require("../../assets/images/morebtn.png")}
+            style={{ width: 20, height: 17 }}
+          />
+        </TouchableOpacity>
+      </View>
+      <Image
+        source={{ uri: item.url }}
+        style={{ width: 330, height: 330, borderRadius: 500 }}
+      />
+      <View style={{ width: "100%", padding: 20 }}>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={{ marginBottom: 10, marginRight: 10 }}>
+            <Image source={require("../../assets/images/like.png")} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ marginBottom: 10 }}>
+            <Image source={require("../../assets/images/comment.png")} />
+          </TouchableOpacity>
+        </View>
+        <Text>{item.title}</Text>
+        <Text>{item.id}</Text>
+      </View>
     </View>
   );
 
