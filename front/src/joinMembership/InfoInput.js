@@ -48,12 +48,15 @@ export default function InfoInput({ handleCheckEssentialFill }) {
     setBirthChange(text);
   };
 
-  const [clickDuplicate, setClickDuplicate] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const handleClickDuplicate = (bool) => {
-    setClickDuplicate(bool);
+    setIsDuplicate(bool);
   };
 
+  const [clickDuplicate, setClickDuplicate] = useState(false);
+
   const handleDuplicate = () => {
+    setClickDuplicate(true);
     checkName(accountChange, handleClickDuplicate);
   };
 
@@ -94,7 +97,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
   const [checkEssentialFill, setCheckEssentialFill] = useState(false);
   useEffect(() => {
     if (
-      !clickDuplicate &&
+      !isDuplicate &&
       nickNameChange !== "" &&
       checkAuthenticate &&
       checkPassword
@@ -114,11 +117,11 @@ export default function InfoInput({ handleCheckEssentialFill }) {
       <View>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>Account Name *</Text>
-          {clickDuplicate && 0 < accountChange.length ? (
+          {isDuplicate && 0 < accountChange.length ? (
             <Text style={styles.warningMessage}>
               * 이미 존재하는 닉네임입니다.
             </Text>
-          ) : 0 < accountChange.length ? (
+          ) : 0 < accountChange.length && clickDuplicate ? (
             <Text style={[styles.warningMessage, { color: "blue" }]}>
               * 사용 가능한 닉네임입니다.
             </Text>
