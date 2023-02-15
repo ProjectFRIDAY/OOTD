@@ -1,0 +1,79 @@
+# Server
+server:
+  port: 5000
+  servlet:
+    encoding:
+      charset: utf-8
+
+spring:
+  # MySQL
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: ${rds.password}
+    username: ${rds.username}
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
+
+  # JPA
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: true
+
+  main:
+    allow-bean-definition-overriding: true
+
+  messages:
+    encoding: UTF-8
+    basename: i18n/exception
+
+  # File Upload
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# Logging
+logging.level:
+    org.org.hibernate.SQL: INFO
+
+# AWS S3
+cloud:
+  aws:
+    credentials:
+      secret-key: ${s3.secret.key}
+      access-key: ${s3.access.key}
+    s3:
+      bucket: ${s3.bucket.name}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+# Swagger
+springdoc:
+  default-produces-media-type: application/json
+
+  swagger-ui:
+    disable-swagger-default-url: 'true'
+    path: /swagger-ui.html
+    display-request-duration: 'true'
+    groups-order: DESC
+    operations-sorter: method
+
+  api-docs:
+    path: /api-docs
+
+  default-consumes-media-type: application/json
+  paths-to-match: /**
+  show-actuator: 'true'
+
+
+
+
