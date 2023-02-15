@@ -1,13 +1,11 @@
 package OOTD.demo.user;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import OOTD.demo.auth.dto.CreateUserReq;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,36 +13,53 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+/**
+ * User 엔티티입니다.
+ * TODO : 프로필 이미지 기본으로 설정하는 코드
+ *
+ * @author CHO Min Ho
+ */
+@Getter
 @Entity
-@Builder
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User implements UserDetails
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    @Column(name = "email")
+    @Column(name = "user_email")
     private String email;
+    @Column(name = "user_password")
     private String password;
-    @Column(name="user_name")
-    private String name;
+    @Column(name="user_account_name")
+    private String accountName;
+    @Column(name = "user_nickname")
+    private String nickName;
     @Column(name = "user_birth")
     private LocalDate birth;
-    private String FCMAccessToken;
-    private String ProfileImg;
+    @Column(name = "user_profile_image")
+    private String profileImg;
 
+    private User(String email, String password, String accountName, String nickName, LocalDate birth) {
+        this.email = email;
+        this.password = password;
+        this.accountName = accountName;
+        this.nickName = nickName;
+        this.birth = birth;
+    }
 
-
+    /**
+     * User 엔티티를 생성하는 메서드입니다.
+     * User 엔티티는 해당 메서드로만 생성됩니다.
+     * @return 생성된 User 엔티티
+     */
+    public static User createUser(CreateUserReq dto, String password) {
+        return new User(dto.getEmail(), password, dto.getEmail(), dto.getNickName(), dto.getUserBirth());
+    }
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
     private List<String> roles = new ArrayList<>();
-
-    protected User() {
-
-    }
 
 
     @Override
@@ -77,5 +92,17 @@ public class User implements UserDetails
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
