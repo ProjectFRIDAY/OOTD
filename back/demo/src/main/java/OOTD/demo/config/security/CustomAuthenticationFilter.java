@@ -32,21 +32,24 @@ public class CustomAuthenticationFilter extends GenericFilterBean {
 
         // 2. 쿠키에 유효한 사용자 정보가 있는지 검증
         HttpSession session = ((HttpServletRequest) request).getSession();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("auth")) {
-                String userAuthenticationInfo = cookie.getValue();
 
-                if (session.getAttribute(userAuthenticationInfo) != null) {
-                    String userName = (String) session.getAttribute(userAuthenticationInfo);
-                    // 사용자 정보 로드
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-                    SecurityContextHolder.getContext()
-                            .setAuthentication(new UsernamePasswordAuthenticationToken(userDetails,
-                                    "", userDetails.getAuthorities()));
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("auth")) {
+                    String userAuthenticationInfo = cookie.getValue();
+
+                    if (session.getAttribute(userAuthenticationInfo) != null) {
+                        String userName = (String) session.getAttribute(userAuthenticationInfo);
+                        // 사용자 정보 로드
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(new UsernamePasswordAuthenticationToken(userDetails,
+                                        "", userDetails.getAuthorities()));
+                    }
                 }
             }
         }
-
+        
         chain.doFilter(request, response);
     }
 }
