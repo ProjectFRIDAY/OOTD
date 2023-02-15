@@ -13,7 +13,7 @@ public class UpdateUserDto {
     private String userName;
     private String userProfileImg;
     public UpdateUserDto(User user){
-        this.userName = user.getName();
+        this.userName = user.getAccountName();
         this.userProfileImg = user.getProfileImg();
     }
 }

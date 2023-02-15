@@ -24,7 +24,7 @@ public class UserService {
         User member = userRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("not find user"));
         if(user.getUserName()!=null){
-            member.setName(user.getUserName());
+            member.setAccountName(user.getUserName());
         }
         if(user.getUserProfileImg()!=null){
             member.setProfileImg(user.getUserProfileImg());
@@ -36,7 +36,7 @@ public class UserService {
         User member = userRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("NOT find user"));
         ReadUserDto dto = new ReadUserDto();
-        dto.setUserName(member.getName());
+        dto.setUserName(member.getAccountName());
         dto.setUserProfileImg(member.getProfileImg());
         dto.setUserId(member.getId());
 

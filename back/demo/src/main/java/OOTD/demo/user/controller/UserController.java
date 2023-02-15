@@ -3,7 +3,6 @@ package OOTD.demo.user.controller;
 
 import OOTD.demo.user.dto.ReadUserDto;
 import OOTD.demo.user.dto.UpdateUserDto;
-import OOTD.demo.config.security.JwtTokenProvider;
 import OOTD.demo.common.Message;
 import OOTD.demo.user.User;
 import OOTD.demo.auth.service.AuthService;
@@ -21,7 +20,6 @@ import java.nio.charset.Charset;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-    private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
     private final AuthService authService;
 
