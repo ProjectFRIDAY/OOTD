@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiaryDTO {
+public class DiaryDto {
     private Long id;
     private String title;
     private String content;

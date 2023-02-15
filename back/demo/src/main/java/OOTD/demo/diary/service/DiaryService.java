@@ -1,12 +1,11 @@
 package OOTD.demo.diary.service;
 
 import OOTD.demo.diary.Diary;
-import OOTD.demo.diary.dto.DiaryDTO;
-import OOTD.demo.diary.dto.PostDiaryReqDTO;
-import OOTD.demo.diary.dto.PostDiaryResDTO;
-import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
+import OOTD.demo.diary.dto.DiaryDto;
+import OOTD.demo.diary.dto.PostDiaryReq;
+import OOTD.demo.diary.dto.PostDiaryRes;
+import OOTD.demo.diary.dto.UpdateDiaryReq;
 import OOTD.demo.diary.repository.DiaryRepository;
-import OOTD.demo.diary_image.DiaryImage;
 import OOTD.demo.diary_image.repository.DiaryImageRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.user.User;
@@ -44,7 +43,7 @@ public class DiaryService {
      * @param files 게시글 이미지 리스트
      * @return 생성된 게시글 엔티티의 ID를 포함한 DTO
      */
-    public PostDiaryResDTO createPost(PostDiaryReqDTO dto, List<MultipartFile> files, User user) {
+    public PostDiaryRes createPost(PostDiaryReq dto, List<MultipartFile> files, User user) {
         Diary diary = diaryRepository.save(Diary.createPost(dto, user));
 
         for (int i = 1; i <= files.size(); i++) {
@@ -52,7 +51,7 @@ public class DiaryService {
             diaryImageRepository.save(createDiaryImage(i, diary, diaryImageUrl));
         }
 
-        return new PostDiaryResDTO(diary.getId());
+        return new PostDiaryRes(diary.getId());
     }
 
     /**
@@ -61,7 +60,7 @@ public class DiaryService {
      * @param user 현재 로그인된 사용자
      * @return 수정된 게시글의 ID를 포함한 DTO
      */
-    public PostDiaryResDTO updatePost(UpdateDiaryReqDTO dto, User user) {
+    public PostDiaryRes updatePost(UpdateDiaryReq dto, User user) {
         Optional<Diary> diary = diaryRepository.findById(dto.getId());
 
         if (diary.isEmpty()) {
@@ -73,7 +72,7 @@ public class DiaryService {
         }
 
         diary.get().updateDiary(dto);
-        return new PostDiaryResDTO(diary.get().getId());
+        return new PostDiaryRes(diary.get().getId());
 
     }
 
@@ -101,14 +100,14 @@ public class DiaryService {
      * @param id 게시글 ID
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
-    public DiaryDTO findDiaryById(Long id) {
+    public DiaryDto findDiaryById(Long id) {
         Optional<Diary> diary = diaryRepository.findById(id);
 
         if (diary.isEmpty()) {
             // TODO : 예외 처리 시 반환할 공통 메서드 필요
         }
 
-        return new DiaryDTO(diary.get().getId(), diary.get().getTitle(), diary.get().getContent(),
+        return new DiaryDto(diary.get().getId(), diary.get().getTitle(), diary.get().getContent(),
                 diary.get().getCreateDate(), diary.get().getUpdateDate(), diary.get().getUser().getId());
     }
 

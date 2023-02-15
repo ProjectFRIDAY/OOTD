@@ -1,7 +1,7 @@
 package OOTD.demo.diary;
 
-import OOTD.demo.diary.dto.PostDiaryReqDTO;
-import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
+import OOTD.demo.diary.dto.PostDiaryReq;
+import OOTD.demo.diary.dto.UpdateDiaryReq;
 import OOTD.demo.user.User;
 import lombok.Getter;
 import javax.persistence.*;
@@ -65,7 +65,7 @@ public class Diary {
      * @param user 게시글 작성자
      * @return 생성된 Post 엔티티
      */
-    public static Diary createPost(PostDiaryReqDTO dto, User user) {
+    public static Diary createPost(PostDiaryReq dto, User user) {
         return new Diary(dto.getTitle(), dto.getContent(), user, dto.getScope());
     }
 
@@ -73,7 +73,7 @@ public class Diary {
      * 게시글 엔티티 수정 메서드입니다.
      * @param dto 게시글 update 관련 DTO
      */
-    public void updateDiary(UpdateDiaryReqDTO dto) {
+    public void updateDiary(UpdateDiaryReq dto) {
         title = dto.getTitle();
         content = dto.getContent();
         updateDate = LocalDateTime.now();

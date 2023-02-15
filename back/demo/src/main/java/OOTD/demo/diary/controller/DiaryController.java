@@ -1,8 +1,8 @@
 package OOTD.demo.diary.controller;
 
-import OOTD.demo.diary.dto.PostDiaryReqDTO;
-import OOTD.demo.diary.dto.PostDiaryResDTO;
-import OOTD.demo.diary.dto.UpdateDiaryReqDTO;
+import OOTD.demo.diary.dto.PostDiaryReq;
+import OOTD.demo.diary.dto.PostDiaryRes;
+import OOTD.demo.diary.dto.UpdateDiaryReq;
 import OOTD.demo.diary.service.DiaryService;
 import OOTD.demo.common.HttpResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +44,7 @@ public class DiaryController {
             tags = { "Diary Controller" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = PostDiaryResDTO.class))),
+                    content = @Content(schema = @Schema(implementation = PostDiaryRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST - validation 오류 등",
                     content = @Content),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR - 내부 서버 오류",
@@ -52,7 +52,7 @@ public class DiaryController {
     })
     @PostMapping("/api/diary/create")
     public ResponseEntity<?> createDiary(
-            @Parameter(name = "dto", description = "게시글 생성 관련 DTO") @RequestPart @Valid PostDiaryReqDTO dto,
+            @Parameter(name = "dto", description = "게시글 생성 관련 DTO") @RequestPart @Valid PostDiaryReq dto,
             @Parameter(name = "files", description = "게시글 사진들") @RequestPart List<MultipartFile> files) {
 
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
@@ -84,7 +84,7 @@ public class DiaryController {
     @Operation(summary = "게시글 수정 API", description = "게시글 수정 API입니다. (TODO : 현재 User가 NULL로 들어갑니다.)",
             tags = { "Diary Controller" })
     @PostMapping("/api/diary/update")
-    public ResponseEntity<?> updateDiary(@RequestBody UpdateDiaryReqDTO dto) {
+    public ResponseEntity<?> updateDiary(@RequestBody UpdateDiaryReq dto) {
 
         // TODO : 현재 로그인된 사용자를 가져오는 로직 필요
 
