@@ -1,16 +1,21 @@
 package OOTD.demo.config;
 
+import OOTD.demo.config.security.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,7 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 
                 .antMatchers("/test/**").permitAll()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/auth/create").permitAll()
+                .antMatchers("/api/auth/login").permitAll()
 
                 // swagger 관련 처리
                 .antMatchers("/swagger/**").permitAll()
@@ -40,5 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // swagger 관련 처리
 
                 .anyRequest().authenticated();
+
+        http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public CustomAuthenticationFilter authenticationFilter() {
+        return new CustomAuthenticationFilter(userDetailsService);
     }
 }
