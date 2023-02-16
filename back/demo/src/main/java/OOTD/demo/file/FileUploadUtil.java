@@ -1,5 +1,6 @@
 package OOTD.demo.file;
 
+import OOTD.demo.file.dto.FileDto;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -54,9 +55,9 @@ public class FileUploadUtil {
      * @param multipartFile 넘겨받은 multipartFile (파일)
      * @return 업로드된 파일의 접근 URL
      */
-    public String uploadFile(String category, MultipartFile multipartFile) {
+    public FileDto uploadFile(String category, MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty()) {
-            return "";
+            return null;
         }
         validateFileExists(multipartFile);
 
@@ -73,7 +74,7 @@ public class FileUploadUtil {
             e.printStackTrace();
         }
 
-        return amazonS3Client.getUrl(bucketName, fileName).toString();
+        return new FileDto(fileName, amazonS3Client.getUrl(bucketName, fileName).toString());
     }
 
     /**
