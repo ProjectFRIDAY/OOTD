@@ -2,15 +2,18 @@ import { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import InputText from "../input/LoginInput";
 
-export default function LoginInputView() {
-  const [changeIdText, setChangeIdText] = useState("");
-  const handleIdChange = (text) => {
-    setChangeIdText(text);
-  };
-  const [changePasswordText, setChangePasswordText] = useState("");
-  const handlePasswordChange = (text) => {
-    setChangePasswordText(text);
-  };
+export default function LoginInputView({
+  handleIdChange,
+  handlePasswordChange,
+}) {
+  // const [changeIdText, setChangeIdText] = useState("");
+  // const handleIdChange = (text) => {
+  //   setChangeIdText(text);
+  // };
+  // const [changePasswordText, setChangePasswordText] = useState("");
+  // const handlePasswordChange = (text) => {
+  //   setChangePasswordText(text);
+  // };
   return (
     <View style={styles.inputView}>
       <InputText

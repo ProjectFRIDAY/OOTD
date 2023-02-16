@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useState } from "react";
 
@@ -9,7 +10,7 @@ export const checkName = async (name, handleClickDuplicate) => {
   // const [isCheck, setIsCheck] = useState(false);
   try {
     await api
-      .post("api/auth/checkname/", {
+      .post("api/auth/checkname", {
         name: name,
       })
       .then((res) => {
@@ -18,6 +19,50 @@ export const checkName = async (name, handleClickDuplicate) => {
         else handleClickDuplicate(true);
         // return res.data;
         // return res.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const login = async (email, password, navigation) => {
+  try {
+    await api
+      .post("api/auth/login", {
+        email: email,
+        password: password,
+      })
+      .then(async (res) => {
+        await AsyncStorage.setItem("auth", res.data.data.userAuthenticationId);
+        navigation.navigate("MainPage");
+      });
+  } catch (e) {
+    alert("문제가 발생하였습니다.");
+    console.log(e);
+  }
+};
+
+export const joinMembership = async (
+  email,
+  accountName,
+  nickName,
+  password,
+  userBirth
+) => {
+  try {
+    await api
+      .post("api/auth/create", {
+        email: email,
+        accountName: accountName,
+        nickName: nickName,
+        password: password,
+        userBirth: userBirth,
+      })
+      .then((res) => {
+        alert("회원가입이 완료되었습니다.");
       })
       .catch((e) => {
         console.log(e);

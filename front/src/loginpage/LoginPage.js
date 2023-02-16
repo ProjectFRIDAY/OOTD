@@ -4,8 +4,18 @@ import Btn from "../button/Btn";
 import SnsLoginView from "./SnsLoginView";
 import LoginInputView from "./LoginInputView";
 import JoinMembership from "../button/loginpage/JoinMembershipBtn";
+import { useState } from "react";
 
 export default function LoginPage({ navigation }) {
+  const [changeIdText, setChangeIdText] = useState("");
+  const handleIdChange = (text) => {
+    setChangeIdText(text);
+  };
+
+  const [changePasswordText, setChangePasswordText] = useState("");
+  const handlePasswordChange = (text) => {
+    setChangePasswordText(text);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.loginPageTopBackground}>
@@ -17,8 +27,16 @@ export default function LoginPage({ navigation }) {
           ></Image>
         </View>
       </View>
-      <LoginInputView />
-      <Btn text={"로그인하기"} navigation={navigation} />
+      <LoginInputView
+        handleIdChange={handleIdChange}
+        handlePasswordChange={handlePasswordChange}
+      />
+      <Btn
+        text={"로그인하기"}
+        navigation={navigation}
+        changeIdText={changeIdText}
+        changePasswordText={changePasswordText}
+      />
       <JoinMembership navigation={navigation} />
       <ForgotPassword />
       <SnsLoginView />
