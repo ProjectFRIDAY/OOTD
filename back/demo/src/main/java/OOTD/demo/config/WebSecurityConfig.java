@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/**").permitAll()
                 .antMatchers("/api/auth/create").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/auth/checkname").permitAll()
 
                 // swagger 관련 처리
                 .antMatchers("/swagger/**").permitAll()
