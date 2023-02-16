@@ -46,7 +46,8 @@ public class DiaryService {
      * @return 생성된 게시글 엔티티의 ID를 포함한 DTO
      */
     public PostDiaryRes createPost(PostDiaryReq dto, List<MultipartFile> files) {
-        Diary diary = diaryRepository.save(Diary.createPost(dto, authService.getCurrentLoginUser()));
+        Diary diary = diaryRepository.save(Diary.createPost(dto.getTitle(), dto.getContent(), dto.getScope(),
+                authService.getCurrentLoginUser()));
 
         uploadImages(diary, files);
 
@@ -72,7 +73,7 @@ public class DiaryService {
 
         deleteImages(diary.get());
         uploadImages(diary.get(), files);
-        diary.get().updateDiary(dto);
+        diary.get().updateDiary(dto.getTitle(), dto.getContent(), dto.getScope());
 
         return new PostDiaryRes(diary.get().getId());
 

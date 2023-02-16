@@ -61,23 +61,21 @@ public class Diary {
     /**
      * 게시글 엔티티 생성 메서드입니다.
      * 게시글 생성은 해당 메서드로만 진행됩니다.
-     * @param dto 게시글 생성 관련 DTO
      * @param user 게시글 작성자
      * @return 생성된 Post 엔티티
      */
-    public static Diary createPost(PostDiaryReq dto, User user) {
-        return new Diary(dto.getTitle(), dto.getContent(), user, dto.getScope());
+    public static Diary createPost(String title, String content, PublicScope scope, User user) {
+        return new Diary(title, content, user, scope);
     }
 
     /**
      * 게시글 엔티티 수정 메서드입니다.
-     * @param dto 게시글 update 관련 DTO
      */
-    public void updateDiary(UpdateDiaryReq dto) {
-        title = dto.getTitle();
-        content = dto.getContent();
-        updateDate = LocalDateTime.now();
-        publicScope = dto.getScope();
-        isUpdated = true;
+    public void updateDiary(String title, String content, PublicScope scope) {
+        this.title = title;
+        this.content = content;
+        this.updateDate = LocalDateTime.now();
+        this.publicScope = scope;
+        this.isUpdated = true;
     }
 }

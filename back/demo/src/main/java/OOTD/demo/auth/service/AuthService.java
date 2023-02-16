@@ -40,7 +40,8 @@ public class AuthService implements UserDetailsService {
     public Long createUser(CreateUserReq dto) {
 
         String password = passwordEncoder.encode(dto.getPassword());
-        return userRepository.save(User.createUser(dto, password)).getId();
+        return userRepository.save(User.createUser(dto.getEmail(), password, dto.getAccountName(),
+                dto.getNickName(), dto.getUserBirth())).getId();
 
     }
 
