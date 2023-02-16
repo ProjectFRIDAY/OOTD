@@ -21,12 +21,16 @@ public class DiaryImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
+
+    @Column(name = "diary_image_name")
+    private String name;
     @Column(name = "diary_image_order")
     private int imageOrder;
     @Column(name = "diary_image_url")
     private String imageUrl;
 
-    private DiaryImage(int imageOrder, Diary diary, String imageUrl) {
+    private DiaryImage(String name, int imageOrder, Diary diary, String imageUrl) {
+        this.name = name;
         this.imageOrder = imageOrder;
         this.diary = diary;
         this.imageUrl = imageUrl;
@@ -35,12 +39,13 @@ public class DiaryImage {
 
     /**
      * DiaryImage 엔티티 생성 메서드입니다,
+     * @param name 해당 이미지의 이름
      * @param imageOrder 해당 이미지의 게시글에서의 순서
      * @param diary 해당 이미지의 게시글
      * @param imageUrl 이미지 URL
      * @return 생성된 DiaryImage 엔티티
      */
-    public static DiaryImage createDiaryImage(int imageOrder, Diary diary, String imageUrl) {
-        return new DiaryImage(imageOrder, diary, imageUrl);
+    public static DiaryImage createDiaryImage(String name, int imageOrder, Diary diary, String imageUrl) {
+        return new DiaryImage(name, imageOrder, diary, imageUrl);
     }
 }

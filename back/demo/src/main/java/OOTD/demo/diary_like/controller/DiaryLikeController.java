@@ -1,7 +1,7 @@
 package OOTD.demo.diary_like.controller;
 
-import OOTD.demo.diary_like.dto.PostDiaryLikeReqDTO;
-import OOTD.demo.diary_like.dto.PostDiaryLikeResDTO;
+import OOTD.demo.diary_like.dto.PostDiaryLikeReq;
+import OOTD.demo.diary_like.dto.PostDiaryLikeRes;
 import OOTD.demo.diary_like.service.DiaryLikeService;
 import OOTD.demo.common.HttpResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,11 +31,9 @@ public class DiaryLikeController {
     @Operation(summary = "게시글 좋아요 생성 API", description = "게시글 좋아요 생성 API 입니다.",
             tags = { "Diary Like Controller" })
     @PostMapping("/api/diary/like/create")
-    public ResponseEntity<?> createDiaryLike(@RequestBody PostDiaryLikeReqDTO dto) {
+    public ResponseEntity<?> createDiaryLike(@RequestBody PostDiaryLikeReq dto) {
 
-        // TODO : 현재 로그인된 사용자를 불러오는 로직 필요
-
-        PostDiaryLikeResDTO diaryLike = diaryLikeService.createDiaryLike(dto, null);
+        PostDiaryLikeRes diaryLike = diaryLikeService.createDiaryLike(dto);
         return httpResponseUtil.createOKHttpResponse(diaryLike, "좋아요 요청에 성공했습니다.");
     }
 
@@ -49,9 +47,7 @@ public class DiaryLikeController {
     @GetMapping("/api/diary/like/delete/{id}")
     public ResponseEntity<?> deleteDiaryLike(@PathVariable(name = "id") Long id) {
 
-        // TODO : 현재 로그인된 사용자를 불러오는 로직 필요
-
-        diaryLikeService.deleteDiaryLike(id, null);
+        diaryLikeService.deleteDiaryLike(id);
         return httpResponseUtil.createOKHttpResponse(null, "좋아요 취소에 성공했습니다.");
     }
 
