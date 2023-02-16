@@ -77,6 +77,7 @@ public class Diary {
         title = dto.getTitle();
         content = dto.getContent();
         updateDate = LocalDateTime.now();
+        publicScope = dto.getScope();
         isUpdated = true;
     }
 }
