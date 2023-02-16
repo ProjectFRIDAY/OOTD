@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDiaryLikeReqDTO {
+public class PostDiaryLikeReq {
     @NotNull(message = "diary ID를 입력해주세요!")
     private Long diaryId;
 }

@@ -3,7 +3,6 @@ package OOTD.demo.file.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 파일 업로드 테스트 컨트롤러를 위한 request DTO입니다.
@@ -13,6 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UploadFileReqDTO {
+public class UploadFileReq {
     private String category;
 }
