@@ -130,7 +130,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"@Account_Name을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="false"
+          textType={false}
           handleChange={handleAccountChange}
         />
         <TouchableOpacity style={styles.inputBtn} onPress={handleDuplicate}>
@@ -142,7 +142,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"닉네임을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="false"
+          textType={false}
           handleChange={handleNickNameChange}
         />
       </View>
@@ -151,7 +151,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"이메일을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="false"
+          textType={false}
           handleChange={handleEmailChange}
         />
         <TouchableOpacity
@@ -168,7 +168,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
           <InputText
             placeHoldText={"인증번호를 입력하세요."}
             keyboardType={"email-address"}
-            textType="false"
+            textType={false}
             handleChange={handleEmailChange}
           />
           <TouchableOpacity
@@ -187,9 +187,9 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"비밀번호(8~15자 특수문자 포함)를 입력해주세요."}
           keyboardType={"email-address"}
-          textType="true"
+          textType={true}
           handleChange={handlePasswordChange}
-          maxLength="15"
+          maxLength={15}
         />
       </View>
       <View>
@@ -209,7 +209,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"비밀번호를 다시 입력해주세요."}
           keyboardType={"email-address"}
-          textType="true"
+          textType={true}
           handleChange={handlepasswordConfirmationChange}
         />
       </View>
@@ -218,7 +218,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"YY-MM-DD"}
           keyboardType={"email-address"}
-          textType="true"
+          textType={true}
           handleChange={handleBirthChange}
         />
       </View>
