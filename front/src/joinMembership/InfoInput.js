@@ -48,12 +48,15 @@ export default function InfoInput({ handleCheckEssentialFill }) {
     setBirthChange(text);
   };
 
-  const [clickDuplicate, setClickDuplicate] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const handleClickDuplicate = (bool) => {
-    setClickDuplicate(bool);
+    setIsDuplicate(bool);
   };
 
+  const [clickDuplicate, setClickDuplicate] = useState(false);
+
   const handleDuplicate = () => {
+    setClickDuplicate(true);
     checkName(accountChange, handleClickDuplicate);
   };
 
@@ -94,7 +97,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
   const [checkEssentialFill, setCheckEssentialFill] = useState(false);
   useEffect(() => {
     if (
-      !clickDuplicate &&
+      !isDuplicate &&
       nickNameChange !== "" &&
       checkAuthenticate &&
       checkPassword
@@ -114,11 +117,11 @@ export default function InfoInput({ handleCheckEssentialFill }) {
       <View>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>Account Name *</Text>
-          {clickDuplicate && 0 < accountChange.length ? (
+          {isDuplicate && 0 < accountChange.length ? (
             <Text style={styles.warningMessage}>
               * 이미 존재하는 닉네임입니다.
             </Text>
-          ) : 0 < accountChange.length ? (
+          ) : 0 < accountChange.length && clickDuplicate ? (
             <Text style={[styles.warningMessage, { color: "blue" }]}>
               * 사용 가능한 닉네임입니다.
             </Text>
@@ -127,7 +130,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"@Account_Name을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="false"
+          textType={false}
           handleChange={handleAccountChange}
         />
         <TouchableOpacity style={styles.inputBtn} onPress={handleDuplicate}>
@@ -139,7 +142,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"닉네임을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="false"
+          textType={false}
           handleChange={handleNickNameChange}
         />
       </View>
@@ -148,7 +151,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"이메일을 입력해주세요."}
           keyboardType={"email-address"}
-          textType="false"
+          textType={false}
           handleChange={handleEmailChange}
         />
         <TouchableOpacity
@@ -165,7 +168,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
           <InputText
             placeHoldText={"인증번호를 입력하세요."}
             keyboardType={"email-address"}
-            textType="false"
+            textType={false}
             handleChange={handleEmailChange}
           />
           <TouchableOpacity
@@ -184,9 +187,9 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"비밀번호(8~15자 특수문자 포함)를 입력해주세요."}
           keyboardType={"email-address"}
-          textType="true"
+          textType={true}
           handleChange={handlePasswordChange}
-          maxLength="15"
+          maxLength={15}
         />
       </View>
       <View>
@@ -206,7 +209,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"비밀번호를 다시 입력해주세요."}
           keyboardType={"email-address"}
-          textType="true"
+          textType={true}
           handleChange={handlepasswordConfirmationChange}
         />
       </View>
@@ -215,7 +218,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
         <InputText
           placeHoldText={"YY-MM-DD"}
           keyboardType={"email-address"}
-          textType="true"
+          textType={true}
           handleChange={handleBirthChange}
         />
       </View>

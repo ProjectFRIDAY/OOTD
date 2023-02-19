@@ -1,9 +1,17 @@
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { login } from "../api/api";
 
-export default function Btn({ text, navigation, isFill }) {
+export default function Btn({
+  text,
+  navigation,
+  isFill,
+  changeIdText,
+  changePasswordText,
+}) {
   const handlePress = () => {
     if (text === "로그인하기") {
-      navigation.navigate("MainPage");
+      login(changeIdText, changePasswordText, navigation);
+      // navigation.navigate("MainPage");
     } else {
       if (isFill) {
         alert("회원가입이 완료되었습니다. 로그인해주세요.");
