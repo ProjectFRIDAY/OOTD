@@ -30,6 +30,31 @@ export default function JoinMembershipView({ navigation }) {
 
   const [statusBarHeight, setStatusBarHeight] = useState(0);
 
+  const [accountChange, setAccountChange] = useState("");
+  const handleAccountChange = (text) => {
+    setAccountChange(text);
+  };
+
+  const [nickNameChange, setNickNameChange] = useState("");
+  const handleNickNameChange = (text) => {
+    setNickNameChange(text);
+  };
+
+  const [emailChange, setEmailChange] = useState("");
+  const handleEmailChange = (text) => {
+    setEmailChange(text);
+  };
+
+  const [passwordChange, setPasswordChange] = useState("");
+  const handlePasswordChange = (text) => {
+    setPasswordChange(text);
+  };
+
+  const [birthChange, setBirthChange] = useState("");
+  const handleBirthChange = (text) => {
+    setBirthChange(text);
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.keyboard}
@@ -41,11 +66,25 @@ export default function JoinMembershipView({ navigation }) {
           <View style={{ marginTop: 108, marginBottom: 30 }}>
             <UploadImageBtn />
           </View>
-          <InfoInput handleCheckEssentialFill={handleCheckEssentialFill} />
+          <InfoInput
+            handleCheckEssentialFill={handleCheckEssentialFill}
+            handleAccountChange={handleAccountChange}
+            handleNickNameChange={handleNickNameChange}
+            handleEmailChange={handleEmailChange}
+            handlePasswordChange={handlePasswordChange}
+            handleBirthChange={handleBirthChange}
+            accountChange={accountChange}
+            nickNameChange={nickNameChange}
+            passwordChange={passwordChange}
+          />
           <Btn
             text={"회원가입하기"}
             isFill={checkEssentialFill}
             navigation={navigation}
+            emailChange={emailChange}
+            accountChange={accountChange}
+            nickNameChange={nickNameChange}
+            changePasswordText={passwordChange}
           />
           <Text style={styles.agreeText}>
             인증을 완료하면 서비스 이용약관과 개인정보처리방침에 동의한 것으로
