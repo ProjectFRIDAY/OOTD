@@ -3,22 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { checkName } from "../api/api";
 import InputText from "../input/LoginInput";
 
-export default function InfoInput({ handleCheckEssentialFill }) {
-  const [accountChange, setAccountChange] = useState("");
-  const handleAccountChange = (text) => {
-    setAccountChange(text);
-  };
-
-  const [nickNameChange, setNickNameChange] = useState("");
-  const handleNickNameChange = (text) => {
-    setNickNameChange(text);
-  };
-
-  const [emailChange, setEmailChange] = useState("");
-  const handleEmailChange = (text) => {
-    setEmailChange(text);
-  };
-
+export default function InfoInput({
+  handleCheckEssentialFill,
+  handleAccountChange,
+  handleNickNameChange,
+  handleEmailChange,
+  handlePasswordChange,
+  handleBirthChange,
+  accountChange,
+  nickNameChange,
+  emailChange,
+  passwordChange,
+}) {
   const [clickSend, setClickSend] = useState(false);
 
   const [checkAuthenticate, setCheckAuthenticate] = useState(false);
@@ -32,20 +28,10 @@ export default function InfoInput({ handleCheckEssentialFill }) {
     }
   };
 
-  const [passwordChange, setPasswordChange] = useState("");
-  const handlePasswordChange = (text) => {
-    setPasswordChange(text);
-  };
-
   const [passwordConfirmationChange, setPasswordConfirmationChange] =
     useState("");
   const handlepasswordConfirmationChange = (text) => {
     setPasswordConfirmationChange(text);
-  };
-
-  const [birthChange, setBirthChange] = useState("");
-  const handleBirthChange = (text) => {
-    setBirthChange(text);
   };
 
   const [isDuplicate, setIsDuplicate] = useState(false);
@@ -92,7 +78,7 @@ export default function InfoInput({ handleCheckEssentialFill }) {
 
   useEffect(() => {
     handleCheckPassword();
-  }, [passwordConfirmationChange]);
+  }, [passwordConfirmationChange, passwordChange]);
 
   const [checkEssentialFill, setCheckEssentialFill] = useState(false);
   useEffect(() => {

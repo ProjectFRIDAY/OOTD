@@ -50,7 +50,8 @@ export const joinMembership = async (
   accountName,
   nickName,
   password,
-  userBirth
+  userBirth,
+  navigation
 ) => {
   try {
     await api
@@ -63,8 +64,10 @@ export const joinMembership = async (
       })
       .then((res) => {
         alert("회원가입이 완료되었습니다.");
+        navigation.navigate("Login");
       })
       .catch((e) => {
+        alert("필수 정보를 입력하세요.");
         console.log(e);
       });
   } catch (e) {
