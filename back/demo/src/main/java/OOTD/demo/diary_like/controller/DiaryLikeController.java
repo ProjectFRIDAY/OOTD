@@ -34,7 +34,7 @@ public class DiaryLikeController {
     public ResponseEntity<?> createDiaryLike(@RequestBody PostDiaryLikeReq dto) {
 
         PostDiaryLikeRes diaryLike = diaryLikeService.createDiaryLike(dto);
-        return httpResponseUtil.createOKHttpResponse(diaryLike, "좋아요 요청에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(diaryLike, "좋아요 요청에 성공했습니다.");
     }
 
     /**
@@ -48,7 +48,7 @@ public class DiaryLikeController {
     public ResponseEntity<?> deleteDiaryLike(@PathVariable(name = "id") Long id) {
 
         diaryLikeService.deleteDiaryLike(id);
-        return httpResponseUtil.createOKHttpResponse(null, "좋아요 취소에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(null, "좋아요 취소에 성공했습니다.");
     }
 
 }

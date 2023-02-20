@@ -30,7 +30,7 @@ public class AuthController {
                     NOT_ACCEPTABLE);
         }
 
-        return httpResponseUtil.createOKHttpResponse(authService.createUser(dto), "회원가입에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(authService.createUser(dto), "회원가입에 성공했습니다.");
 
     }
 
@@ -42,7 +42,7 @@ public class AuthController {
             return httpResponseUtil.createErrorResponse(null, "이미 존재하는 닉네임입니다.",
                     NOT_ACCEPTABLE);
         }
-        return httpResponseUtil.createOKHttpResponse(null, "사용가능한 닉네임입니다.");
+        return httpResponseUtil.createOkHttpResponse(null, "사용가능한 닉네임입니다.");
 
     }
 
@@ -50,7 +50,7 @@ public class AuthController {
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(HttpSession session, @Valid @RequestBody LoginReq dto) {
 
-        return httpResponseUtil.createOKHttpResponse(authService.login(dto, session), "로그인에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(authService.login(dto, session), "로그인에 성공했습니다.");
 
     }
     @Operation(summary = "로그아웃 API", description = "로그아웃 API 입니다.",
@@ -59,7 +59,7 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpSession session){
 
         authService.logout(session);
-        return httpResponseUtil.createOKHttpResponse(null, "로그아웃에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(null, "로그아웃에 성공했습니다.");
 
     }
 
