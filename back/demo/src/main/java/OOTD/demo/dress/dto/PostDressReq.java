@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDressReqDTO {
+public class PostDressReq {
     @NotBlank(message = "옷 이름을 입력해주세요!")
     private String dressName;
     @NotNull(message = "옷 종류를 입력해주세요!")

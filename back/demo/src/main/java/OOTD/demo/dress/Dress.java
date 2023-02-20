@@ -1,6 +1,5 @@
 package OOTD.demo.dress;
 
-import OOTD.demo.dress.dto.PostDressReqDTO;
 import OOTD.demo.user.User;
 import lombok.Getter;
 import javax.persistence.*;
