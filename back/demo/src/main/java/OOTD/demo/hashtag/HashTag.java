@@ -27,6 +27,10 @@ public class HashTag {
     @Column(name = "tag_name", nullable = false)
     private String name;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private HashTag(String name) {
         this.name = name;
     }
