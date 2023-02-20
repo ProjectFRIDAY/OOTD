@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "USER")
 public class User implements UserDetails
 {
     @Id
@@ -54,8 +55,8 @@ public class User implements UserDetails
      * User 엔티티는 해당 메서드로만 생성됩니다.
      * @return 생성된 User 엔티티
      */
-    public static User createUser(CreateUserReq dto, String password) {
-        return new User(dto.getEmail(), password, dto.getEmail(), dto.getNickName(), dto.getUserBirth());
+    public static User createUser(String email, String password, String accountName, String nickName, LocalDate birth) {
+        return new User(email, password, accountName, nickName, birth);
     }
 
     @ElementCollection(fetch = FetchType.EAGER)

@@ -1,8 +1,8 @@
 package OOTD.demo.file.controller;
 
 import OOTD.demo.file.FileUploadUtil;
-import OOTD.demo.file.dto.DeleteFileReqDTO;
-import OOTD.demo.file.dto.UploadFileReqDTO;
+import OOTD.demo.file.dto.DeleteFileReq;
+import OOTD.demo.file.dto.UploadFileReq;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +32,8 @@ public class FileController {
     @Operation(summary = "(테스트용) 파일 업로드 API", description = "파일 업로드 API 입니다. (테스트용)",
             tags = { "Test Controller" })
     @PostMapping("/test/file/upload")
-    public String uploadSingleFile(@RequestPart UploadFileReqDTO dto, @RequestPart MultipartFile file) {
-        return fileUploadUtil.uploadFile(dto.getCategory(), file);
+    public String uploadSingleFile(@RequestPart UploadFileReq dto, @RequestPart MultipartFile file) {
+        return fileUploadUtil.uploadFile(dto.getCategory(), file).getUrl();
     }
 
     /**
@@ -44,7 +44,7 @@ public class FileController {
     @Operation(summary = "(테스트용) 파일 삭제 API", description = "파일 삭제 API 입니다. (테스트용)",
             tags = { "Test Controller" })
     @PostMapping("/test/file/delete")
-    public String deleteSingleFile(@RequestBody DeleteFileReqDTO dto) {
+    public String deleteSingleFile(@RequestBody DeleteFileReq dto) {
         fileUploadUtil.deleteFile(dto.getFileUrl());
         return "success";
     }

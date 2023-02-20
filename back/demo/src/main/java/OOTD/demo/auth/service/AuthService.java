@@ -40,7 +40,8 @@ public class AuthService implements UserDetailsService {
     public Long createUser(CreateUserReq dto) {
 
         String password = passwordEncoder.encode(dto.getPassword());
-        return userRepository.save(User.createUser(dto, password)).getId();
+        return userRepository.save(User.createUser(dto.getEmail(), password, dto.getAccountName(),
+                dto.getNickName(), dto.getUserBirth())).getId();
 
     }
 
@@ -70,7 +71,7 @@ public class AuthService implements UserDetailsService {
      * @return 로그인된 사용자
      * @throws UsernameNotFoundException 세션에 저장된 이메일이 유효하지 않을 경우
      */
-    public User currentLoginUser() throws UsernameNotFoundException {
+    public User getCurrentLoginUser() throws UsernameNotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userEmail = ((UserDetails) principal).getUsername();
 
