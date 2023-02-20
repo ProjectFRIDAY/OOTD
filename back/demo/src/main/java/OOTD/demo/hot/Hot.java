@@ -12,12 +12,13 @@ import javax.persistence.Id;
 public class Hot {
     @Id
     @GeneratedValue
-    @Column(name = "diary_id")
+    @Column()
     private Long id;
 
+    @Column(name = "post_id", nullable = false)
+    private Long postId;
     @Column(name = "weight", nullable = false)
     private int weight;
-
     @Column(name = "user_id", nullable = false)
     private Long userId;
 }

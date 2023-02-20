@@ -7,12 +7,11 @@ import OOTD.demo.search.dto.SearchDTO;
 import OOTD.demo.search.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +26,17 @@ public class HotService {
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
     public List<HotDTO> getHotList() {
-        List<Hot> getList = hotRepository.findAll();
-        List<HotDTO> HotList = new ArrayList<>();
+        List<Hot> getList = hotRepository.findAll(Sort.by(Sort.Direction.DESC, "weight"));
+        Map<Long, HotDTO> hotMap = new LinkedHashMap<>();
         for (Hot hot : getList) {
-            HotList.add(new HotDTO(hot));
+            Long postId = hot.getPostId();
+            HotDTO hotDTO = hotMap.get(postId);
+            if (hotDTO == null) {
+                hotMap.put(postId, new HotDTO(hot));
+            } else {
+                hotDTO.setWeight(hotDTO.getWeight() + hot.getWeight());
+            }
         }
-        return HotList;
+        return new ArrayList<>(hotMap.values());
     }
 }
