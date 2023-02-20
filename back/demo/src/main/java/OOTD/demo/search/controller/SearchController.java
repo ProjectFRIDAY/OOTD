@@ -29,11 +29,11 @@ public class SearchController {
         return httpResponseUtil.createOKHttpResponse(searchService.SearchDiaryByTitle(title), "게시글 검색에 성공했습니다.");
     }
 
-    @Operation(summary = "게시글 검색 API(tag)", description = "태그검색 API입니다.",
+    @Operation(summary = "게시글 검색 API(tag)", description = "태그검색 API입니다.(미완성)",
             tags = { "Search Controller" })
     @GetMapping("/api/search/tag/{tag}")
     public ResponseEntity<?> SearchDiaryByTag(@PathVariable(name = "tag") String tag) {
 
-        return httpResponseUtil.createOKHttpResponse(searchService.SearchDiaryByTag(tag), "게시글 검색에 성공했습니다.");
+        return null; //httpResponseUtil.createOKHttpResponse(searchService.SearchDiaryByTag(tag), "게시글 검색에 성공했습니다.");
     }
 }

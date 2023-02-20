@@ -30,7 +30,7 @@ public class SearchService {
         Optional<List<SearchDTO>> searchDiaryList = searchRepository.findAllByTitle(title);
 
         if (searchDiaryList.isEmpty()) {
-            // TODO : 예외 처리 시 반환할 공통 메서드 필요
+            throw new RuntimeException("No matching entries found");
         }
 
         return searchDiaryList.get();
@@ -41,6 +41,8 @@ public class SearchService {
      * @param tag 게시글 Tag
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
+
+    /*
     public List<SearchDTO> SearchDiaryByTag(String tag) {
         // 아직 작동 안됨 tag 없음
         Optional<List<SearchDTO>> searchDiaryList = searchRepository.findAllByTag(tag);
@@ -51,4 +53,5 @@ public class SearchService {
 
         return searchDiaryList.get();
     }
+     */
 }

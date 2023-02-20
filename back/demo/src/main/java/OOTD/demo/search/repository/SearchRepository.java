@@ -11,5 +11,5 @@ public interface SearchRepository extends JpaRepository<Diary, String> {
 
     Optional<List<SearchDTO>> findAllByTitle(String title);
 
-    Optional<List<SearchDTO>> findAllByTag(String tag);
+    // Optional<List<SearchDTO>> findAllByTag(String tag);
 }
