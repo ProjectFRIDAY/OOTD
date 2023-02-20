@@ -17,7 +17,7 @@ import static OOTD.demo.diary.Diary.createPost;
 import static OOTD.demo.diary.PublicScope.ALL;
 import static OOTD.demo.diary_image.DiaryImage.createDiaryImage;
 import static OOTD.demo.dress.Dress.createDress;
-import static OOTD.demo.dress.DressType.INNER;
+import static OOTD.demo.dress.DressType.TOP;
 import static OOTD.demo.dress.DressType.OUTER;
 import static OOTD.demo.user.User.createUser;
 
@@ -122,7 +122,7 @@ public class TestData {
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
             dressRepository.save(createDress(user5, "아우터1", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user1, "이너1", INNER, "#아우터",
+            dressRepository.save(createDress(user1, "이너1", TOP, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
             dressRepository.save(createDress(user1, "아우터3", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));

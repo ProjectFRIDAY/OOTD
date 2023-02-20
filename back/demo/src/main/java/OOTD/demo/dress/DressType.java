@@ -12,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum DressType {
    OUTER("OUTER"),
-   INNER("INNER");
+   TOP("TOP"),
+   BOTTOMS("BOTTOMS"),
+   SHOES("SHOES");
 
    private String value;
 
