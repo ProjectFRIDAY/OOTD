@@ -112,19 +112,19 @@ public class TestData {
 
 
             // 4. Dress Test Data 삽입
-            dressRepository.save(createDress(user1, "아우터1", OUTER,
+            dressRepository.save(createDress(user1, "아우터1", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user2, "아우터1", OUTER,
+            dressRepository.save(createDress(user2, "아우터1", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user3, "아우터1", OUTER,
+            dressRepository.save(createDress(user3, "아우터1", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user4, "아우터1", OUTER,
+            dressRepository.save(createDress(user4, "아우터1", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user5, "아우터1", OUTER,
+            dressRepository.save(createDress(user5, "아우터1", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user1, "이너1", INNER,
+            dressRepository.save(createDress(user1, "이너1", INNER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user1, "아우터3", OUTER,
+            dressRepository.save(createDress(user1, "아우터3", OUTER, "#아우터",
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
 
         }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,6 +21,9 @@ import javax.validation.constraints.NotNull;
 public class PostDressReq {
     @NotBlank(message = "옷 이름을 입력해주세요!")
     private String dressName;
+
     @NotNull(message = "옷 종류를 입력해주세요!")
     private DressType dressType;
+
+    private String hashTag;
 }
