@@ -7,6 +7,9 @@ import OOTD.demo.search.dto.SearchDTO;
 import OOTD.demo.search.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,14 +29,15 @@ public class SearchService {
      * @param title 게시글 Title
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
-    public List<SearchDTO> SearchDiaryByTitle(String title) {
-        Optional<List<SearchDTO>> searchDiaryList = searchRepository.findAllByTitle(title);
-
-        if (searchDiaryList.isEmpty()) {
+    public List<SearchDTO> SearchDiaryByTitle(String title, int page) {
+        Page<SearchDTO> searchDiaryList;
+        if (searchRepository.existsDiaryByTitle(title)) {
+            PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("updateDate").descending());
+            searchDiaryList = searchRepository.findByTitle(title, pageRequest);
+        } else {
             throw new RuntimeException("No matching entries found");
         }
-
-        return searchDiaryList.get();
+        return searchDiaryList.getContent();
     }
 
     /**

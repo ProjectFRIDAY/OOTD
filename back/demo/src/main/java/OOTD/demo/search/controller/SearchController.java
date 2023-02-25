@@ -23,10 +23,10 @@ public class SearchController {
     private final SearchService searchService;
     @Operation(summary = "게시글 검색 API(title)", description = "제목검색 API입니다.",
             tags = { "Search Controller" })
-    @GetMapping("/api/search/title/{title}")
-    public ResponseEntity<?> SearchDiaryByTitle(@PathVariable(name = "title") String title) {
+    @GetMapping("/api/search/title/{title}/{page}")
+    public ResponseEntity<?> SearchDiaryByTitle(@PathVariable(name = "title") String title, @PathVariable(name = "page") int page) {
 
-        return httpResponseUtil.createOKHttpResponse(searchService.SearchDiaryByTitle(title), "게시글 검색에 성공했습니다.");
+        return httpResponseUtil.createOKHttpResponse(searchService.SearchDiaryByTitle(title, page), "게시글 검색에 성공했습니다.");
     }
 
     @Operation(summary = "게시글 검색 API(tag)", description = "태그검색 API입니다.(미완성)",
