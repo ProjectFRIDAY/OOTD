@@ -1,10 +1,10 @@
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import CalendarView from "./CalendarView";
 import Ranking from "./Ranking";
 
 export default function MainPage({ navigation }) {
   return (
-    <View
+    <ScrollView
       style={{
         width: "100%",
         height: "100%",
@@ -14,6 +14,6 @@ export default function MainPage({ navigation }) {
     >
       <CalendarView />
       <Ranking navigation={navigation} />
-    </View>
+    </ScrollView>
   );
 }

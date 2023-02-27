@@ -4,24 +4,45 @@ import Btn from "../button/Btn";
 import SnsLoginView from "./SnsLoginView";
 import LoginInputView from "./LoginInputView";
 import JoinMembership from "../button/loginpage/JoinMembershipBtn";
+import { useEffect, useState } from "react";
 
 export default function LoginPage({ navigation }) {
+  const [changeIdText, setChangeIdText] = useState("");
+  const handleIdChange = (text) => {
+    setChangeIdText(text);
+  };
+
+  const [changePasswordText, setChangePasswordText] = useState("");
+  const handlePasswordChange = (text) => {
+    setChangePasswordText(text);
+  };
+  useEffect(() => {
+    console.log(changeIdText);
+    console.log(changePasswordText);
+  });
   return (
     <View style={styles.container}>
-      <View style={styles.loginPageTopBackground}>
-        <View style={styles.textOotdLocation}>
-          <Text style={styles.textOotd}>OOTD?</Text>
-          <Image
-            style={{ marginTop: "3%" }}
-            source={require("../../assets/images/ootdLogoInLoginPage.png")}
-          ></Image>
-        </View>
+      <View style={styles.loginPageTopBackground} />
+      <View style={styles.textOotdLocation}>
+        <Text style={styles.textOotd}>OOTD?</Text>
+        <Image
+          style={{ marginTop: "3%" }}
+          source={require("../../assets/images/ootdLogoInLoginPage.png")}
+        ></Image>
+        <LoginInputView
+          handleIdChange={handleIdChange}
+          handlePasswordChange={handlePasswordChange}
+        />
+        <Btn
+          text={"로그인하기"}
+          navigation={navigation}
+          changeIdText={changeIdText}
+          changePasswordText={changePasswordText}
+        />
+        <JoinMembership navigation={navigation} />
+        <ForgotPassword />
       </View>
-      <LoginInputView />
-      <Btn text={"로그인하기"} navigation={navigation} />
-      <JoinMembership navigation={navigation} />
-      <ForgotPassword />
-      <SnsLoginView />
+      {/* <SnsLoginView /> */}
       <Text style={styles.copyrightText}>
         &#9426; FRIDAY, All rights reserved.
       </Text>
@@ -35,11 +56,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#E6EBE9",
   },
   loginPageTopBackground: {
-    height: 310,
+    height: "30%",
     backgroundColor: "#3B5448",
   },
   textOotdLocation: {
-    top: 225,
+    bottom: 87,
     alignItems: "center",
   },
   textOotd: {

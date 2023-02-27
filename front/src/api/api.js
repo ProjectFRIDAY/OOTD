@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useState } from "react";
 
@@ -5,7 +6,7 @@ const api = axios.create({
   baseURL: "https://ootd-friday-api.shop/",
 });
 
-export const checkName = async (name, handleClickDuplicate) => {
+export const checkName = (name, handleClickDuplicate) => {
   // const [isCheck, setIsCheck] = useState(false);
   api
     .post("api/auth/checkname", {
