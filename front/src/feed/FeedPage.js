@@ -134,6 +134,7 @@ export default class FeedPage extends React.Component {
   state = {
     data: [],
     page: 1, // here
+    following: false,
   };
 
   _renderItem = ({ item }) => (
@@ -162,12 +163,50 @@ export default class FeedPage extends React.Component {
             <Text>닉네임</Text>
           </View>
         </View>
-        <TouchableOpacity>
-          <Image
-            source={require("../../assets/images/morebtn.png")}
-            style={{ width: 20, height: 17 }}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {this.state.following ? (
+            <TouchableOpacity
+              style={{
+                width: 55,
+                height: 24,
+                borderWidth: 1,
+                borderColor: "#2B4036",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 5,
+                marginRight: 7,
+              }}
+              onPress={() => {
+                this.setState({ following: false });
+              }}
+            >
+              <Text style={{ color: "#2B4036" }}>팔로잉</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{
+                width: 55,
+                height: 24,
+                backgroundColor: "#2B4036",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 5,
+                marginRight: 7,
+              }}
+              onPress={() => {
+                this.setState({ following: true });
+              }}
+            >
+              <Text style={{ color: "white" }}>팔로우</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity>
+            <Image
+              source={require("../../assets/images/morebtn.png")}
+              style={{ width: 20, height: 17 }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <Image
         source={{ uri: item.url }}
