@@ -55,7 +55,7 @@ export const joinMembership = (
       accountName: accountName,
       nickName: nickName,
       password: password,
-      userBirth: userBirth,
+      userBirth: "2023-02-27",
     })
     .then((res) => {
       alert("회원가입이 완료되었습니다.");
