@@ -32,7 +32,7 @@ export const login = (email, password, navigation) => {
     })
     .then(async (res) => {
       await AsyncStorage.setItem("auth", res.data.data.userAuthenticationId);
-      navigation.navigate("MainPage");
+      navigation.replace("MainPage");
     })
     .catch((e) => {
       alert("이메일 또는 비밀번호가 일치하지 않습니다.");
