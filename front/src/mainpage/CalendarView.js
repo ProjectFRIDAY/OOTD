@@ -3,7 +3,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { StyleSheet, View } from "react-native";
 import { LocaleConfig, Calendar } from "react-native-calendars";
-import DailyModal from "../dailymodal/DailyModal";
+import WriteFeed from "../feed/WriteFeed";
 
 LocaleConfig.locales["kr"] = {
   monthNames: [
@@ -48,7 +48,7 @@ LocaleConfig.locales["kr"] = {
 };
 LocaleConfig.defaultLocale = "kr";
 
-export default function CalendarView() {
+export default function CalendarView({ navigation }) {
   const [selectedDate, setSelectedDate] = useState(
     format(new Date(), "yyyy-MM-dd")
   );
@@ -77,16 +77,17 @@ export default function CalendarView() {
           calendarBackground: "#EFF1F0",
         }}
         onDayPress={(day) => {
+          navigation.navigate("WriteFeed");
           setSelectedDate(day.dateString);
-          setModalVisible(true);
+          // setModalVisible(true);
         }}
         enableSwipeMonths={true}
       />
-      <DailyModal
+      {/* <WriteFeed
         openDayModal={modalVisible}
         closeDayModal={closeDayModal}
         selectedDate={selectedDate}
-      />
+      /> */}
     </View>
   );
 }
