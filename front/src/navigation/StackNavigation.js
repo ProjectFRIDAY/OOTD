@@ -8,6 +8,7 @@ import ClosetDetail from "../closet/CLosetDetail";
 import ClosetView from "../closet/ClosetView";
 import AddCloth from "../closet/AddCloth";
 import Splash from "../Splash";
+import WriteFeed from "../feed/WriteFeed";
 
 const Stack = createNativeStackNavigator();
 
