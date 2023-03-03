@@ -7,13 +7,18 @@ import TabMiddleBtn from "./TabMiddleBtn";
 import ClosetDetail from "../closet/CLosetDetail";
 import ClosetView from "../closet/ClosetView";
 import AddCloth from "../closet/AddCloth";
-import WriteFeed from "../feed/WriteFeed";
+import Splash from "../Splash";
 
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigation() {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Splash">
+      <Stack.Screen
+        name="Splash"
+        component={Splash}
+        options={{ headerShown: false }}
+      ></Stack.Screen>
       <Stack.Screen
         name="Login"
         component={LoginPage}

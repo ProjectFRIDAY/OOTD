@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import ForgotPassword from "../button/loginpage/ForgotPasswordBtn";
 import Btn from "../button/Btn";
-import SnsLoginView from "./SnsLoginView";
 import LoginInputView from "./LoginInputView";
 import JoinMembership from "../button/loginpage/JoinMembershipBtn";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
 
 export default function LoginPage({ navigation }) {
   const [changeIdText, setChangeIdText] = useState("");
@@ -17,19 +15,6 @@ export default function LoginPage({ navigation }) {
   const handlePasswordChange = (text) => {
     setChangePasswordText(text);
   };
-  useEffect(() => {
-    setTimeout(() => {
-      AsyncStorage.getItem("auth").then((value) => {
-        console.log(value);
-        if (value != null) {
-          navigation.replace("MainPage");
-        } else {
-          // navigation.replace("Login");
-          console.log(value);
-        }
-      });
-    }, 3000);
-  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.loginPageTopBackground} />
