@@ -12,7 +12,7 @@ export default function MainPage({ navigation }) {
         paddingBottom: 90,
       }}
     >
-      <CalendarView />
+      <CalendarView navigation={navigation} />
       <Ranking navigation={navigation} />
     </ScrollView>
   );

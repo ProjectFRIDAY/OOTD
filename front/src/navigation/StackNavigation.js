@@ -7,6 +7,7 @@ import TabMiddleBtn from "./TabMiddleBtn";
 import ClosetDetail from "../closet/CLosetDetail";
 import ClosetView from "../closet/ClosetView";
 import AddCloth from "../closet/AddCloth";
+import WriteFeed from "../feed/WriteFeed";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,17 @@ export default function StackNavigation() {
             fontSize: 20,
           },
           headerBackTitle: "",
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="WriteFeed"
+        component={WriteFeed}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerBackVisible: false,
         }}
       ></Stack.Screen>
     </Stack.Navigator>
