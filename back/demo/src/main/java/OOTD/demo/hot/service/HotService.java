@@ -39,4 +39,33 @@ public class HotService {
         }
         return new ArrayList<>(hotMap.values());
     }
+
+    /**
+     * Hot table에 데이터를 추가하는 메서드입니다.
+     */
+
+    // ex) 1번 게시글에 1번 유저가 좋아요를 누르면
+    // Hot table에 1번 게시글에 1번 유저가 좋아요를 눌렀다는 정보를 저장합니다.
+    // 이때, weight는 1입니다.
+    public void saveData(Hot hot) {
+        long count = hotRepository.count();
+        if (hot.getWeight() == 5) {
+            Optional<Hot> existingHot = hotRepository.findByPostIdAndUserId(hot.getPostId(), hot.getUserId());
+            if (existingHot.isPresent()) {
+                throw new RuntimeException("Hot already exists for postId=" + hot.getPostId() + " and userId=" + hot.getUserId());
+            }
+        }
+
+        if (count < 300) {
+            // Add new record with auto-generated id
+            hotRepository.save(hot);
+        } else {
+            // Update existing record with smallest id value
+            Hot hotRecord = hotRepository.findFirstByOrderByIdAsc();
+            hotRecord.setPostId(hot.getPostId());
+            hotRecord.setWeight(hot.getWeight());
+            hotRecord.setUserId(hot.getUserId());
+            hotRepository.save(hotRecord);
+        }
+    }
 }
