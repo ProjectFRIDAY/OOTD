@@ -73,6 +73,17 @@ export default function StackNavigation() {
           headerBackTitle: "",
         }}
       ></Stack.Screen>
+      <Stack.Screen
+        name="WriteFeed"
+        component={WriteFeed}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerBackVisible: false,
+        }}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 }
