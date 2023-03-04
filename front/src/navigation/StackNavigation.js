@@ -9,6 +9,7 @@ import ClosetView from "../closet/ClosetView";
 import AddCloth from "../closet/AddCloth";
 import Splash from "../Splash";
 import WriteFeed from "../feed/WriteFeed";
+import ForgotPasswordView from "../loginpage/ForgotPasswordView";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,16 @@ export default function StackNavigation() {
       <Stack.Screen
         name="JoinMembershipView"
         component={JoinMembershipView}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="ForgotPasswordView"
+        component={ForgotPasswordView}
         options={{
           headerStyle: {
             backgroundColor: "#3B5448",
