@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   ScrollView,
@@ -10,7 +10,9 @@ import {
   TextInput,
 } from "react-native";
 import RangePicker from "./RangePicker";
-import * as ImagePicker from "expo-image-picker";
+import UploadImageBtn from "../joinMembership/UploadImageBtn";
+import CircleImageSelect from "../CircleImageSelect";
+import { writeFeed } from "../api/api";
 
 export default function WriteFeed({
   openDayModal,
@@ -18,28 +20,18 @@ export default function WriteFeed({
   selectedDate,
   navigation,
 }) {
-  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [title, setTitle] = useState("");
+
+  const [subtitle, setSubTitle] = useState("");
+
+  const [body, setBody] = useState("");
+
   const [imageUrl, setImageUrl] = useState("");
 
-  const uploadImage = async () => {
-    if (!status?.granted) {
-      const permission = await requestPermission();
-      if (!permission.granted) {
-        return null;
-      }
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-      aspect: [1, 1],
-    });
-    if (result.canceled) {
-      return null;
-    }
-    // console.log(result.assets[0].uri);
-    setImageUrl(result.assets[0].uri);
+  const handleImageUrl = (imageUrl) => {
+    setImageUrl(imageUrl);
   };
+
   return (
     <ScrollView style={styles.scrollView}>
       <View style={{ alignItems: "flex-end" }}>
@@ -47,20 +39,7 @@ export default function WriteFeed({
           <RangePicker />
         </View>
       </View>
-      <View style={{ alignItems: "center" }}>
-        <View style={styles.imageBox}>
-          {imageUrl ? (
-            <Image source={{ uri: imageUrl }} style={styles.imageBox} />
-          ) : (
-            <View
-              style={[styles.imageBox, { backgroundColor: "white" }]}
-            ></View>
-          )}
-        </View>
-        <TouchableOpacity style={styles.uploadImage} onPress={uploadImage}>
-          <Image source={require("../../assets/images/circlecamera.png")} />
-        </TouchableOpacity>
-      </View>
+      <CircleImageSelect handleImageUrl={handleImageUrl} imageUrl={imageUrl} />
       <View style={styles.clickView}>
         <TouchableOpacity>
           <Image
@@ -84,6 +63,9 @@ export default function WriteFeed({
           <TextInput
             placeholder="제목을 입력해주세요."
             placeholderTextColor={"#AFC2BA"}
+            onChangeText={(text) => {
+              setTitle(text);
+            }}
             style={styles.titleText}
           />
           <Image
@@ -93,6 +75,9 @@ export default function WriteFeed({
           <TextInput
             placeholder="ex) 상의 : 2WAY 베이직 아노락 후드"
             placeholderTextColor={"#AFC2BA"}
+            onChangeText={(text) => {
+              setSubTitle(text);
+            }}
             style={styles.subTitleText}
           />
           <Image
@@ -102,6 +87,9 @@ export default function WriteFeed({
           <TextInput
             placeholder="내용을 입력해주세요."
             placeholderTextColor={"#AFC2BA"}
+            onChangeText={(text) => {
+              setBody(text);
+            }}
             style={styles.bodyText}
             multiline={true}
           />
@@ -122,7 +110,7 @@ export default function WriteFeed({
         <TouchableOpacity
           style={styles.completeBtn}
           onPress={() => {
-            navigation.goBack();
+            writeFeed(title, body, "ALL", imageUrl, navigation);
           }}
         >
           <Text style={{ textAlign: "center", color: "#EFF1F0" }}>완료</Text>
@@ -138,17 +126,6 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 12,
     paddingTop: 28,
-  },
-  imageBox: {
-    width: 173,
-    height: 173,
-    borderRadius: 100,
-    backgroundColor: "white",
-  },
-  uploadImage: {
-    position: "absolute",
-    top: 125,
-    right: 125,
   },
   clickView: {
     flexDirection: "row",
@@ -191,5 +168,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 17,
     marginRight: 16,
+    marginBottom: 50,
   },
 });

@@ -9,7 +9,6 @@ export default function MainPage({ navigation }) {
         width: "100%",
         height: "100%",
         backgroundColor: "#EFF1F0",
-        paddingBottom: 90,
       }}
     >
       <CalendarView navigation={navigation} />

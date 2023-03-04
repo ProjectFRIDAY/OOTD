@@ -5,7 +5,7 @@ import Pagination from "./Pagination";
 
 const rankingData = [
   {
-    // key: "1",
+    key: "1",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 2,
@@ -14,7 +14,7 @@ const rankingData = [
     numberOfWear: 5,
   },
   {
-    // key: "1",
+    key: "2",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 2,
@@ -23,7 +23,7 @@ const rankingData = [
     numberOfWear: 5,
   },
   {
-    // key: "1",
+    key: "3",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 2,
@@ -32,7 +32,7 @@ const rankingData = [
     numberOfWear: 5,
   },
   {
-    // key: "1",
+    key: "4",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 2,
@@ -41,7 +41,7 @@ const rankingData = [
     numberOfWear: 5,
   },
   {
-    // key: "1",
+    key: "5",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 2,
@@ -50,7 +50,7 @@ const rankingData = [
     numberOfWear: 5,
   },
   {
-    // key: "2",
+    key: "6",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -59,7 +59,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "7",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -68,7 +68,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "8",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -77,7 +77,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "9",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -86,7 +86,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "10",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -95,7 +95,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "11",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -104,7 +104,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "12",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -113,7 +113,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "13",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -122,7 +122,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "14",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -131,7 +131,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "15",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -140,7 +140,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "16",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -149,7 +149,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "17",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -158,7 +158,7 @@ const rankingData = [
     numberOfWear: 4,
   },
   {
-    // key: "2",
+    key: "18",
     hashTag: ["2WAY", "긴팔", "기모"],
     type: "상의",
     day: 3,
@@ -231,7 +231,7 @@ export default function Ranking({ navigation }) {
   };
 
   return (
-    <View style={{ margin: 20, marginTop: 0, height: "50%" }}>
+    <View style={{ margin: 20, marginTop: 0, height: 310, marginBottom: 90 }}>
       <View style={{ marginTop: 15, marginBottom: 10, zIndex: 1, width: 100 }}>
         <CategoryPicker />
       </View>
