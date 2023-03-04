@@ -31,7 +31,7 @@ public class SearchService {
     public List<SearchDTO> SearchDiaryByTitle(String title, int page) {
         Page<SearchDTO> searchDiaryList;
         if (searchRepository.existsDiaryByTitle(title)) {
-            PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("updateDate").descending());
+            PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("updateDate").descending());
             searchDiaryList = searchRepository.findByTitle(title, pageRequest);
         } else {
             throw new RuntimeException("No matching entries found");
