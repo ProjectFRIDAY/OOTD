@@ -1,7 +1,6 @@
 package OOTD.demo.search.service;
 
 import OOTD.demo.diary.Diary;
-import OOTD.demo.diary.dto.DiaryDTO;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.search.dto.SearchDTO;
 import OOTD.demo.search.repository.SearchRepository;
