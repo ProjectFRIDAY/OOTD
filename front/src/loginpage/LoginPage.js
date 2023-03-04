@@ -35,7 +35,7 @@ export default function LoginPage({ navigation }) {
           changePasswordText={changePasswordText}
         />
         <JoinMembership navigation={navigation} />
-        <ForgotPassword />
+        <ForgotPassword navigation={navigation} />
       </View>
       {/* <SnsLoginView /> */}
       <Text style={styles.copyrightText}>
