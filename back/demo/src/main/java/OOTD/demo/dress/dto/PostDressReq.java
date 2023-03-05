@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Dress 생성 관련 DTO 클래스입니다.
@@ -25,5 +26,5 @@ public class PostDressReq {
     @NotNull(message = "옷 종류를 입력해주세요!")
     private DressType dressType;
 
-    private String hashTag;
+    private List<String> hashTag;
 }
