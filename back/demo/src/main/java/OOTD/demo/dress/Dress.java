@@ -33,14 +33,10 @@ public class Dress {
     @Column(name = "dress_img_url", columnDefinition = "TEXT")
     private String dressImageUrl;
 
-    @Column(name = "dress_hashtag", columnDefinition = "TEXT")
-    private String hashTag;
-
-    private Dress(User user, String dressName, DressType dressType, String hashTag, String dressImageUrl) {
+    private Dress(User user, String dressName, DressType dressType, String dressImageUrl) {
         this.user = user;
         this.dressName = dressName;
         this.dressType = dressType;
-        this.hashTag = hashTag;
         this.dressImageUrl = dressImageUrl;
     }
     protected Dress() { }
@@ -49,11 +45,10 @@ public class Dress {
      * Dress 엔티티 생성 메서드입니다.
      * @param user 옷 생성 사용자
      * @param dressImageUrl 옷 대표 이미지 URL
-     * @param hashTag 해시태그
      * @return 생성된 Dress 엔티티
      */
-    public static Dress createDress(User user, String dressName, DressType dressType, String hashTag, String dressImageUrl) {
-        return new Dress(user, dressName, dressType, hashTag, dressImageUrl);
+    public static Dress createDress(User user, String dressName, DressType dressType, String dressImageUrl) {
+        return new Dress(user, dressName, dressType, dressImageUrl);
     }
 
 }
