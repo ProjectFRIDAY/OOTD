@@ -1,38 +1,38 @@
-package OOTD.demo.hot;
+package OOTD.demo.comment;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
 @Builder
-public class Hot {
+public class Comment {
     @Id
     @GeneratedValue
     @Column()
     private Long id;
-
     @Column(name = "post_id", nullable = false)
     private Long postId;
-    @Column(name = "weight", nullable = false)
-    private int weight;
+    @Column(name = "Content", nullable = false)
+    private String content;
     @Column(name = "user_id", nullable = false)
     private Long userId;
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+    @Column(name = "isDeleted", nullable = false)
+    private boolean isDeleted;
 
-    public Hot() {
+    public Comment() {
     }
     @Builder
-    public Hot(Long id, Long postId, int weight, Long userId){
+    public Comment(Long id, Long postId, String content, Long userId){
         this.id = id;
         this.postId = postId;
-        this.weight = weight;
+        this.content = content;
         this.userId = userId;
     }
 }
