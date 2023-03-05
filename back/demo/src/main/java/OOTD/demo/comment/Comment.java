@@ -29,10 +29,12 @@ public class Comment {
     public Comment() {
     }
     @Builder
-    public Comment(Long id, Long postId, String content, Long userId){
+    public Comment(Long id, Long postId, String content, Long userId, LocalDateTime createdDate, boolean isDeleted){
         this.id = id;
         this.postId = postId;
         this.content = content;
         this.userId = userId;
+        this.createdDate = createdDate;
+        this.isDeleted = isDeleted;
     }
 }
