@@ -51,4 +51,16 @@ public class Dress {
         return new Dress(user, dressName, dressType, dressImageUrl);
     }
 
+    /**
+     * Dress 엔티티 수정 메서드입니다.
+     * @param dressName 옷 이름
+     * @param dressType 옷 종류
+     * @param dressImageUrl 옷 대표 이미지 URL
+     */
+    public void updateDress(String dressName, DressType dressType, String dressImageUrl) {
+        this.dressName = dressName;
+        this.dressType = dressType;
+        this.dressImageUrl = dressImageUrl;
+    }
+
 }
