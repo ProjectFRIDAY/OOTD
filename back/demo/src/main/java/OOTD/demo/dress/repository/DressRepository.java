@@ -1,7 +1,10 @@
 package OOTD.demo.dress.repository;
 
 import OOTD.demo.dress.Dress;
+import OOTD.demo.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * JPA Dress repository 입니다.
@@ -10,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author CHO Min Ho
  */
 public interface DressRepository extends JpaRepository<Dress, Long> {
-
+    List<Dress> findDressByUser(User user);
 }
