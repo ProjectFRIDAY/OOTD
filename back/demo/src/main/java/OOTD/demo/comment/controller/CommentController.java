@@ -20,7 +20,7 @@ public class CommentController {
     @Operation(summary = "댓글 작성")
     public ResponseEntity<?> createComment(@RequestBody CommentRequestDTO request) {
         try {
-            return httpResponseUtil.createOKHttpResponse(commentService.createComment(request), "댓글 작성 성공");
+            return httpResponseUtil.createOkHttpResponse(commentService.createComment(request), "댓글 작성 성공");
         } catch (Exception e) {
             return httpResponseUtil.createErrorResponse(request,"댓글 작성 실패: " + e.getMessage(), NOT_ACCEPTABLE);
         }

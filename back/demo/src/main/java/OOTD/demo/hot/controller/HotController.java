@@ -26,6 +26,6 @@ public class HotController {
             tags = { "Hot Controller" })
     @GetMapping("/api/hot")
     public ResponseEntity<?> HotDiary() {
-        return httpResponseUtil.createOKHttpResponse(hotService.getHotList(), "Hot Diary API입니다.");
+        return httpResponseUtil.createOkHttpResponse(hotService.getHotList(), "Hot Diary API입니다.");
     }
 }

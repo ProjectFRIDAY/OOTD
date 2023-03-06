@@ -1,8 +1,8 @@
-package OOTD.demo.diary_like.controller;
+package OOTD.demo.diarylike.controller;
 
-import OOTD.demo.diary_like.dto.PostDiaryLikeReq;
-import OOTD.demo.diary_like.dto.PostDiaryLikeRes;
-import OOTD.demo.diary_like.service.DiaryLikeService;
+import OOTD.demo.diarylike.dto.PostDiaryLikeReq;
+import OOTD.demo.diarylike.dto.PostDiaryLikeRes;
+import OOTD.demo.diarylike.service.DiaryLikeService;
 import OOTD.demo.common.HttpResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

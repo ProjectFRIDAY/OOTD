@@ -1,4 +1,4 @@
-package OOTD.demo.diary_image;
+package OOTD.demo.diaryimage;
 
 import OOTD.demo.diary.Diary;
 import lombok.Getter;

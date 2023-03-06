@@ -2,7 +2,7 @@ package OOTD.demo.test;
 
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
-import OOTD.demo.diary_image.repository.DiaryImageRepository;
+import OOTD.demo.diaryimage.repository.DiaryImageRepository;
 import OOTD.demo.dress.Dress;
 import OOTD.demo.dress.repository.DressHashTagRepository;
 import OOTD.demo.dress.repository.DressRepository;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 import static OOTD.demo.diary.Diary.createPost;
 import static OOTD.demo.diary.PublicScope.ALL;
-import static OOTD.demo.diary_image.DiaryImage.createDiaryImage;
+import static OOTD.demo.diaryimage.DiaryImage.createDiaryImage;
 import static OOTD.demo.dress.Dress.createDress;
 import static OOTD.demo.dress.DressHashTag.createDressHashTag;
 import static OOTD.demo.dress.DressType.TOP;

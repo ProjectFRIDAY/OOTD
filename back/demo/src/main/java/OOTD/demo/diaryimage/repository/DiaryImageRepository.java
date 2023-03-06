@@ -1,7 +1,7 @@
-package OOTD.demo.diary_image.repository;
+package OOTD.demo.diaryimage.repository;
 
 import OOTD.demo.diary.Diary;
-import OOTD.demo.diary_image.DiaryImage;
+import OOTD.demo.diaryimage.DiaryImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

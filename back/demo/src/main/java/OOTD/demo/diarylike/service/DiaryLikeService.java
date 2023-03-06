@@ -1,12 +1,12 @@
-package OOTD.demo.diary_like.service;
+package OOTD.demo.diarylike.service;
 
 import OOTD.demo.auth.service.AuthService;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
-import OOTD.demo.diary_like.DiaryLike;
-import OOTD.demo.diary_like.dto.PostDiaryLikeReq;
-import OOTD.demo.diary_like.dto.PostDiaryLikeRes;
-import OOTD.demo.diary_like.repository.DiaryLikeRepository;
+import OOTD.demo.diarylike.DiaryLike;
+import OOTD.demo.diarylike.dto.PostDiaryLikeReq;
+import OOTD.demo.diarylike.dto.PostDiaryLikeRes;
+import OOTD.demo.diarylike.repository.DiaryLikeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

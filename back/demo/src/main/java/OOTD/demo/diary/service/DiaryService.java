@@ -7,8 +7,8 @@ import OOTD.demo.diary.dto.PostDiaryReq;
 import OOTD.demo.diary.dto.PostDiaryRes;
 import OOTD.demo.diary.dto.UpdateDiaryReq;
 import OOTD.demo.diary.repository.DiaryRepository;
-import OOTD.demo.diary_image.DiaryImage;
-import OOTD.demo.diary_image.repository.DiaryImageRepository;
+import OOTD.demo.diaryimage.DiaryImage;
+import OOTD.demo.diaryimage.repository.DiaryImageRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.file.dto.FileDto;
 import OOTD.demo.user.User;
@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static OOTD.demo.diary_image.DiaryImage.createDiaryImage;
+import static OOTD.demo.diaryimage.DiaryImage.createDiaryImage;
 
 /**
  * Diary 엔티티 관련 서비스 클래스입니다.

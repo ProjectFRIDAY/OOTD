@@ -1,4 +1,4 @@
-package OOTD.demo.diary_like;
+package OOTD.demo.diarylike;
 
 import OOTD.demo.diary.Diary;
 import OOTD.demo.user.User;

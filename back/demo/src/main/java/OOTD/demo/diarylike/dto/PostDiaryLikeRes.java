@@ -1,4 +1,4 @@
-package OOTD.demo.diary_like.dto;
+package OOTD.demo.diarylike.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
