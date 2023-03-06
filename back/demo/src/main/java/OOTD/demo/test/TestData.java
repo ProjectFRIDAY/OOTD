@@ -3,7 +3,11 @@ package OOTD.demo.test;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.diary_image.repository.DiaryImageRepository;
+import OOTD.demo.dress.Dress;
+import OOTD.demo.dress.repository.DressHashTagRepository;
 import OOTD.demo.dress.repository.DressRepository;
+import OOTD.demo.hashtag.HashTag;
+import OOTD.demo.hashtag.repository.HashTagRepository;
 import OOTD.demo.user.User;
 import OOTD.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +21,10 @@ import static OOTD.demo.diary.Diary.createPost;
 import static OOTD.demo.diary.PublicScope.ALL;
 import static OOTD.demo.diary_image.DiaryImage.createDiaryImage;
 import static OOTD.demo.dress.Dress.createDress;
-import static OOTD.demo.dress.DressType.INNER;
+import static OOTD.demo.dress.DressHashTag.createDressHashTag;
+import static OOTD.demo.dress.DressType.TOP;
 import static OOTD.demo.dress.DressType.OUTER;
+import static OOTD.demo.hashtag.HashTag.createHashTag;
 import static OOTD.demo.user.User.createUser;
 
 /**
@@ -45,6 +51,8 @@ public class TestData {
         private final DiaryRepository diaryRepository;
         private final DiaryImageRepository diaryImageRepository;
         private final DressRepository dressRepository;
+        private final HashTagRepository hashTagRepository;
+        private final DressHashTagRepository dressHashTagRepository;
 
         @Transactional
         public void init() {
@@ -112,20 +120,38 @@ public class TestData {
 
 
             // 4. Dress Test Data 삽입
-            dressRepository.save(createDress(user1, "아우터1", OUTER,
+            Dress dress1 = dressRepository.save(createDress(user1, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user2, "아우터1", OUTER,
+            Dress dress2 = dressRepository.save(createDress(user2, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user3, "아우터1", OUTER,
+            Dress dress3 = dressRepository.save(createDress(user3, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user4, "아우터1", OUTER,
+            Dress dress4 = dressRepository.save(createDress(user4, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user5, "아우터1", OUTER,
+            Dress dress5 = dressRepository.save(createDress(user5, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user1, "이너1", INNER,
+            Dress dress6 = dressRepository.save(createDress(user1, "이너1", TOP,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
-            dressRepository.save(createDress(user1, "아우터3", OUTER,
+            Dress dress7 = dressRepository.save(createDress(user1, "아우터3", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
+
+            // 5. Hash Tag 삽입
+            HashTag tag1 = hashTagRepository.save(createHashTag("OUTER"));
+            HashTag tag2 = hashTagRepository.save(createHashTag("INNER"));
+            HashTag tag3 = hashTagRepository.save(createHashTag("CARDIGAN"));
+            HashTag tag4 = hashTagRepository.save(createHashTag("JACKET"));
+            HashTag tag5 = hashTagRepository.save(createHashTag("SKIRT"));
+            HashTag tag6 = hashTagRepository.save(createHashTag("PANTS"));
+
+            // 6. Dress Hash Tag 삽입
+            dressHashTagRepository.save(createDressHashTag(dress1, tag1));
+            dressHashTagRepository.save(createDressHashTag(dress1, tag2));
+            dressHashTagRepository.save(createDressHashTag(dress2, tag1));
+            dressHashTagRepository.save(createDressHashTag(dress2, tag2));
+            dressHashTagRepository.save(createDressHashTag(dress2, tag3));
+            dressHashTagRepository.save(createDressHashTag(dress3, tag1));
+            dressHashTagRepository.save(createDressHashTag(dress4, tag1));
+            dressHashTagRepository.save(createDressHashTag(dress5, tag1));
 
         }
     }

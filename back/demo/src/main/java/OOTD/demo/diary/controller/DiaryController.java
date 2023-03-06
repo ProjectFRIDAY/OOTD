@@ -55,7 +55,7 @@ public class DiaryController {
             @Parameter(name = "dto", description = "게시글 생성 관련 DTO") @RequestPart @Valid PostDiaryReq dto,
             @Parameter(name = "files", description = "게시글 사진들") @RequestPart List<MultipartFile> files) {
 
-        return httpResponseUtil.createOKHttpResponse(diaryService.createPost(dto, files),
+        return httpResponseUtil.createOkHttpResponse(diaryService.createPost(dto, files),
                 "게시글 생성에 성공했습니다.");
     }
 
@@ -71,7 +71,7 @@ public class DiaryController {
 
         // TODO : 공개 여부에 따라 퍼미션 거부 로직 필요
 
-        return httpResponseUtil.createOKHttpResponse(diaryService.findDiaryById(id), "게시글 조회에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(diaryService.findDiaryById(id), "게시글 조회에 성공했습니다.");
     }
 
     /**
@@ -84,7 +84,7 @@ public class DiaryController {
     @PostMapping("/api/diary/update")
     public ResponseEntity<?> updateDiary(@RequestPart UpdateDiaryReq dto, @RequestPart List<MultipartFile> files) {
 
-        return httpResponseUtil.createOKHttpResponse(diaryService.updatePost(dto, files), "게시글 수정에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(diaryService.updatePost(dto, files), "게시글 수정에 성공했습니다.");
     }
 
     /**
@@ -100,7 +100,7 @@ public class DiaryController {
         diaryService.deleteDiary(id);
 
         // TODO : 반환할 값이 없는 경우 반환할 양식 규정 필요
-        return httpResponseUtil.createOKHttpResponse(null, "게시글 삭제에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(null, "게시글 삭제에 성공했습니다.");
     }
 
 

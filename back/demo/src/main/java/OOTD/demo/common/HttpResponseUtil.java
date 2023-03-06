@@ -21,7 +21,7 @@ public class HttpResponseUtil {
      * @param responseMessage 응답 메시지
      * @return 반환할 ResponseEntity 객체
      */
-    public ResponseEntity<?> createOKHttpResponse(Object object, String responseMessage) {
+    public ResponseEntity<?> createOkHttpResponse(Object object, String responseMessage) {
         Message message = new Message();
         message.setStatus(Message.StatusEnum.OK);
         message.setMessage(responseMessage);

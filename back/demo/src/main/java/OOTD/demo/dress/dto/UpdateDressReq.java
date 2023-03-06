@@ -7,19 +7,27 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * Dress 생성 관련 DTO 클래스입니다.
+ * Dress 엔티티를 수정할 때 사용되는 Request 객체입니다.
  *
  * @author CHO Min Ho
- * @version 1.0.0
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDressReqDTO {
+public class UpdateDressReq {
+
+    @NotNull(message = "Dress id를 입력해주세요!")
+    private Long id;
+
     @NotBlank(message = "옷 이름을 입력해주세요!")
     private String dressName;
+
     @NotNull(message = "옷 종류를 입력해주세요!")
     private DressType dressType;
+
+    private List<String> hashTag;
+
 }
