@@ -78,11 +78,19 @@ public class FileUploadUtil {
     }
 
     /**
-     * S3 bucket에서 특정 파일을 삭제합니다.
+     * S3 bucket에서 특정 파일을 이름을 기준으로 삭제합니다.
      * @param fileName 삭제할 파일 이름
      */
-    public void deleteFile(String fileName) {
+    public void deleteFileByName(String fileName) {
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+    }
+
+    /**
+     * S3 bucket에서 특정 파일을 URL을 기준으로 삭제합니다.
+     * @param url 삭제할 파일 URL
+     */
+    public void deleteFileByUrl(String url) {
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, getFileNameFromUrl(url)));
     }
 
     /**
@@ -108,5 +116,15 @@ public class FileUploadUtil {
         String now = String.valueOf(System.currentTimeMillis());
 
         return category + CATEGORY_PREFIX + fileName + TIME_SEPARATOR + now + fileExtension;
+    }
+
+    /**
+     * 객체 접근 URL 로부터 파일 이름을 반환합니다.
+     * @param url 파일 접근 URL
+     * @return 파일 이름
+     */
+    private String getFileNameFromUrl(String url) {
+        String baseUrl = "https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com";
+        return url.substring(baseUrl.length());
     }
 }

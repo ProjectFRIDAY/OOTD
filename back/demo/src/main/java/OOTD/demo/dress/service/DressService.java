@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * Dress 관련 서비스 클래스입니다.
@@ -67,20 +67,16 @@ public class DressService {
      */
     public Long updateDress(UpdateDressReq req, MultipartFile file) {
 
-        Optional<Dress> findDress = dressRepository.findById(req.getId());
+        Dress findDress = getDress(req.getId());
 
-        if (findDress.isEmpty()) {
-            // TODO : 공통 예외처리 로직
-        }
+        fileUploadUtil.deleteFileByUrl(findDress.getDressImageUrl());
 
-        fileUploadUtil.deleteFile(findDress.get().getDressImageUrl());
-
-        findDress.get().updateDress(
+        findDress.updateDress(
                 req.getDressName(),
                 req.getDressType(),
                 fileUploadUtil.uploadFile(category, file).getUrl());
 
-        return findDress.get().getId();
+        return findDress.getId();
 
     }
 
@@ -100,6 +96,43 @@ public class DressService {
 
         return result;
 
+    }
+
+    /**
+     * 단일 Dress 엔티티를 조회하는 메서드입니다.
+     * @param id 해당 Dress 엔티티의 id
+     * @return 해당 Dress 엔티티
+     */
+    public DressRes getSingleDress(Long id) {
+
+        return toResponse(getDress(id));
+
+    }
+
+    /**
+     * 단일 Dress 엔티티를 삭제하는 메서드입니다.
+     * @param id 해당 Dress 엔티티의 id
+     */
+    public void deleteSingleDress(Long id) {
+
+        Dress findDress = getDress(id);
+
+        fileUploadUtil.deleteFileByUrl(findDress.getDressImageUrl());
+        dressHashTagRepository.deleteAllByDress(findDress);
+        fileUploadUtil.deleteFileByName(findDress.getDressImageUrl());
+        dressRepository.deleteById(id);
+
+    }
+
+    private Dress getDress(Long id) {
+
+        Dress findDress = dressRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+
+        if (!Objects.equals(findDress.getUser().getId(), authService.getCurrentLoginUser().getId())) {
+            throw new IllegalArgumentException("해당 사용자의 dress가 아닙니다!");
+        }
+
+        return findDress;
     }
 
     private DressRes toResponse(Dress dress) {

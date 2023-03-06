@@ -5,6 +5,7 @@ import OOTD.demo.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JPA Dress repository 입니다.
@@ -14,4 +15,5 @@ import java.util.List;
  */
 public interface DressRepository extends JpaRepository<Dress, Long> {
     List<Dress> findDressByUser(User user);
+    Optional<Dress> findById(Long id);
 }

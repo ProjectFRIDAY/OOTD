@@ -131,7 +131,7 @@ public class DiaryService {
      */
     private void deleteImages(Diary diary) {
         for (DiaryImage diaryImage : diaryImageRepository.findByDiary(diary)) {
-            fileUploadUtil.deleteFile(diaryImage.getImageUrl());
+            fileUploadUtil.deleteFileByName(diaryImage.getImageUrl());
         }
         diaryImageRepository.deleteAll(diaryImageRepository.findByDiary(diary));
     }

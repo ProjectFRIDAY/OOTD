@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface DressHashTagRepository extends JpaRepository<DressHashTag, Long> {
     List<DressHashTag> findByDress(Dress dress);
+    void deleteAllByDress(Dress dress);
+
 }

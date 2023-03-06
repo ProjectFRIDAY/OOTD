@@ -45,7 +45,7 @@ public class FileController {
             tags = { "Test Controller" })
     @PostMapping("/test/file/delete")
     public String deleteSingleFile(@RequestBody DeleteFileReq dto) {
-        fileUploadUtil.deleteFile(dto.getFileUrl());
+        fileUploadUtil.deleteFileByName(dto.getFileUrl());
         return "success";
     }
 }
