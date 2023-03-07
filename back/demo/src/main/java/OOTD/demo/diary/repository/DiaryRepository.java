@@ -11,7 +11,7 @@ import java.util.Optional;
  * @version 1.0.0
  * @author CHO Min Ho
  */
-public interface DiaryRepository extends JpaRepository<Diary, Long> {
+public interface DiaryRepository extends JpaRepository<Diary, Long>, DiaryQueryRepository {
     List<Diary> findByUser(User user);
     Optional<Diary> findById(Long id);
 }
