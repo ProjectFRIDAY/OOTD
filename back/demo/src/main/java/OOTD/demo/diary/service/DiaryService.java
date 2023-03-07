@@ -37,7 +37,6 @@ public class DiaryService {
     private final FileUploadUtil fileUploadUtil;
     private final DiaryImageRepository diaryImageRepository;
     private final AuthService authService;
-    private final DiaryQueryRepository diaryQueryRepository;
 
     /**
      * 게시글을 생성하는 메서드입니다.
@@ -113,10 +112,10 @@ public class DiaryService {
 
             // 팔로워의 게시글을 반환할 차례라면
             List<DiaryDto> findDiaries =
-                    diaryQueryRepository.findFollowersDiaryByUser(authService.getCurrentLoginUser(), lastId);
+                    diaryRepository.findFollowersDiaryByUser(authService.getCurrentLoginUser(), lastId);
 
             if (findDiaries.size() < ONCE_PAGING_NUMBER) {
-                findDiaries.addAll(diaryQueryRepository.findDiaryByDate(0,
+                findDiaries.addAll(diaryRepository.findDiaryByDate(0,
                         ONCE_PAGING_NUMBER - findDiaries.size()));
 
                 return new DiaryListRes(findDiaries, false);
@@ -126,7 +125,7 @@ public class DiaryService {
         }
 
         // 팔로워의 게시글을 모두 출력했고, 모든 게시글를 최근 날짜 순으로 반환할 차례라면
-        return new DiaryListRes(diaryQueryRepository.findDiaryByDate(lastId, ONCE_PAGING_NUMBER), false);
+        return new DiaryListRes(diaryRepository.findDiaryByDate(lastId, ONCE_PAGING_NUMBER), false);
     }
 
     /**
