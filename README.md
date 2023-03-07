@@ -1,18 +1,63 @@
-# OOTD
-오늘의 패션
+# OOTD Repository
 
-## 팀원
-* * *
+오늘의 패션을 기록하는 OOTD repository입니다.
+
+# 🔗 Link
+
+https://ootd-friday-api.shop (Base URI)
+
+https://ootd-friday-api.shop/test (Test URI)
+
+# 📜 주요 기능
+
+- 추후 설명 추가 예정
+
+1. 로그인 / 로그아웃
+2. 게시글 CRUD
+3. 게시글 댓글 CRUD
+4. 옷 CRUD
+5. 옷 통계 산출
+
+# 📌 실행 시 주의사항
+
+AWS t2.small 인스턴스 (RAM 용량 2GB)를 사용하였습니다.
+
+따라서 용량이 너무 큰 이미지를 업로드하면 에러가 발생할 수 있습니다!
+
+이는 인스턴스의 RAM 용량 이슈로, 이미지 업로드 시 에러가 발생할 경우 용량이 작은 사진을 업로드 해주세요!
+
+# 🛠️ 기술 스택
+
+![Tech Stack](https://user-images.githubusercontent.com/66549638/211744710-fa43e955-9a03-4b49-b8fc-8ce48680cf71.png)
+
+# ⛓️ 프로젝트 전체 구성도
+
+![서비스 흐름도](https://user-images.githubusercontent.com/66549638/211744722-3861061c-70f3-4485-8969-49775f734966.png)
+
+# 🗺️ ERD
+
+![ERD](https://user-images.githubusercontent.com/66549638/212034243-020098b9-fdda-42b0-b8aa-93501b19dffa.png)
+
+# 🧑‍💻 프로젝트를 진행하면서 겪은 과정들
+
+# 팀원 소개
+
 ### PM
-* 안지현
-* 최유안
-* 노연이
+
+- 최유안
+- 강해원
+
 ### Designer
-* 신예빈
+
+- 신예빈
+
 ### Front-end
-* 김선환
-* 홍준혁
-* 최지우
+
+- 김선환
+- 김동연
+- 이화준
+
 ### Back-end
-* 윤민상
-* 조민호
+
+- 조민호
+- 조태완
