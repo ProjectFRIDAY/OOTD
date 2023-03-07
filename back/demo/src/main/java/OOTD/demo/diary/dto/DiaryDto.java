@@ -1,5 +1,6 @@
 package OOTD.demo.diary.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
  * @author CHO Min HO
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class DiaryDto {
     private Long id;
@@ -21,4 +21,15 @@ public class DiaryDto {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private Long userId;
+
+    @QueryProjection
+    public DiaryDto(Long id, String title, String content, LocalDateTime createDate, LocalDateTime updateDate, Long userId) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.userId = userId;
+    }
+
 }
