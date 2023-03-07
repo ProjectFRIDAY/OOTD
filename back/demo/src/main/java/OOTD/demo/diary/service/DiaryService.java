@@ -2,10 +2,8 @@ package OOTD.demo.diary.service;
 
 import OOTD.demo.auth.service.AuthService;
 import OOTD.demo.diary.Diary;
-import OOTD.demo.diary.dto.DiaryDto;
-import OOTD.demo.diary.dto.PostDiaryReq;
-import OOTD.demo.diary.dto.PostDiaryRes;
-import OOTD.demo.diary.dto.UpdateDiaryReq;
+import OOTD.demo.diary.dto.*;
+import OOTD.demo.diary.repository.DiaryQueryRepository;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.diaryimage.DiaryImage;
 import OOTD.demo.diaryimage.repository.DiaryImageRepository;
@@ -33,10 +31,13 @@ import static OOTD.demo.diaryimage.DiaryImage.createDiaryImage;
 @Transactional
 public class DiaryService {
 
+    private final int ONCE_PAGING_NUMBER = 20;
+
     private final DiaryRepository diaryRepository;
     private final FileUploadUtil fileUploadUtil;
     private final DiaryImageRepository diaryImageRepository;
     private final AuthService authService;
+    private final DiaryQueryRepository diaryQueryRepository;
 
     /**
      * 게시글을 생성하는 메서드입니다.
@@ -98,6 +99,34 @@ public class DiaryService {
         deleteImages(diary.get());
 
         diaryRepository.delete(diary.get());
+    }
+
+    /**
+     * 사용자를 기준으로 게시글 리스트를 반환합니다. -> 최대 20개씩 반환합니다.
+     * @param isExistFollowerDiary 다음 넘겨줄 결과가 팔로워 게시글부터 시작해야 하는지 여부
+     * @param lastId 전번 결과의 마지막 게시글 id (해당 게시글 id의 다음 id 부터 페이징) -> 첫 번째 요청은 0으로 설정
+     * @return 페이징된 게시글 리스트
+     */
+    public DiaryListRes findDiaryList(boolean isExistFollowerDiary, int lastId) {
+
+        if (isExistFollowerDiary) {
+
+            // 팔로워의 게시글을 반환할 차례라면
+            List<DiaryDto> findDiaries =
+                    diaryQueryRepository.findFollowersDiaryByUser(authService.getCurrentLoginUser(), lastId);
+
+            if (findDiaries.size() < ONCE_PAGING_NUMBER) {
+                findDiaries.addAll(diaryQueryRepository.findDiaryByDate(0,
+                        ONCE_PAGING_NUMBER - findDiaries.size()));
+
+                return new DiaryListRes(findDiaries, false);
+            }
+
+            return new DiaryListRes(findDiaries, true);
+        }
+
+        // 팔로워의 게시글을 모두 출력했고, 모든 게시글를 최근 날짜 순으로 반환할 차례라면
+        return new DiaryListRes(diaryQueryRepository.findDiaryByDate(lastId, ONCE_PAGING_NUMBER), false);
     }
 
     /**
