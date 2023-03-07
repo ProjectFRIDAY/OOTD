@@ -28,6 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/diary")
 @Slf4j
 public class DiaryController {
 
@@ -50,7 +51,7 @@ public class DiaryController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR - 내부 서버 오류",
                     content = @Content)
     })
-    @PostMapping("/api/diary/create")
+    @PostMapping
     public ResponseEntity<?> createDiary(
             @Parameter(name = "dto", description = "게시글 생성 관련 DTO") @RequestPart @Valid PostDiaryReq dto,
             @Parameter(name = "files", description = "게시글 사진들") @RequestPart List<MultipartFile> files) {
@@ -60,14 +61,28 @@ public class DiaryController {
     }
 
     /**
+     * 게시글 리스트를 조회하는 컨트롤러 메서드입니다.
+     * @param isExistFollowerDiary 팔로워의 게시글을 조회할 것인지
+     * @param lastId 마지막으로 반환된 결과 중 가장 마지막 게시글의 id
+     * @return 페이징된 게시글 리스트
+     */
+    @GetMapping
+    public ResponseEntity<?> getDiaryList(@RequestParam boolean isExistFollowerDiary, @RequestParam int lastId) {
+
+        return httpResponseUtil.createOkHttpResponse(diaryService.findDiaryList(isExistFollowerDiary, lastId),
+                "게시글 리스트 조회에 성공했습니다.");
+
+    }
+
+    /**
      * 단일 게시글을 조회하는 컨트롤러 메서드입니다.
      * @param id 게시글 ID
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
     @Operation(summary = "게시글 조회 API", description = "게시글 조회 API입니다.",
             tags = { "Diary Controller" })
-    @GetMapping("/api/diary/{id}")
-    public ResponseEntity<?> findDiary(@PathVariable(name = "id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSingleDiary(@PathVariable(name = "id") Long id) {
 
         // TODO : 공개 여부에 따라 퍼미션 거부 로직 필요
 
@@ -81,7 +96,7 @@ public class DiaryController {
      */
     @Operation(summary = "게시글 수정 API", description = "게시글 수정 API입니다. (TODO : 현재 User가 NULL로 들어갑니다.)",
             tags = { "Diary Controller" })
-    @PostMapping("/api/diary/update")
+    @PutMapping
     public ResponseEntity<?> updateDiary(@RequestPart UpdateDiaryReq dto, @RequestPart List<MultipartFile> files) {
 
         return httpResponseUtil.createOkHttpResponse(diaryService.updatePost(dto, files), "게시글 수정에 성공했습니다.");
@@ -94,7 +109,7 @@ public class DiaryController {
      */
     @Operation(summary = "게시글 삭제 API", description = "게시글 삭제 API입니다.",
             tags = { "Diary Controller" })
-    @GetMapping("/api/diary/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDiary(@PathVariable(name = "id") Long id) {
 
         diaryService.deleteDiary(id);
