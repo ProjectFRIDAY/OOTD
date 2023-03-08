@@ -1,0 +1,36 @@
+spring:
+  # H2 Database
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/ootd
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+
+  # JPA
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+
+    hibernate:
+      ddl-auto: create
+  main:
+    allow-bean-definition-overriding: 'true'
+
+  # File Upload
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# Logging
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
