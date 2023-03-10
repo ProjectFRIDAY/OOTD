@@ -6,6 +6,7 @@ import OOTD.demo.comment.dto.CommentRes;
 import OOTD.demo.comment.dto.PostCommentReq;
 import OOTD.demo.comment.dto.UpdateCommentReq;
 import OOTD.demo.comment.repository.CommentRepository;
+import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,6 +81,16 @@ public class CommentService {
         }
 
         return result;
+    }
+
+    /**
+     * 특정 게시글의 댓글 수를 반환하는 메서드입니다.
+     * @param id 게시글 id
+     * @return 해당 게시글의 댓글 수
+     */
+    public int getCommentCount(Long id) {
+        return commentRepository.findAllByDiary(diaryRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new)).size();
     }
 
     /**
