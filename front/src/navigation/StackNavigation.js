@@ -36,7 +36,7 @@ export default function StackNavigation() {
           headerTitle: (props) => <LogoTitle {...props} />,
         }}
       ></Stack.Screen>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ForgotPasswordView"
         component={ForgotPasswordView}
         options={{
@@ -45,7 +45,7 @@ export default function StackNavigation() {
           },
           headerTitle: (props) => <LogoTitle {...props} />,
         }}
-      ></Stack.Screen>
+      ></Stack.Screen> */}
       <Stack.Screen
         name="MainPage"
         component={TabNavigation}
