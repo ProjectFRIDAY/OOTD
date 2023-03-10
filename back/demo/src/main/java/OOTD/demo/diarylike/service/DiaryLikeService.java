@@ -1,17 +1,14 @@
 package OOTD.demo.diarylike.service;
 
 import OOTD.demo.auth.service.AuthService;
-import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.diarylike.DiaryLike;
-import OOTD.demo.diarylike.dto.PostDiaryLikeReq;
 import OOTD.demo.diarylike.dto.PostDiaryLikeRes;
 import OOTD.demo.diarylike.repository.DiaryLikeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 /**
  * 게시글 좋아요 관련 서비스 클래스입니다.
@@ -30,35 +27,37 @@ public class DiaryLikeService {
 
     /**
      * 게시글 좋아요 엔티티를 생성하는 메서드입니다.
-     * @param dto diary의 ID를 담고 있는 DTO
+     * @param id diary 의 ID
      * @return 생성된 DiaryLIke 엔티티의 ID를 담고 있는 DTO
      */
-    public PostDiaryLikeRes createDiaryLike(PostDiaryLikeReq dto) {
-        Optional<Diary> diary = diaryRepository.findById(dto.getDiaryId());
+    public PostDiaryLikeRes createDiaryLike(Long id) {
 
-        if (diary.isEmpty()) {
-            // TODO : diary가 없을 시 예외 처리 로직 필요
-        }
-
-        DiaryLike diaryLike = diaryLikeRepository.save(DiaryLike.createDiaryLike(authService.getCurrentLoginUser(), diary.get()));
-        return new PostDiaryLikeRes(diaryLike.getId());
+        return new PostDiaryLikeRes(diaryLikeRepository.save(DiaryLike.createDiaryLike(authService.getCurrentLoginUser(),
+                diaryRepository.findById(id).orElseThrow(IllegalArgumentException::new))).getId());
     }
 
     /**
      * 게시글 좋아요 엔티티를 삭제하는 메서드입니다.
-     * @param diaryLikeId 삭제하려는 DiaryLIke 엔티티의 ID
+     * @param id 삭제하려는 DiaryLIke 엔티티의 ID
      */
-    public void deleteDiaryLike(Long diaryLikeId) {
-        Optional<DiaryLike> diaryLike = diaryLikeRepository.findById(diaryLikeId);
+    public void deleteDiaryLike(Long id) {
+        DiaryLike findDiaryLike = diaryLikeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 
-        if (diaryLike.isEmpty()) {
-            // TODO : 유효하지 않은 ID인 경우 예외 처리 로직 필요
-        }
-
-        if (diaryLike.get().getUser().getId() != authService.getCurrentLoginUser().getId()) {
+        if (findDiaryLike.getUser().getId() != authService.getCurrentLoginUser().getId()) {
             // TODO : 좋아요를 누른 사용자가 요청하는 경우가 아닌 경우 (퍼미션 거부) 예외 처리 로직 필요
         }
 
-        diaryLikeRepository.delete(diaryLike.get());
+        diaryLikeRepository.delete(findDiaryLike);
     }
+
+    /**
+     * 게시글 좋아요 개수를 반환하는 메서드입니다.
+     * @param id 게시글 id
+     * @return 해당 게시글의 좋아요 개수
+     */
+    public int getDiaryLikeCount(Long id) {
+        return diaryLikeRepository.findAllByDiary(diaryRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new)).size();
+    }
+
 }

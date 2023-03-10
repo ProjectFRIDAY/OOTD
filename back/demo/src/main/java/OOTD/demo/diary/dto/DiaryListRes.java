@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DiaryListRes {
 
-    List<DiaryDto> diaryList;
+    List<DiaryRes> diaryList;
     boolean isLastDiaryFollowers;
 
 }
