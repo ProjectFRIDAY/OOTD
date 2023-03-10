@@ -1,40 +1,62 @@
 package OOTD.demo.comment;
 
-import lombok.Builder;
+import OOTD.demo.common.BaseTimeEntity;
+import OOTD.demo.diary.Diary;
+import OOTD.demo.user.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
-@Builder
-public class Comment {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue
-    @Column()
+    @Column(name = "comment_id")
     private Long id;
-    @Column(name = "post_id", nullable = false)
-    private Long postId;
-    @Column(name = "Content", nullable = false)
-    private String content;
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-    @Column(name = "isDeleted", nullable = false)
-    private boolean isDeleted;
 
-    public Comment() {
-    }
-    @Builder
-    public Comment(Long id, Long postId, String content, Long userId, LocalDateTime createdDate, boolean isDeleted){
-        this.id = id;
-        this.postId = postId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diary_id", nullable = false)
+    private Diary diary;
+
+    @Column(name = "comment_content", columnDefinition = "TEXT", nullable = false)
+    private String content;
+
+    @OneToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
+    private Comment(User user, Diary diary, String content, Comment parentComment) {
+        this.user = user;
+        this.diary = diary;
         this.content = content;
-        this.userId = userId;
-        this.createdDate = createdDate;
-        this.isDeleted = isDeleted;
+        this.parentComment = parentComment;
+    }
+
+    /**
+     * Comment 엔티티를 만드는 메서드입니다.
+     * @param user 댓글 작성자 id
+     * @param diary 게시글 id
+     * @param content 댓글 내용
+     * @param comment 대댓글일 경우, 부모 댓글
+     * @return 생성된 Comment 엔티티
+     */
+    public static Comment createComment(User user, Diary diary, String content, Comment comment) {
+        return new Comment(user, diary, content, comment);
+    }
+
+    /**
+     * Comment 엔티티를 수정하는 메서드입니다.
+     * @param content 수정할 내용
+     */
+    public void updateComment(String content) {
+        this.content = content;
     }
 }
