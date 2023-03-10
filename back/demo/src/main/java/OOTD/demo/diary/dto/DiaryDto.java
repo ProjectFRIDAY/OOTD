@@ -1,7 +1,7 @@
 package OOTD.demo.diary.dto;
 
+import OOTD.demo.diary.Diary;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,18 +18,23 @@ public class DiaryDto {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createDate;
-    private LocalDateTime updateDate;
+    private LocalDateTime createTime;
+    private LocalDateTime lastModifiedTime;
     private Long userId;
 
     @QueryProjection
-    public DiaryDto(Long id, String title, String content, LocalDateTime createDate, LocalDateTime updateDate, Long userId) {
+    public DiaryDto(Long id, String title, String content, LocalDateTime createTime, LocalDateTime lastModifiedTime, Long userId) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
+        this.createTime = createTime;
+        this.lastModifiedTime = lastModifiedTime;
         this.userId = userId;
+    }
+
+    public static DiaryDto of(Diary diary) {
+        return new DiaryDto(diary.getId(), diary.getTitle(), diary.getContent(), diary.getCreateTime(),
+                diary.getLastModifiedTime(), diary.getUser().getId());
     }
 
 }

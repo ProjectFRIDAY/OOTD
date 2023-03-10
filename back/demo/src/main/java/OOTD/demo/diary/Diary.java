@@ -1,7 +1,6 @@
 package OOTD.demo.diary;
 
-import OOTD.demo.diary.dto.PostDiaryReq;
-import OOTD.demo.diary.dto.UpdateDiaryReq;
+import OOTD.demo.common.BaseTimeEntity;
 import OOTD.demo.user.User;
 import lombok.Getter;
 import javax.persistence.*;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "DIARY")
-public class Diary {
+public class Diary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -28,15 +27,6 @@ public class Diary {
 
     @Column(name = "diary_content", columnDefinition = "TEXT", nullable = false)
     private String content;
-
-    @Column(name = "diary_created_date", nullable = false)
-    private LocalDateTime createDate;
-
-    @Column(name = "diary_update_date", nullable = false)
-    private LocalDateTime updateDate;
-
-    @Column(name = "diary_is_updated")
-    private boolean isUpdated;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
@@ -51,9 +41,6 @@ public class Diary {
     private Diary(String title, String content, User user, PublicScope scope) {
         this.title = title;
         this.content = content;
-        this.createDate = LocalDateTime.now();
-        this.updateDate = LocalDateTime.now();
-        this.isUpdated = false;
         this.user = user;
         this.publicScope = scope;
     }
@@ -74,8 +61,6 @@ public class Diary {
     public void updateDiary(String title, String content, PublicScope scope) {
         this.title = title;
         this.content = content;
-        this.updateDate = LocalDateTime.now();
         this.publicScope = scope;
-        this.isUpdated = true;
     }
 }
