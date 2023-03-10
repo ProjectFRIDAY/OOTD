@@ -36,18 +36,6 @@ public class CommentController {
     }
 
     /**
-     * 특정 게시글의 댓글 리스트를 반환하는 메서드입니다.
-     * @param id 게시글의 id
-     * @return 해당 게시글의 댓글 리스트
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCommentList(@PathVariable Long id) {
-
-        return httpResponseUtil.createOkHttpResponse(commentService.getCommentList(id),
-                "댓글 목록 조회에 성공했습니다.");
-    }
-
-    /**
      * 댓글 1개를 수정하는 메서드입니다.
      * @param id 해당 댓글의 id
      * @param req 수정할 내용이 담긴 request 객체

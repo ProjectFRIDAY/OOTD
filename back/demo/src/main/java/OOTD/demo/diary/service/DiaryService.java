@@ -1,6 +1,7 @@
 package OOTD.demo.diary.service;
 
 import OOTD.demo.auth.service.AuthService;
+import OOTD.demo.comment.dto.CommentRes;
 import OOTD.demo.comment.repository.CommentRepository;
 import OOTD.demo.comment.service.CommentService;
 import OOTD.demo.diary.Diary;
@@ -138,15 +139,10 @@ public class DiaryService {
      * @param id 게시글 ID
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
-    public DiaryDto getDiaryById(Long id) {
-        Optional<Diary> diary = diaryRepository.findById(id);
+    public DiaryDto getSingleDiary(Long id) {
 
-        if (diary.isEmpty()) {
-            // TODO : 예외 처리 시 반환할 공통 메서드 필요
-        }
+        return DiaryDto.of(diaryRepository.findById(id).orElseThrow(IllegalArgumentException::new));
 
-        return new DiaryDto(diary.get().getId(), diary.get().getTitle(), diary.get().getContent(),
-                diary.get().getCreateTime(), diary.get().getLastModifiedTime(), diary.get().getUser().getId());
     }
 
     /**
@@ -154,13 +150,13 @@ public class DiaryService {
      * @param diaryDtoList DiaryDto 객체를 가지는 리스트
      * @return DiaryRes 객체를 가지는 리스트
      */
-    private List<DiaryRes> toResponseList(List<DiaryDto> diaryDtoList) {
+    private List<MultipleDiaryRes> toResponseList(List<DiaryDto> diaryDtoList) {
 
-        List<DiaryRes> result = new ArrayList<>();
+        List<MultipleDiaryRes> result = new ArrayList<>();
 
         for (DiaryDto dto : diaryDtoList) {
             Diary findDiary = diaryRepository.findById(dto.getId()).orElseThrow(IllegalArgumentException::new);
-            result.add(new DiaryRes(dto, diaryLikeRepository.findAllByDiary(findDiary).size(),
+            result.add(new MultipleDiaryRes(dto, diaryLikeRepository.findAllByDiary(findDiary).size(),
                     commentRepository.findAllByDiary(findDiary).size()));
         }
 

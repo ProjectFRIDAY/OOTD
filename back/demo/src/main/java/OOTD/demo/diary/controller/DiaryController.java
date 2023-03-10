@@ -1,5 +1,6 @@
 package OOTD.demo.diary.controller;
 
+import OOTD.demo.comment.dto.CommentRes;
 import OOTD.demo.comment.service.CommentService;
 import OOTD.demo.diary.dto.*;
 import OOTD.demo.diary.service.DiaryService;
@@ -88,8 +89,8 @@ public class DiaryController {
 
         // TODO : 공개 여부에 따라 퍼미션 거부 로직 필요
 
-        return httpResponseUtil.createOkHttpResponse(toResponse(diaryService.getDiaryById(id),
-                diaryLikeService.getDiaryLikeCount(id), commentService.getCommentCount(id)),
+        return httpResponseUtil.createOkHttpResponse(toResponse(diaryService.getSingleDiary(id),
+                diaryLikeService.getDiaryLikeCount(id), commentService.getCommentList(id)),
                 "게시글 조회에 성공했습니다.");
     }
 
@@ -122,8 +123,8 @@ public class DiaryController {
         return httpResponseUtil.createOkHttpResponse(null, "게시글 삭제에 성공했습니다.");
     }
 
-    private DiaryRes toResponse(DiaryDto dto, int likeCount, int commentCount) {
-        return new DiaryRes(dto, likeCount, commentCount);
+    private SingleDiaryRes toResponse(DiaryDto dto, int likeCount, List<CommentRes> commentList) {
+        return new SingleDiaryRes(dto, likeCount, commentList);
     }
 
 }

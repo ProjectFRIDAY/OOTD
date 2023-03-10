@@ -64,19 +64,16 @@ public class CommentService {
 
     /**
      * 특정 게시글의 댓글 리스트를 반환하는 메서드입니다.
-     * @param id 게시글 id
+     * @param id 게시글 엔티티 id
      * @return 해당 게시글의 댓글 리스트
      */
     public List<CommentRes> getCommentList(Long id) {
 
         // TODO : 팔로우 관계 관련 퍼미션 설정
 
-        List<Comment> findComments =
-                commentRepository.findAllByDiary(diaryRepository.findById(id).orElseThrow(IllegalArgumentException::new));
-
         List<CommentRes> result = new ArrayList<>();
 
-        for (Comment comment : findComments) {
+        for (Comment comment : commentRepository.findAllByDiary(diaryRepository.findById(id).orElseThrow(IllegalArgumentException::new))) {
             result.add(CommentRes.of(comment));
         }
 
