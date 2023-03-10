@@ -1,10 +1,9 @@
 package OOTD.demo.diary.controller;
 
-import OOTD.demo.diary.dto.PostDiaryReq;
-import OOTD.demo.diary.dto.PostDiaryRes;
-import OOTD.demo.diary.dto.UpdateDiaryReq;
+import OOTD.demo.diary.dto.*;
 import OOTD.demo.diary.service.DiaryService;
 import OOTD.demo.common.HttpResponseUtil;
+import OOTD.demo.diarylike.service.DiaryLikeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,6 +32,7 @@ import java.util.List;
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final DiaryLikeService diaryLikeService;
     private final HttpResponseUtil httpResponseUtil;
 
     /**
@@ -69,7 +69,7 @@ public class DiaryController {
     @GetMapping
     public ResponseEntity<?> getDiaryList(@RequestParam boolean isExistFollowerDiary, @RequestParam int lastId) {
 
-        return httpResponseUtil.createOkHttpResponse(diaryService.findDiaryList(isExistFollowerDiary, lastId),
+        return httpResponseUtil.createOkHttpResponse(diaryService.getDiaryList(isExistFollowerDiary, lastId),
                 "게시글 리스트 조회에 성공했습니다.");
 
     }
@@ -85,8 +85,10 @@ public class DiaryController {
     public ResponseEntity<?> getSingleDiary(@PathVariable(name = "id") Long id) {
 
         // TODO : 공개 여부에 따라 퍼미션 거부 로직 필요
+        // TODO : 댓글 개수 로직
 
-        return httpResponseUtil.createOkHttpResponse(diaryService.findDiaryById(id), "게시글 조회에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(toResponse(diaryService.getDiaryById(id),
+                diaryLikeService.getDiaryLikeCount(id), 0), "게시글 조회에 성공했습니다.");
     }
 
     /**
@@ -118,5 +120,8 @@ public class DiaryController {
         return httpResponseUtil.createOkHttpResponse(null, "게시글 삭제에 성공했습니다.");
     }
 
+    private DiaryRes toResponse(DiaryDto dto, int likeCount, int commentCount) {
+        return new DiaryRes(dto, likeCount, commentCount);
+    }
 
 }
