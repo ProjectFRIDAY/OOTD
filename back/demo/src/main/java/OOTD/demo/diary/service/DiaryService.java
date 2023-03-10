@@ -3,10 +3,10 @@ package OOTD.demo.diary.service;
 import OOTD.demo.auth.service.AuthService;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.dto.*;
-import OOTD.demo.diary.repository.DiaryQueryRepository;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.diaryimage.DiaryImage;
 import OOTD.demo.diaryimage.repository.DiaryImageRepository;
+import OOTD.demo.diarylike.repository.DiaryLikeRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.file.dto.FileDto;
 import OOTD.demo.user.User;
@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final FileUploadUtil fileUploadUtil;
     private final DiaryImageRepository diaryImageRepository;
+    private final DiaryLikeRepository diaryLikeRepository;
     private final AuthService authService;
 
     /**
@@ -106,7 +108,7 @@ public class DiaryService {
      * @param lastId 전번 결과의 마지막 게시글 id (해당 게시글 id의 다음 id 부터 페이징) -> 첫 번째 요청은 0으로 설정
      * @return 페이징된 게시글 리스트
      */
-    public DiaryListRes findDiaryList(boolean isExistFollowerDiary, int lastId) {
+    public DiaryListRes getDiaryList(boolean isExistFollowerDiary, int lastId) {
 
         if (isExistFollowerDiary) {
 
@@ -118,14 +120,15 @@ public class DiaryService {
                 findDiaries.addAll(diaryRepository.findDiaryByDate(0,
                         ONCE_PAGING_NUMBER - findDiaries.size()));
 
-                return new DiaryListRes(findDiaries, false);
+                return new DiaryListRes(toResponseList(findDiaries), false);
             }
 
-            return new DiaryListRes(findDiaries, true);
+            return new DiaryListRes(toResponseList(findDiaries), true);
         }
 
         // 팔로워의 게시글을 모두 출력했고, 모든 게시글를 최근 날짜 순으로 반환할 차례라면
-        return new DiaryListRes(diaryRepository.findDiaryByDate(lastId, ONCE_PAGING_NUMBER), false);
+        return new DiaryListRes(toResponseList(diaryRepository.findDiaryByDate(lastId, ONCE_PAGING_NUMBER)),
+                false);
     }
 
     /**
@@ -133,7 +136,7 @@ public class DiaryService {
      * @param id 게시글 ID
      * @return 해당 게시글의 정보를 담고 있는 DTO
      */
-    public DiaryDto findDiaryById(Long id) {
+    public DiaryDto getDiaryById(Long id) {
         Optional<Diary> diary = diaryRepository.findById(id);
 
         if (diary.isEmpty()) {
@@ -142,6 +145,24 @@ public class DiaryService {
 
         return new DiaryDto(diary.get().getId(), diary.get().getTitle(), diary.get().getContent(),
                 diary.get().getCreateDate(), diary.get().getUpdateDate(), diary.get().getUser().getId());
+    }
+
+    /**
+     * DiaryDto 객체들을 가진 리스트를 DiaryRes 객체들을 가진 리스트를 가지도록 변환하는 메서드입니다.
+     * @param diaryDtoList DiaryDto 객체를 가지는 리스트
+     * @return DiaryRes 객체를 가지는 리스트
+     */
+    private List<DiaryRes> toResponseList(List<DiaryDto> diaryDtoList) {
+
+        List<DiaryRes> result = new ArrayList<>();
+
+        // TODO : comment 개수
+        for (DiaryDto dto : diaryDtoList) {
+            result.add(new DiaryRes(dto, diaryLikeRepository.findAllByDiary(diaryRepository.findById(dto.getId())
+                    .orElseThrow(IllegalArgumentException::new)).size(), 0));
+        }
+
+        return result;
     }
 
     /**
