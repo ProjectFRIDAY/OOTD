@@ -9,7 +9,8 @@ import ClosetView from "../closet/ClosetView";
 import AddCloth from "../closet/AddCloth";
 import Splash from "../Splash";
 import WriteFeed from "../feed/WriteFeed";
-import ForgotPasswordView from "../loginpage/ForgotPasswordView";
+import EditMyProfileView from "../profile/EditMyProfileView";
+// import ForgotPasswordView from "../loginpage/ForgotPasswordView";
 
 const Stack = createNativeStackNavigator();
 
@@ -94,6 +95,16 @@ export default function StackNavigation() {
           },
           headerTitle: (props) => <LogoTitle {...props} />,
           headerBackVisible: false,
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="EditMyProfileView"
+        component={EditMyProfileView}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
         }}
       ></Stack.Screen>
     </Stack.Navigator>

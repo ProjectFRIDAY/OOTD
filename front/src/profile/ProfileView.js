@@ -8,8 +8,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import FeedList from "./FeedList";
+import { useNavigation } from "@react-navigation/core";
 
-export default function ProfileView() {
+export default function ProfileView( ) {  
+  const navigation = useNavigation();
+  
   return (
     <View style={sytles.container}>
       <FlatList
@@ -87,7 +90,10 @@ export default function ProfileView() {
                     </Text>
                     <Text>팔로잉</Text>
                   </View>
-                  <TouchableOpacity style={sytles.btn}>
+                  <TouchableOpacity
+                  style={sytles.btn}
+                  onPress={() => navigation.navigate('EditMyProfileView')}
+                  >
                     <Text
                       style={{
                         fontSize: 13,
