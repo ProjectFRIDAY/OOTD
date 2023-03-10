@@ -1,6 +1,8 @@
 package OOTD.demo.diary.service;
 
 import OOTD.demo.auth.service.AuthService;
+import OOTD.demo.comment.repository.CommentRepository;
+import OOTD.demo.comment.service.CommentService;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.dto.*;
 import OOTD.demo.diary.repository.DiaryRepository;
@@ -39,6 +41,8 @@ public class DiaryService {
     private final DiaryImageRepository diaryImageRepository;
     private final DiaryLikeRepository diaryLikeRepository;
     private final AuthService authService;
+    private final CommentService commentService;
+    private final CommentRepository commentRepository;
 
     /**
      * 게시글을 생성하는 메서드입니다.
@@ -86,20 +90,18 @@ public class DiaryService {
      * @param id 삭제할 게시글 ID
      */
     public void deleteDiary(Long id) {
-        Optional<Diary> diary = diaryRepository.findById(id);
+        Diary diary = diaryRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         User currentUser = authService.getCurrentLoginUser();
 
-        if (diary.isEmpty()) {
-            // TODO : 예외 처리 시 반환할 공통 메서드 필요
-        }
-
-        if (diary.get().getId() != currentUser.getId()) {
+        if (diary.getId() != currentUser.getId()) {
             // TODO : 게시글을 삭제하려는 사용자가 해당 게시글의 작성자가 아닐 경우 퍼미션 오류 관련 처리 필요
+            throw new IllegalArgumentException("현재 로그인된 사용자가 게시글의 작성자 id와 일치하지 않습니다.");
         }
 
-        deleteImages(diary.get());
+        commentService.deleteComment(id);
+        deleteImages(diary);
 
-        diaryRepository.delete(diary.get());
+        diaryRepository.delete(diary);
     }
 
     /**
@@ -144,7 +146,7 @@ public class DiaryService {
         }
 
         return new DiaryDto(diary.get().getId(), diary.get().getTitle(), diary.get().getContent(),
-                diary.get().getCreateDate(), diary.get().getUpdateDate(), diary.get().getUser().getId());
+                diary.get().getCreateTime(), diary.get().getLastModifiedTime(), diary.get().getUser().getId());
     }
 
     /**
@@ -156,10 +158,10 @@ public class DiaryService {
 
         List<DiaryRes> result = new ArrayList<>();
 
-        // TODO : comment 개수
         for (DiaryDto dto : diaryDtoList) {
-            result.add(new DiaryRes(dto, diaryLikeRepository.findAllByDiary(diaryRepository.findById(dto.getId())
-                    .orElseThrow(IllegalArgumentException::new)).size(), 0));
+            Diary findDiary = diaryRepository.findById(dto.getId()).orElseThrow(IllegalArgumentException::new);
+            result.add(new DiaryRes(dto, diaryLikeRepository.findAllByDiary(findDiary).size(),
+                    commentRepository.findAllByDiary(findDiary).size()));
         }
 
         return result;

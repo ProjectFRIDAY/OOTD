@@ -19,7 +19,8 @@ public class DiaryQueryRepositoryImpl implements DiaryQueryRepository {
     @Override
     public List<DiaryDto> findFollowersDiaryByUser(User user, int lastId) {
         return queryFactory
-                .select(new QDiaryDto(diary.id, diary.title, diary.content, diary.createDate, diary.updateDate, diary.user.id))
+                .select(new QDiaryDto(diary.id, diary.title, diary.content, diary.createTime, diary.lastModifiedTime,
+                        diary.user.id))
                 .from(diary)
                 .join(follow)
                 .on(diary.user.id.eq(follow.follower.id).and(follow.followee.id.eq(user.getId())))
@@ -33,7 +34,8 @@ public class DiaryQueryRepositoryImpl implements DiaryQueryRepository {
     @Override
     public List<DiaryDto> findDiaryByDate(int lastId, int number) {
         return queryFactory
-                .select(new QDiaryDto(diary.id, diary.title, diary.content, diary.createDate, diary.updateDate, diary.user.id))
+                .select(new QDiaryDto(diary.id, diary.title, diary.content, diary.createTime, diary.lastModifiedTime,
+                        diary.user.id))
                 .from(diary)
                 .where(diary.id.gt(lastId))
                 .orderBy(diary.id.asc())
