@@ -1,13 +1,19 @@
 package OOTD.demo.auth.service;
 
 
+import OOTD.demo.auth.TokenProvider;
 import OOTD.demo.auth.dto.CreateUserReq;
 import OOTD.demo.auth.dto.LoginReq;
 import OOTD.demo.auth.dto.LoginRes;
+import OOTD.demo.auth.filter.JwtFilter;
 import OOTD.demo.user.User;
 import OOTD.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,8 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.UUID;
 
 /**
  * User 관련 서비스 클래스입니다.
@@ -31,6 +37,8 @@ import java.util.UUID;
 public class AuthService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     /**
      * 회원가입 메서드입니다.
@@ -46,12 +54,12 @@ public class AuthService implements UserDetailsService {
     }
 
     /**
-     * 로그인 메서드입니다. (쿠키-세션 방식 사용)
+     * 로그인 메서드입니다.
      * @param dto 로그인 정보
-     * @param session HTTP Session
+     * @param response HTTP Servlet response
      * @return 로그인 결과
      */
-    public LoginRes login(LoginReq dto, HttpSession session) {
+    public LoginRes login(LoginReq dto, HttpServletResponse response) {
 
         User member = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("wrong id"));
@@ -60,10 +68,17 @@ public class AuthService implements UserDetailsService {
             throw new IllegalArgumentException("id or password aren't match");
         }
 
-        String userAuthenticationId = UUID.randomUUID().toString().substring(0, 20);
-        session.setAttribute(userAuthenticationId, member.getEmail());
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
 
-        return new LoginRes(member.getId(), userAuthenticationId);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = tokenProvider.createToken(authentication);
+
+        response.addHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+
+        return new LoginRes(member.getId(), token);
     }
 
     /**
@@ -89,8 +104,17 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+
+        User findUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
+
+        return (UserDetails) new org.springframework.security.core.userdetails.User(findUser.getEmail(),
+                findUser.getPassword(),  AuthorityUtils.createAuthorityList("USER"));
+
+        /*return new UserContext(userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("can't find user")), )
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("can't find user"));*/
     }
 
     public boolean existEmail(String email) {
