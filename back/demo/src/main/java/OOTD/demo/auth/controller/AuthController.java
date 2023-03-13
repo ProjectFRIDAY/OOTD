@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -48,9 +50,9 @@ public class AuthController {
 
     @Operation(summary = "로그인 API", description = "로그인 API 입니다.", tags = { "Auth Controller" })
     @PostMapping("/api/auth/login")
-    public ResponseEntity<?> login(HttpSession session, @Valid @RequestBody LoginReq dto) {
+    public ResponseEntity<?> login(HttpServletResponse response, @Valid @RequestBody LoginReq dto) {
 
-        return httpResponseUtil.createOkHttpResponse(authService.login(dto, session), "로그인에 성공했습니다.");
+        return httpResponseUtil.createOkHttpResponse(authService.login(dto, response), "로그인에 성공했습니다.");
 
     }
     @Operation(summary = "로그아웃 API", description = "로그아웃 API 입니다.",
