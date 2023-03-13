@@ -1,6 +1,7 @@
 package OOTD.demo.comment;
 
 import lombok.Builder;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Builder
+@Setter
 public class Comment {
     @Id
     @GeneratedValue

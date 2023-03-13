@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,27 @@ public class CommentService {
                 .build();
         hotService.saveData(hot);
         return CommentResponseDTO.of(commentRepository.save(comment));
+    }
+
+    @Transactional
+    public CommentResponseDTO deleteComment(Long id) {
+        // 댓글 삭제, DB에서 삭제하지 않고 isDeleted를 true로 변경
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + id));
+        comment.setDeleted(true);
+        return CommentResponseDTO.of(commentRepository.save(comment));
+    }
+
+    @Transactional
+    public List<CommentResponseDTO> getCommentList(Long id) {
+        // 댓글 리스트 조회
+        List<CommentResponseDTO> loadDtoList;
+        if (commentRepository.existsByPostId(id)) {
+            // 해당 게시글에 댓글이 있을 경우, Delete가 false인 댓글만 조회
+            loadDtoList = commentRepository.findAllNotDeletedByPostId(id);
+        } else {
+            // 해당 게시글에 댓글이 없을 경우, 빈 리스트 반환
+            loadDtoList = null;
+        }
+        return loadDtoList;
     }
 }
