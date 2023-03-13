@@ -56,6 +56,12 @@ cloud:
     stack:
       auto: false
 
+# JWT
+jwt:
+  header: Authorization
+  secret: ${jwt.secret.key}
+  token-validity-in-seconds: ${jwt.token.validity.in.seconds}
+
 # Swagger
 springdoc:
   default-produces-media-type: application/json

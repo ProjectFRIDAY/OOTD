@@ -28,6 +28,12 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+# JWT
+jwt:
+  header: Authorization
+  secret: testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345
+  token-validity-in-seconds: 86400
+
 # Logging
 logging:
   level:

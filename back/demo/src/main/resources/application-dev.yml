@@ -35,6 +35,12 @@ logging:
       hibernate:
         SQL: debug
 
+# JWT
+jwt:
+  header: Authorization
+  secret: testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345
+  token-validity-in-seconds: 86400
+
 # Swagger
 springdoc:
   swagger-ui:
