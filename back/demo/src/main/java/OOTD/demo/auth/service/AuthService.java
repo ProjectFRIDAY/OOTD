@@ -1,15 +1,20 @@
 package OOTD.demo.auth.service;
 
 
+import OOTD.demo.auth.RefreshToken;
 import OOTD.demo.auth.TokenProvider;
+import OOTD.demo.auth.dto.AccessTokenRes;
 import OOTD.demo.auth.dto.CreateUserReq;
 import OOTD.demo.auth.dto.LoginReq;
 import OOTD.demo.auth.dto.LoginRes;
 import OOTD.demo.auth.filter.JwtFilter;
+import OOTD.demo.auth.repository.RefreshTokenRepository;
 import OOTD.demo.user.User;
 import OOTD.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -22,8 +27,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static OOTD.demo.auth.RefreshToken.createRefreshToken;
 
 /**
  * User 관련 서비스 클래스입니다.
@@ -35,10 +45,17 @@ import javax.servlet.http.HttpSession;
 @Service
 @Slf4j
 public class AuthService implements UserDetailsService {
+
+    @Value("${jwt.refresh-token-validity-in-seconds}")
+    private int REFRESH_TOKEN_VALIDITY_IN_SECONDS;
+
+    private final String ACCESS_TOKEN_PREFIX = "Bearer ";
+    private final String REFRESH_TOKEN_PREFIX = "RefreshToken";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * 회원가입 메서드입니다.
@@ -62,10 +79,10 @@ public class AuthService implements UserDetailsService {
     public LoginRes login(LoginReq dto, HttpServletResponse response) {
 
         User member = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("wrong id"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일을 가지는 사용자를 찾을 수 없습니다."));
 
         if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("id or password aren't match");
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -74,11 +91,13 @@ public class AuthService implements UserDetailsService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String token = tokenProvider.createToken(authentication);
+        String accessToken = tokenProvider.createToken(authentication);
 
-        response.addHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+        response.addHeader(JwtFilter.AUTHORIZATION_HEADER, ACCESS_TOKEN_PREFIX + accessToken);
 
-        return new LoginRes(member.getId(), token);
+        return new LoginRes(member.getId(), accessToken,
+                refreshTokenRepository.save(createRefreshToken(member,
+                        LocalDateTime.now().plusSeconds(REFRESH_TOKEN_VALIDITY_IN_SECONDS))).getRefreshToken());
     }
 
     /**
@@ -95,33 +114,71 @@ public class AuthService implements UserDetailsService {
     }
 
     /**
-     * 로그아웃 (세션 삭제)를 담당하는 메서드입니다.
-     * @param session HTTP Session
+     * 로그아웃을 담당하는 메서드입니다.
+     * @param request HTTP request
      */
-    public void logout(HttpSession session) {
-        session.invalidate();
+    public void logout(HttpServletRequest request) {
+
+        refreshTokenRepository.deleteByRefreshToken(request.getHeader(REFRESH_TOKEN_PREFIX));
+    }
+
+    public AccessTokenRes reissueAccessToken(HttpServletRequest request) {
+        Optional<RefreshToken> findRefreshToken =
+                refreshTokenRepository.findByRefreshToken(request.getHeader(REFRESH_TOKEN_PREFIX));
+
+        if (findRefreshToken.isPresent() && findRefreshToken.get().getExpirationPeriod().isAfter(LocalDateTime.now())) {
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(findRefreshToken.get().getUser().getEmail(),
+                            findRefreshToken.get().getUser().getPassword());
+
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String accessToken = tokenProvider.createToken(authentication);
+
+            // Refresh Token 유효기간 연장
+            findRefreshToken.get().extendExpirationPeriod(LocalDateTime.now().plusSeconds(REFRESH_TOKEN_VALIDITY_IN_SECONDS));
+
+            return new AccessTokenRes(accessToken);
+        }
+
+        return null;
+    }
+
+    /**
+     * 만료된 refresh token 을 삭제합니다.
+     */
+    @Scheduled(fixedDelay = 1800000)
+    public void clearExpiredRefreshToken() {
+
+        int beforeSize = refreshTokenRepository.findAll().size();
+
+        refreshTokenRepository.deleteAllByExpirationPeriodBefore(LocalDateTime.now());
+
+        log.info("=======refresh token 정리 스케줄러 실행 시작=======");
+        log.info("삭제한 refresh Token 개수 : {}", beforeSize - refreshTokenRepository.findAll().size());
+        log.info("=======refresh token 정리 스케줄러 실행 끝=======");
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User findUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
+                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일에 해당하는 사용자를 찾을 수 없습니다."));
 
-        return (UserDetails) new org.springframework.security.core.userdetails.User(findUser.getEmail(),
-                findUser.getPassword(),  AuthorityUtils.createAuthorityList("USER"));
+        return new org.springframework.security.core.userdetails.User(findUser.getEmail(),
+                findUser.getPassword(), AuthorityUtils.createAuthorityList("USER"));
 
-        /*return new UserContext(userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user")), )
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user"));*/
     }
 
     public boolean existEmail(String email) {
+
         return userRepository.existsByEmail(email);
     }
 
     public boolean existAccountName(String name) {
+
         return userRepository.existsByAccountName(name);
     }
 

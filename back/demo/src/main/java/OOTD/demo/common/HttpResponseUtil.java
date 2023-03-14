@@ -2,10 +2,12 @@ package OOTD.demo.common;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
  * 컨트롤러에서 반환하는 공통 양식을 생성하는 Util 클래스입니다.
@@ -26,7 +28,9 @@ public class HttpResponseUtil {
         message.setStatus(Message.StatusEnum.OK);
         message.setMessage(responseMessage);
         message.setData(object);
-        return new ResponseEntity<>(message, new HttpHeaders(), OK);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(APPLICATION_JSON);
+        return new ResponseEntity<>(message, httpHeaders, OK);
     }
 
     /**
@@ -41,6 +45,8 @@ public class HttpResponseUtil {
         message.setStatus(Message.StatusEnum.from(status));
         message.setMessage(responseMessage);
         message.setData(object);
-        return new ResponseEntity<>(message, new HttpHeaders(), status);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(APPLICATION_JSON);
+        return new ResponseEntity<>(message, httpHeaders, status);
     }
 }
