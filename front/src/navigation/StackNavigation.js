@@ -11,7 +11,7 @@ import Splash from "../Splash";
 import WriteFeed from "../feed/WriteFeed";
 import EditMyProfileView from "../profile/EditMyProfileView";
 import SettingView from "../SettingView";
-import NotifyView from "../profile/NotifyView";
+import NotifyView from "../profile/Notify/NotifyView";
 // import ForgotPasswordView from "../loginpage/ForgotPasswordView";
 
 const Stack = createNativeStackNavigator();
