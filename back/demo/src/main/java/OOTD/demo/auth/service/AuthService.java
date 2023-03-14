@@ -35,6 +35,8 @@ import javax.servlet.http.HttpSession;
 @Service
 @Slf4j
 public class AuthService implements UserDetailsService {
+
+    private final String TOKEN_PREFIX = "Bearer ";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
@@ -62,10 +64,10 @@ public class AuthService implements UserDetailsService {
     public LoginRes login(LoginReq dto, HttpServletResponse response) {
 
         User member = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("wrong id"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일을 가지는 사용자를 찾을 수 없습니다."));
 
         if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("id or password aren't match");
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -76,7 +78,7 @@ public class AuthService implements UserDetailsService {
 
         String token = tokenProvider.createToken(authentication);
 
-        response.addHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token);
+        response.addHeader(JwtFilter.AUTHORIZATION_HEADER, TOKEN_PREFIX + token);
 
         return new LoginRes(member.getId(), token);
     }
@@ -106,15 +108,11 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User findUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user"));
+                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일에 해당하는 사용자를 찾을 수 없습니다."));
 
-        return (UserDetails) new org.springframework.security.core.userdetails.User(findUser.getEmail(),
-                findUser.getPassword(),  AuthorityUtils.createAuthorityList("USER"));
+        return new org.springframework.security.core.userdetails.User(findUser.getEmail(),
+                findUser.getPassword(), AuthorityUtils.createAuthorityList("USER"));
 
-        /*return new UserContext(userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user")), )
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user"));*/
     }
 
     public boolean existEmail(String email) {
