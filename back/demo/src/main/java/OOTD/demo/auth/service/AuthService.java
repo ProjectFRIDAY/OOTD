@@ -47,7 +47,7 @@ import static OOTD.demo.auth.RefreshToken.createRefreshToken;
 public class AuthService implements UserDetailsService {
 
     @Value("${jwt.refresh-token-validity-in-seconds}")
-    private int REFRESH_TOKEN_VALIDITY_IN_SECONDS;
+    private Long REFRESH_TOKEN_VALIDITY_IN_SECONDS;
 
     private final String ACCESS_TOKEN_PREFIX = "Bearer ";
     private final String REFRESH_TOKEN_PREFIX = "RefreshToken";

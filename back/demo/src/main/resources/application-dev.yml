@@ -39,8 +39,8 @@ logging:
 jwt:
   header: Authorization
   secret: testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345testSecretKey12345
-  token-validity-in-seconds: 1800
-  refresh-token-validity-in-seconds: 2592000
+  token-validity-in-seconds: 1800000
+  refresh-token-validity-in-seconds: 2592000000
 
 # Swagger
 springdoc:
