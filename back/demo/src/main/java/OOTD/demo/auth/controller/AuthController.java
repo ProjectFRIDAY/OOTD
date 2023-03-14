@@ -5,15 +5,19 @@ import OOTD.demo.common.HttpResponseUtil;
 import OOTD.demo.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 
 @RestController
@@ -58,11 +62,26 @@ public class AuthController {
     @Operation(summary = "로그아웃 API", description = "로그아웃 API 입니다.",
             tags = { "Auth Controller" })
     @PostMapping("/api/auth/logout")
-    public ResponseEntity<?> logout(HttpSession session){
+    public ResponseEntity<?> logout(HttpServletRequest request){
 
-        authService.logout(session);
+        authService.logout(request);
         return httpResponseUtil.createOkHttpResponse(null, "로그아웃에 성공했습니다.");
 
+    }
+
+    @Operation(summary = "Access Token 재발급 API", description = "Access Token 재발급 API 입니다.",
+            tags = { "Auth Controller" })
+    @GetMapping("/api/auth/token/reissuance")
+    public ResponseEntity<?> reissueRefreshToken(HttpServletRequest request) {
+
+        AccessTokenRes accessTokenRes = authService.reissueAccessToken(request);
+
+        if (accessTokenRes == null) {
+            return httpResponseUtil.createErrorResponse(null, "refreshToken이 만료되었습니다.",
+                    FORBIDDEN);
+        }
+
+        return httpResponseUtil.createOkHttpResponse(authService, "access token 재발급에 성공했습니다.");
     }
 
 }

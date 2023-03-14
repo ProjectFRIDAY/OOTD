@@ -17,5 +17,7 @@ public class LoginRes {
 
     Long memberId;
 
-    String userAuthenticationId;
+    String accessToken;
+
+    String refreshToken;
 }
