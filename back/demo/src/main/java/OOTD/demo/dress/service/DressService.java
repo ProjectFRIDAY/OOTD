@@ -17,10 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
 
 /**
  * Dress 관련 서비스 클래스입니다.
@@ -133,6 +131,25 @@ public class DressService {
         fileUploadUtil.deleteFileByName(findDress.getDressImageUrl());
         dressRepository.deleteById(id);
 
+    }
+
+    /**
+     * 검색어로 옷 리스트를 검색하는 메서드입니다.
+     * @param searchStr 검색어
+     * @return 조건에 해당하는 Dress 엔티티 리스트
+     */
+    public List<DressRes> searchDress(String searchStr) {
+
+        Set<Dress> findDressSet =
+                dressRepository.findDressByNameAndHashTag(authService.getCurrentLoginUser(), searchStr);
+        List<DressRes> result = new ArrayList<>();
+
+        for (Dress dress : findDressSet) {
+            result.add(DressRes.of(dress, dressHashTagRepository.findByDress(dress)));
+        }
+
+        Collections.sort(result);
+        return result;
     }
 
     private Dress getDress(Long id) {
