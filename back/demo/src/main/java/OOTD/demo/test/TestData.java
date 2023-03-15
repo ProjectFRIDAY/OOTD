@@ -1,5 +1,7 @@
 package OOTD.demo.test;
 
+import OOTD.demo.auth.dto.CreateUserReq;
+import OOTD.demo.auth.service.AuthService;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.diaryimage.repository.DiaryImageRepository;
@@ -48,6 +50,7 @@ public class TestData {
     @RequiredArgsConstructor
     static class InitService {
         private final UserRepository userRepository;
+        private final AuthService authService;
         private final DiaryRepository diaryRepository;
         private final DiaryImageRepository diaryImageRepository;
         private final DressRepository dressRepository;
@@ -57,16 +60,22 @@ public class TestData {
         @Transactional
         public void init() {
             // 1. User Test Data 삽입
-            User user1 = userRepository.save(createUser("abcde@gmail.com", "password1234",
-                    "account1234", "nickname1234", LocalDate.now().minusDays(20)));
-            User user2 = userRepository.save(createUser("zzzzz@gmail.com", "password1234",
-                    "account23232", "nicknick", LocalDate.now().minusDays(20)));
-            User user3 = userRepository.save(createUser("ccccc@gmail.com", "password1234",
-                    "account3333", "nininini", LocalDate.now().minusDays(20)));
-            User user4 = userRepository.save(createUser("ddddd@gmail.com", "password1234",
-                    "account4444", "ohohohoh", LocalDate.now().minusDays(20)));
-            User user5 = userRepository.save(createUser("eeeee@gmail.com", "password1234",
-                    "account5555", "bubububu", LocalDate.now().minusDays(20)));
+            Long userId1 = authService.createUser(new CreateUserReq("abcde@gmail.com", "account1234",
+                    "nickname1234", "password1234", LocalDate.now().minusDays(20)));
+            Long userId2 = authService.createUser(new CreateUserReq("zzzzz@gmail.com", "account23232",
+                    "nicknick", "password1234", LocalDate.now().minusDays(20)));
+            Long userId3 = authService.createUser(new CreateUserReq("ccccc@gmail.com", "account3333",
+                    "nininini", "password1234", LocalDate.now().minusDays(20)));
+            Long userId4 = authService.createUser(new CreateUserReq("ddddd@gmail.com", "account4444",
+                    "ohohohoh", "password1234", LocalDate.now().minusDays(20)));
+            Long userId5 = authService.createUser(new CreateUserReq("eeeee@gmail.com", "account5555",
+                    "bubububu", "password1234", LocalDate.now().minusDays(20)));
+
+            User user1 = userRepository.findById(userId1).orElseThrow(IllegalArgumentException::new);
+            User user2 = userRepository.findById(userId2).orElseThrow(IllegalArgumentException::new);
+            User user3 = userRepository.findById(userId3).orElseThrow(IllegalArgumentException::new);
+            User user4 = userRepository.findById(userId4).orElseThrow(IllegalArgumentException::new);
+            User user5 = userRepository.findById(userId5).orElseThrow(IllegalArgumentException::new);
 
 
             // 2. Diary Test Data 삽입
