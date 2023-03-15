@@ -60,13 +60,21 @@ public class DressController {
 
     }
 
-    @Operation(summary = "옷 삭제  API", description = "옷 삭제 API 입니다.", tags = { "Dress Controller" })
+    @Operation(summary = "옷 삭제 API", description = "옷 삭제 API 입니다.", tags = { "Dress Controller" })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSingleDress(@PathVariable Long id) {
 
         dressService.deleteSingleDress(id);
         return httpResponseUtil.createOkHttpResponse(null, "삭제에 성공했습니다.");
 
+    }
+
+    @Operation(summary = "옷 검색 API", description = "옷 검색 API 입니다.", tags = { "Dress Controller" })
+    @GetMapping("/search")
+    public ResponseEntity<?> searchDress(@RequestParam String searchStr) {
+
+        log.info("검색어 : {}", searchStr);
+        return httpResponseUtil.createOkHttpResponse(dressService.searchDress(searchStr), "검색에 성공했습니다.");
     }
 
 }
