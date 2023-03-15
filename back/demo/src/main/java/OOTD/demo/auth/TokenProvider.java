@@ -45,8 +45,6 @@ public class TokenProvider implements InitializingBean {
     // Authentication 객체의 권한 정보를 이용해서 토큰을 생성
     public String createToken(Authentication authentication){
 
-        System.out.println("createToken");
-
         // authorities 설정
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -92,8 +90,6 @@ public class TokenProvider implements InitializingBean {
 
     // 토큰의 유효성 검증 수행
     public boolean validateToken(String token){
-
-        System.out.println("validateToken");
 
         // 토큰 파싱 후 발생하는 예외 캐치하여 문제 있으면 false, 정상이면 true 리턴
         try{
