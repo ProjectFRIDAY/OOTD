@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, Platform} from "react-native";
 
 export default function InputText({
   placeHoldText,
@@ -36,5 +36,13 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     fontSize: 13,
+    ...Platform.select({
+      ios: {
+        elevation : 5,
+      },
+      android: {
+        elevation : 5,
+      }
+    })
   },
 });
