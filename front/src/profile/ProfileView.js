@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Image,
+  Alert, 
 } from "react-native";
 import React, { useState } from "react";
 import FeedList from "./FeedList";
@@ -12,6 +14,26 @@ import { useNavigation } from "@react-navigation/core";
 
 export default function ProfileView( ) {  
   const navigation = useNavigation();
+
+  // DropDownPicker로 수정 예정
+  const BtnClick = () => {
+    Alert.alert(
+      "어느창으로 이동하시겠습니까?",
+      "",
+      [
+        {text: "취소"},
+        {
+          text: "설정창",
+          onPress: () => {navigation.navigate('SettingView')},
+        },
+        {
+          text: "신고창", 
+          onPress: () => {navigation.navigate('NotifyView')},
+        },
+      ],
+      {cancleable: false}
+    );
+  }
   
   return (
     <View style={sytles.container}>
@@ -19,7 +41,23 @@ export default function ProfileView( ) {
         ListHeaderComponent={
           <View>
             {/* <ScrollView stickyHeaderIndices={[2]}> */}
-            <View style={sytles.backgroundImage}></View>
+            <View style={sytles.backgroundImage}>
+
+              {/* DropDownPicker로 수정 예정*/}
+              <TouchableOpacity style={{
+                width: 30, 
+                marginTop: 10, 
+                marginRight: 4, 
+                alignSelf: 'flex-end'}}
+                onPress={BtnClick}
+              >
+                <Image
+                  source={require("../../assets/images/morebtn.png")}
+                  style={{ width: 30, height: 24 }}
+                />
+              </TouchableOpacity>
+
+            </View>
             <View style={sytles.profileImage}>
               <Text
                 style={{
