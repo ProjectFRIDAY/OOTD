@@ -1,9 +1,63 @@
-import { Text, StyleSheet, View, Alert, FlatList, Image, Pressable,} from "react-native";
+import { 
+  Text, 
+  StyleSheet, 
+  View, 
+  Alert, 
+  FlatList, 
+  Image, 
+  Pressable, 
+  NativeModules,} from "react-native";
+import { useState, useEffect } from "react";
 import CameraImg from "../../assets/images/circlecamera.png";
+import InfoInput from "../joinMembership/InfoInput";
+import Btn from "../button/Btn";
 
-export default function EditMyProfileView (handleEmailChange) {
+const { StatusBarManager } = NativeModules;
+
+export default function EditMyProfileView ({navigation}) {
   const ImgClick = () => {
     Alert.alert('이미지 추가 버튼','이미지 추가 버튼임');
+  };
+
+
+  const [checkEssentialFill, setCheckEssentialFill] = useState(false);
+  const handleCheckEssentialFill = (isFill) => {
+    isFill ? setCheckEssentialFill(true) : setCheckEssentialFill(false);
+  };
+
+  useEffect(() => {
+    Platform.OS == "ios"
+      ? StatusBarManager.getHeight((statusBarFrameData) => {
+          setStatusBarHeight(statusBarFrameData.height);
+        })
+      : null;
+  }, []);
+
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  const [accountChange, setAccountChange] = useState("");
+  const handleAccountChange = (text) => {
+    setAccountChange(text);
+  };
+
+  const [nickNameChange, setNickNameChange] = useState("");
+  const handleNickNameChange = (text) => {
+    setNickNameChange(text);
+  };
+
+  const [emailChange, setEmailChange] = useState("");
+  const handleEmailChange = (text) => {
+    setEmailChange(text);
+  };
+
+  const [passwordChange, setPasswordChange] = useState("");
+  const handlePasswordChange = (text) => {
+    setPasswordChange(text);
+  };
+
+  const [birthChange, setBirthChange] = useState("");
+  const handleBirthChange = (text) => {
+    setBirthChange(text);
   };
 
 	return (
@@ -11,7 +65,7 @@ export default function EditMyProfileView (handleEmailChange) {
       <FlatList
         ListHeaderComponent={
           <View>
-            <View style={styles.backgroundImage}></View>
+            <View style={styles.backgroundImage}/>
             <View style={styles.profileImage}>
               <Text
                 style={{
@@ -26,7 +80,28 @@ export default function EditMyProfileView (handleEmailChange) {
             <Pressable onPress={ImgClick} style={styles.CameraImage}>
               <Image source={CameraImg} style={{width: 45,height: 45,}}/>        
             </Pressable>
-            <View style={{ marginTop: 40 }}/>
+            <View style = {{marginTop: 50, padding: 44}}>
+              <InfoInput
+                handleCheckEssentialFill={handleCheckEssentialFill}
+                handleAccountChange={handleAccountChange}
+                handleNickNameChange={handleNickNameChange}
+                handleEmailChange={handleEmailChange}
+                handlePasswordChange={handlePasswordChange}
+                handleBirthChange={handleBirthChange}
+                accountChange={accountChange}
+                nickNameChange={nickNameChange}
+                passwordChange={passwordChange}
+              />
+              <Btn
+                text={"변경확인"}
+                isFill={checkEssentialFill}
+                navigation={navigation}
+                emailChange={emailChange}
+                accountChange={accountChange}
+                nickNameChange={nickNameChange}
+                changePasswordText={passwordChange}
+              />
+            </View>
           </View>
         }
       />
