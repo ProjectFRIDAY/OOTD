@@ -39,7 +39,6 @@ public class User {
     @Column(name = "user_profile_image")
     private String profileImg;
 
-
     private User(String email, String password, String accountName, String nickName, LocalDate birth) {
         this.email = email;
         this.password = password;
@@ -56,16 +55,12 @@ public class User {
     public static User createUser(String email, String password, String accountName, String nickName, LocalDate birth) {
         return new User(email, password, accountName, nickName, birth);
     }
-
-
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
-
     public void setProfileImg(String profileImg) {
         this.profileImg = profileImg;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
