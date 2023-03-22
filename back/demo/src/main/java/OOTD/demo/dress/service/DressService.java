@@ -10,15 +10,15 @@ import OOTD.demo.dress.repository.DressHashTagRepository;
 import OOTD.demo.dress.repository.DressRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.hashtag.HashTag;
+import OOTD.demo.hashtag.repository.HashTagRepository;
 import OOTD.demo.hashtag.service.HashTagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+
+import java.util.*;
 
 /**
  * Dress 관련 서비스 클래스입니다.
@@ -37,7 +37,7 @@ public class DressService {
     private final AuthService authService;
     private final FileUploadUtil fileUploadUtil;
     private final DressHashTagRepository dressHashTagRepository;
-    private final HashTagService hashTagService;
+    private final HashTagRepository hashTagRepository;
 
     /**
      * Dress 엔티티를 생성하는 메서드입니다.
@@ -52,8 +52,17 @@ public class DressService {
 
         // 해시태그 생성
         for (String tagStr : req.getHashTag()) {
-            HashTag findHashTag = hashTagService.getHashTag(tagStr);
-            dressHashTagRepository.save(DressHashTag.createDressHashTag(dress, findHashTag));
+            Optional<HashTag> findHashTag = hashTagRepository.findByName(tagStr);
+
+            if (findHashTag.isEmpty()) {
+                // 기존에 존재하지 않던 해시태그일 경우 새로운 해시태그 생성
+                HashTag newHashTag = hashTagRepository.save(HashTag.createHashTag(tagStr));
+                dressHashTagRepository.save(DressHashTag.createDressHashTag(dress, newHashTag));
+
+                return dress.getId();
+            }
+
+            dressHashTagRepository.save(DressHashTag.createDressHashTag(dress, findHashTag.get()));
         }
 
         return dress.getId();
@@ -122,6 +131,25 @@ public class DressService {
         fileUploadUtil.deleteFileByName(findDress.getDressImageUrl());
         dressRepository.deleteById(id);
 
+    }
+
+    /**
+     * 검색어로 옷 리스트를 검색하는 메서드입니다.
+     * @param searchStr 검색어
+     * @return 조건에 해당하는 Dress 엔티티 리스트
+     */
+    public List<DressRes> searchDress(String searchStr) {
+
+        Set<Dress> findDressSet =
+                dressRepository.findDressByNameAndHashTag(authService.getCurrentLoginUser(), searchStr);
+        List<DressRes> result = new ArrayList<>();
+
+        for (Dress dress : findDressSet) {
+            result.add(DressRes.of(dress, dressHashTagRepository.findByDress(dress)));
+        }
+
+        Collections.sort(result);
+        return result;
     }
 
     private Dress getDress(Long id) {

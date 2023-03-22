@@ -4,6 +4,7 @@ import OOTD.demo.common.HttpResponseUtil;
 import OOTD.demo.dress.dto.PostDressReq;
 import OOTD.demo.dress.dto.UpdateDressReq;
 import OOTD.demo.dress.service.DressService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class DressController {
     private final DressService dressService;
     private final HttpResponseUtil httpResponseUtil;
 
+    @Operation(summary = "단일 옷 조회 API", description = "단일 옷 조회 API 입니다.", tags = { "Dress Controller" })
     @GetMapping("/{id}")
     public ResponseEntity<?> getSingleDress(@PathVariable Long id) {
 
@@ -33,6 +35,7 @@ public class DressController {
 
     }
 
+    @Operation(summary = "옷 리스트 조회 API", description = "옷 리스트 조회 API 입니다.", tags = { "Dress Controller" })
     @GetMapping
     public ResponseEntity<?> getDressList() {
 
@@ -40,6 +43,7 @@ public class DressController {
 
     }
 
+    @Operation(summary = "옷 생성 API", description = "옷 생성 API 입니다.", tags = { "Dress Controller" })
     @PostMapping
     public ResponseEntity<?> createDress(@RequestPart @Valid PostDressReq req, @RequestPart MultipartFile file) {
 
@@ -47,6 +51,7 @@ public class DressController {
 
     }
 
+    @Operation(summary = "옷 수정 API", description = "옷 수정 조회 API 입니다.", tags = { "Dress Controller" })
     @PutMapping("/{id}")
     public ResponseEntity<?> updateDress(@PathVariable Long id, @RequestPart @Valid UpdateDressReq req,
                                          @RequestPart MultipartFile file) {
@@ -55,12 +60,21 @@ public class DressController {
 
     }
 
+    @Operation(summary = "옷 삭제 API", description = "옷 삭제 API 입니다.", tags = { "Dress Controller" })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSingleDress(@PathVariable Long id) {
 
         dressService.deleteSingleDress(id);
         return httpResponseUtil.createOkHttpResponse(null, "삭제에 성공했습니다.");
 
+    }
+
+    @Operation(summary = "옷 검색 API", description = "옷 검색 API 입니다.", tags = { "Dress Controller" })
+    @GetMapping("/search")
+    public ResponseEntity<?> searchDress(@RequestParam String searchStr) {
+
+        log.info("검색어 : {}", searchStr);
+        return httpResponseUtil.createOkHttpResponse(dressService.searchDress(searchStr), "검색에 성공했습니다.");
     }
 
 }

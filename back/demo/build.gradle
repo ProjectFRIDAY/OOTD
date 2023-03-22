@@ -60,6 +60,9 @@ dependencies {
 	// MySQL
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	// ps6py
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+
 	// Spring Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

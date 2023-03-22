@@ -97,7 +97,7 @@ public class AuthService implements UserDetailsService {
 
         return new LoginRes(member.getId(), accessToken,
                 refreshTokenRepository.save(createRefreshToken(member,
-                        LocalDateTime.now().plusSeconds(REFRESH_TOKEN_VALIDITY_IN_SECONDS))).getRefreshToken());
+                        LocalDateTime.now().plusSeconds(REFRESH_TOKEN_VALIDITY_IN_SECONDS / 1000))).getRefreshToken());
     }
 
     /**
