@@ -58,9 +58,7 @@ export default function StackNavigation() {
             backgroundColor: "#3B5448",
           },
           headerTitle: (props) => (<LogoTitle {...props} />),
-          headerRight: (props) => (
-            <SettingTitle {...props} />
-          ),
+          headerRight: (props) => (<SettingTitle {...props} />),
           headerBackVisible: false,
         }}
       ></Stack.Screen>

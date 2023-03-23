@@ -13,27 +13,7 @@ import FeedList from "./FeedList";
 import { useNavigation } from "@react-navigation/core";
 
 export default function ProfileView( ) {  
-  const navigation = useNavigation();
-
-  // DropDownPicker로 수정 예정
-  const BtnClick = () => {
-    Alert.alert(
-      "어느창으로 이동하시겠습니까?",
-      "",
-      [
-        {text: "취소"},
-        {
-          text: "설정창",
-          onPress: () => {navigation.navigate('SettingView')},
-        },
-        {
-          text: "신고창", 
-          onPress: () => {navigation.navigate('NotifyView')},
-        },
-      ],
-      {cancleable: false}
-    );
-  }
+  const navigation = useNavigation()
   
   return (
     <View style={sytles.container}>
@@ -49,7 +29,6 @@ export default function ProfileView( ) {
                 marginTop: 10, 
                 marginRight: 4, 
                 alignSelf: 'flex-end'}}
-                onPress={BtnClick}
               >
                 <Image
                   source={require("../../assets/images/morebtn.png")}

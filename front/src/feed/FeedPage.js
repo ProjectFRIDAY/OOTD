@@ -128,6 +128,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity, // here
+  Alert,
+  
 } from "react-native";
 
 export default class FeedPage extends React.Component {
@@ -200,7 +202,7 @@ export default class FeedPage extends React.Component {
               <Text style={{ color: "white" }}>팔로우</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.BtnClick}>
             <Image
               source={require("../../assets/images/morebtn.png")}
               style={{ width: 20, height: 17 }}
@@ -281,6 +283,21 @@ export default class FeedPage extends React.Component {
         onEndReached={this._handleLoadMore}
         onEndReachedThreshold={1}
       />
+    );
+  }
+
+  BtnClick = () => {
+    Alert.alert(
+      "어느창으로 이동하시겠습니까?",
+      "",
+      [
+        {text: "취소"},
+        {
+          text: "신고창", 
+          onPress: () => {this.props.navigation.navigate('NotifyView')},
+        },
+      ],
+      {cancleable: false}
     );
   }
 }
