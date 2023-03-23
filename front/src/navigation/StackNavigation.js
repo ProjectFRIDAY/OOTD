@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import JoinMembershipView from "../joinMembership/JoinMembershipView";
 import LoginPage from "../loginpage/LoginPage";
 import LogoTitle from "./LogoTitle";
+import SettingTitle from "./SettingTitle";
 import TabNavigation from "./TabNavigation";
 import TabMiddleBtn from "./TabMiddleBtn";
 import ClosetDetail from "../closet/CLosetDetail";
@@ -56,7 +57,10 @@ export default function StackNavigation() {
           headerStyle: {
             backgroundColor: "#3B5448",
           },
-          headerTitle: (props) => <LogoTitle {...props} />,
+          headerTitle: (props) => (<LogoTitle {...props} />),
+          headerRight: (props) => (
+            <SettingTitle {...props} />
+          ),
           headerBackVisible: false,
         }}
       ></Stack.Screen>
