@@ -11,12 +11,14 @@ public class TopDiaryDto {
 
     private Long id;
     private String name;
-    private int wearTimes;
+    private String imageUrl;
+    private Long wearTimes;
 
     @QueryProjection
-    public TopDiaryDto(Long id, String name, int wearTimes) {
+    public TopDiaryDto(Long id, String name, String imageUrl, Long wearTimes) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
         this.wearTimes = wearTimes;
     }
 }

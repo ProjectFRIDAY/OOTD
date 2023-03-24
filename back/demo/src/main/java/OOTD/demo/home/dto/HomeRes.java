@@ -12,6 +12,6 @@ import java.util.List;
 public class HomeRes {
 
     List<HomeDiaryDto> diaryDtoList;
-
+    List<TopDiaryDto> topDiaryDtoList;
 
 }

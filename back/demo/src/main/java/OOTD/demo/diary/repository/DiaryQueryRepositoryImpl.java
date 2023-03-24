@@ -7,14 +7,15 @@ import OOTD.demo.home.dto.QHomeDiaryDto;
 import OOTD.demo.home.dto.QTopDiaryDto;
 import OOTD.demo.home.dto.TopDiaryDto;
 import OOTD.demo.user.User;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static OOTD.demo.diary.QDiary.diary;
-import static OOTD.demo.dress.QDress.dress;
+import static OOTD.demo.diarydress.QDiaryDress.diaryDress;
 import static OOTD.demo.follow.QFollow.follow;
-import static com.querydsl.core.types.dsl.Wildcard.count;
 
 @RequiredArgsConstructor
 public class DiaryQueryRepositoryImpl implements DiaryQueryRepository {
@@ -50,17 +51,30 @@ public class DiaryQueryRepositoryImpl implements DiaryQueryRepository {
     }
 
     @Override
-    public List<HomeDiaryDto> findHomeDiaryByDate(int year, int month) {
+    public List<HomeDiaryDto> findHomeDiaryByDate(User user, int year, int month) {
         return queryFactory
                 .select(new QHomeDiaryDto(diary.createTime.dayOfMonth(), diary.id))
                 .from(diary)
-                .where(diary.createTime.year().eq(year).and(diary.createTime.month().eq(month)))
+                .where(diary.user.eq(user).and(diary.createTime.year().eq(year).and(diary.createTime.month().eq(month))))
+                .orderBy(diary.id.asc())
                 .fetch();
     }
 
     @Override
-    public List<TopDiaryDto> findTopDressByDate(int year, int month) {
-        return null;
+    public List<TopDiaryDto> findTopDressByDate(User user, int year, int month) {
+
+        StringPath countAlias = Expressions.stringPath("dress_count");
+
+        return queryFactory
+                .select(new QTopDiaryDto(diaryDress.dress.id, diaryDress.dress.dressName,
+                        diaryDress.dress.dressImageUrl, diaryDress.id.count().as("dress_count")))
+                .from(diary)
+                .where(diary.user.eq(user).and(diary.createTime.year().eq(year).and(diary.createTime.month().eq(month))))
+                .join(diaryDress).on(diary.id.eq(diaryDress.diary.id))
+                .groupBy(diaryDress.dress.id)
+                .orderBy(countAlias.desc())
+                .limit(5)
+                .fetch();
     }
 
 }

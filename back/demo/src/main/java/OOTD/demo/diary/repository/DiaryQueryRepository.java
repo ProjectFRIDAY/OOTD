@@ -11,7 +11,7 @@ public interface DiaryQueryRepository {
 
     List<DiaryDto> findFollowersDiaryByUser(User user, int lastId);
     List<DiaryDto> findDiaryByDate(int lastId, int number);
-    List<HomeDiaryDto> findHomeDiaryByDate(int year, int month);
-    List<TopDiaryDto> findTopDressByDate(int year, int month);
+    List<HomeDiaryDto> findHomeDiaryByDate(User user, int year, int month);
+    List<TopDiaryDto> findTopDressByDate(User user, int year, int month);
 
 }
