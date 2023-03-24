@@ -2,13 +2,19 @@ package OOTD.demo.diary.repository;
 
 import OOTD.demo.diary.dto.DiaryDto;
 import OOTD.demo.diary.dto.QDiaryDto;
+import OOTD.demo.home.dto.HomeDiaryDto;
+import OOTD.demo.home.dto.QHomeDiaryDto;
+import OOTD.demo.home.dto.QTopDiaryDto;
+import OOTD.demo.home.dto.TopDiaryDto;
 import OOTD.demo.user.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static OOTD.demo.diary.QDiary.diary;
+import static OOTD.demo.dress.QDress.dress;
 import static OOTD.demo.follow.QFollow.follow;
+import static com.querydsl.core.types.dsl.Wildcard.count;
 
 @RequiredArgsConstructor
 public class DiaryQueryRepositoryImpl implements DiaryQueryRepository {
@@ -42,4 +48,19 @@ public class DiaryQueryRepositoryImpl implements DiaryQueryRepository {
                 .limit(number)
                 .fetch();
     }
+
+    @Override
+    public List<HomeDiaryDto> findHomeDiaryByDate(int year, int month) {
+        return queryFactory
+                .select(new QHomeDiaryDto(diary.createTime.dayOfMonth(), diary.id))
+                .from(diary)
+                .where(diary.createTime.year().eq(year).and(diary.createTime.month().eq(month)))
+                .fetch();
+    }
+
+    @Override
+    public List<TopDiaryDto> findTopDressByDate(int year, int month) {
+        return null;
+    }
+
 }
