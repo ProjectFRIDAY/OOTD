@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 게시글 엔티티 생성 관련 DTO입니다.
@@ -22,4 +23,6 @@ public class PostDiaryReq {
     private String content;
     @NotNull(message = "공개범위를 입력해주세요!")
     private PublicScope scope;
+    @NotNull(message = "옷 ID 리스트를 입력해주세요!")
+    private List<Long> dressList;
 }
