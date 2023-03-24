@@ -7,9 +7,13 @@ import OOTD.demo.comment.service.CommentService;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.dto.*;
 import OOTD.demo.diary.repository.DiaryRepository;
+import OOTD.demo.diarydress.DiaryDress;
+import OOTD.demo.diarydress.repository.DiaryDressRepository;
 import OOTD.demo.diaryimage.DiaryImage;
 import OOTD.demo.diaryimage.repository.DiaryImageRepository;
 import OOTD.demo.diarylike.repository.DiaryLikeRepository;
+import OOTD.demo.dress.repository.DressQueryRepository;
+import OOTD.demo.dress.repository.DressRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.file.dto.FileDto;
 import OOTD.demo.user.User;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static OOTD.demo.diarydress.DiaryDress.createDiaryDress;
 import static OOTD.demo.diaryimage.DiaryImage.createDiaryImage;
 
 /**
@@ -37,13 +42,16 @@ public class DiaryService {
 
     private final int ONCE_PAGING_NUMBER = 20;
 
+
     private final DiaryRepository diaryRepository;
+    private final DressRepository dressRepository;
     private final FileUploadUtil fileUploadUtil;
     private final DiaryImageRepository diaryImageRepository;
     private final DiaryLikeRepository diaryLikeRepository;
     private final AuthService authService;
     private final CommentService commentService;
     private final CommentRepository commentRepository;
+    private final DiaryDressRepository diaryDressRepository;
 
     /**
      * 게시글을 생성하는 메서드입니다.
@@ -57,6 +65,11 @@ public class DiaryService {
                 authService.getCurrentLoginUser()));
 
         uploadImages(diary, files);
+
+        for (PostDiaryDressReq dressReq : dto.getDressList()) {
+            diaryDressRepository.save(createDiaryDress(diary,
+                    dressRepository.findById(dressReq.getDressId()).orElseThrow(IllegalArgumentException::new)));
+        }
 
         return new PostDiaryRes(diary.getId());
     }

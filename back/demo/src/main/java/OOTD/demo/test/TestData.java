@@ -4,6 +4,8 @@ import OOTD.demo.auth.dto.CreateUserReq;
 import OOTD.demo.auth.service.AuthService;
 import OOTD.demo.diary.Diary;
 import OOTD.demo.diary.repository.DiaryRepository;
+import OOTD.demo.diarydress.DiaryDress;
+import OOTD.demo.diarydress.repository.DiaryDressRepository;
 import OOTD.demo.diaryimage.repository.DiaryImageRepository;
 import OOTD.demo.dress.Dress;
 import OOTD.demo.dress.repository.DressHashTagRepository;
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 
 import static OOTD.demo.diary.Diary.createPost;
 import static OOTD.demo.diary.PublicScope.ALL;
+import static OOTD.demo.diarydress.DiaryDress.createDiaryDress;
 import static OOTD.demo.diaryimage.DiaryImage.createDiaryImage;
 import static OOTD.demo.dress.Dress.createDress;
 import static OOTD.demo.dress.DressHashTag.createDressHashTag;
@@ -56,6 +59,7 @@ public class TestData {
         private final DressRepository dressRepository;
         private final HashTagRepository hashTagRepository;
         private final DressHashTagRepository dressHashTagRepository;
+        private final DiaryDressRepository diaryDressRepository;
 
         @Transactional
         public void init() {
@@ -81,6 +85,17 @@ public class TestData {
             // 2. Diary Test Data 삽입
             Diary diary1 = diaryRepository.save(createPost("게시글 제목1", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
                     ALL, user1));
+            Diary diary1_2 = diaryRepository.save(createPost("게시글 제목1222", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                    ALL, user1));
+            Diary diary1_3 = diaryRepository.save(createPost("게시글 제목1333", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                    ALL, user1));
+            Diary diary1_4 = diaryRepository.save(createPost("게시글 제목1444", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                    ALL, user1));
+            Diary diary1_5 = diaryRepository.save(createPost("게시글 제목1555", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                    ALL, user1));
+            Diary diary1_6 = diaryRepository.save(createPost("게시글 제목1666", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                    ALL, user1));
+
             Diary diary2 = diaryRepository.save(createPost("게시글 제목2", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
                     ALL, user2));
             Diary diary3 = diaryRepository.save(createPost("게시글 제목3", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
@@ -131,6 +146,16 @@ public class TestData {
             // 4. Dress Test Data 삽입
             Dress dress1 = dressRepository.save(createDress(user1, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
+            Dress dress1_2 = dressRepository.save(createDress(user1, "아우터1_2", OUTER,
+                    "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
+            Dress dress1_3 = dressRepository.save(createDress(user1, "아우터1_3", OUTER,
+                    "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
+            Dress dress1_4 = dressRepository.save(createDress(user1, "아우터1_4", OUTER,
+                    "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
+            Dress dress1_5 = dressRepository.save(createDress(user1, "아우터1_5", OUTER,
+                    "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
+
+
             Dress dress2 = dressRepository.save(createDress(user2, "아우터1", OUTER,
                     "https://ootd-s3-bucket.s3.ap-northeast-2.amazonaws.com/diary/_test3_1674024697809.jpg"));
             Dress dress3 = dressRepository.save(createDress(user3, "아우터1", OUTER,
@@ -161,6 +186,28 @@ public class TestData {
             dressHashTagRepository.save(createDressHashTag(dress3, tag1));
             dressHashTagRepository.save(createDressHashTag(dress4, tag1));
             dressHashTagRepository.save(createDressHashTag(dress5, tag1));
+
+
+            // 7. DiaryDress 삽입
+            diaryDressRepository.save(createDiaryDress(diary1, dress1));
+            diaryDressRepository.save(createDiaryDress(diary1, dress1_2));
+            diaryDressRepository.save(createDiaryDress(diary1, dress1_3));
+
+            diaryDressRepository.save(createDiaryDress(diary1_2, dress1));
+            diaryDressRepository.save(createDiaryDress(diary1_3, dress1));
+            diaryDressRepository.save(createDiaryDress(diary1_4, dress1));
+            diaryDressRepository.save(createDiaryDress(diary1_5, dress1));
+            diaryDressRepository.save(createDiaryDress(diary1_6, dress1));
+
+            diaryDressRepository.save(createDiaryDress(diary1_2, dress1));
+            diaryDressRepository.save(createDiaryDress(diary1_3, dress1_2));
+            diaryDressRepository.save(createDiaryDress(diary1_4, dress1_3));
+
+            diaryDressRepository.save(createDiaryDress(diary1_2, dress1_5));
+            diaryDressRepository.save(createDiaryDress(diary1_3, dress1_4));
+            diaryDressRepository.save(createDiaryDress(diary1_4, dress1_4));
+            diaryDressRepository.save(createDiaryDress(diary1_5, dress1_3));
+
 
         }
     }
