@@ -24,5 +24,5 @@ public class PostDiaryReq {
     @NotNull(message = "공개범위를 입력해주세요!")
     private PublicScope scope;
     @NotNull(message = "옷 ID 리스트를 입력해주세요!")
-    private List<Long> dressList;
+    private List<PostDiaryDressReq> dressList;
 }

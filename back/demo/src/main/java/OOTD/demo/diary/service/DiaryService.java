@@ -66,9 +66,9 @@ public class DiaryService {
 
         uploadImages(diary, files);
 
-        for (Long dressId : dto.getDressList()) {
+        for (PostDiaryDressReq dressReq : dto.getDressList()) {
             diaryDressRepository.save(createDiaryDress(diary,
-                    dressRepository.findById(dressId).orElseThrow(IllegalArgumentException::new)));
+                    dressRepository.findById(dressReq.getDressId()).orElseThrow(IllegalArgumentException::new)));
         }
 
         return new PostDiaryRes(diary.getId());
