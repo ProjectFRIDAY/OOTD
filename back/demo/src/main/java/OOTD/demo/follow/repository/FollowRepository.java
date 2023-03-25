@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author CHO Min Ho
  */
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-
     void deleteByFollower(User user);
-
+    int countByFollower_Id(Long id);
+    int countByFollowee_Id(Long id);
 }
