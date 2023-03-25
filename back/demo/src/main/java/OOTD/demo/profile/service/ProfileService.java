@@ -1,9 +1,11 @@
 package OOTD.demo.profile.service;
 
 import OOTD.demo.auth.service.AuthService;
+import OOTD.demo.diary.repository.DiaryRepository;
 import OOTD.demo.follow.repository.FollowRepository;
 import OOTD.demo.profile.dto.ProfileDTO;
 import OOTD.demo.user.User;
+import OOTD.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import javax.transaction.Transactional;
 public class ProfileService {
     private final FollowRepository followRepository;
     private final AuthService authService;
+    private final DiaryRepository diaryRepository;
+    private final UserRepository userRepository;
     /**
      * my Profile을 조회하는 메서드입니다.
      * @param
@@ -29,6 +33,7 @@ public class ProfileService {
                 .userId(currentLoginUser.getId())
                 .userName(currentLoginUser.getAccountName())
                 .userProfileImg(currentLoginUser.getProfileImg())
+                .diaryList(diaryRepository.findByUser(currentLoginUser))
                 .build();
     }
     /**
@@ -41,8 +46,9 @@ public class ProfileService {
                 .followerCount(followRepository.countByFollower_Id(userId))
                 .followingCount(followRepository.countByFollowee_Id(userId))
                 .userId(userId)
-                .userName("test")
-                .userProfileImg("test")
+                .userName(userRepository.findById(userId).get().getAccountName())
+                .userProfileImg(userRepository.findById(userId).get().getProfileImg())
+                .diaryList(diaryRepository.findAllById(userId))
                 .build();
     }
 }

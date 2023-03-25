@@ -1,8 +1,12 @@
 package OOTD.demo.profile.dto;
 
+import OOTD.demo.diary.Diary;
+import OOTD.demo.diaryimage.DiaryImage;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +17,5 @@ public class ProfileDTO {
     private String userProfileImg;
     private int followerCount;
     private int followingCount;
-
-    // TODO : 프로필에 띄울 게시글?
+    private List<Diary> diaryList;
 }
