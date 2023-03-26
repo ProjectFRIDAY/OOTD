@@ -26,11 +26,13 @@ export default function WriteFeed({
 
   const [body, setBody] = useState("");
 
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
 
   const handleImageUrl = (imageUrl) => {
     setImageUrl(imageUrl);
   };
+
+  const formData = new FormData();
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -39,7 +41,11 @@ export default function WriteFeed({
           <RangePicker />
         </View>
       </View>
-      <CircleImageSelect handleImageUrl={handleImageUrl} imageUrl={imageUrl} />
+      <CircleImageSelect
+        handleImageUrl={handleImageUrl}
+        imageUrl={imageUrl}
+        formData={formData}
+      />
       <View style={styles.clickView}>
         <TouchableOpacity>
           <Image
