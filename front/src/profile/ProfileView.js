@@ -5,11 +5,32 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import FeedList from "./FeedList";
+import { getMyData } from "../api/api";
 
-export default function ProfileView() {
+export default function ProfileView({ navigation }) {
+  const [myProfileData, setMyProfileData] = useState({});
+
+  const handleSetMyProfileData = (res) => {
+    setMyProfileData(res);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const res = getMyData(navigation, handleSetMyProfileData);
+      console.log(res);
+      setMyProfileData(res);
+    }, [])
+  );
+
+  useEffect(() => {
+    console.log(myProfileData);
+  });
+
   return (
     <View style={sytles.container}>
       <FlatList
@@ -18,14 +39,18 @@ export default function ProfileView() {
             {/* <ScrollView stickyHeaderIndices={[2]}> */}
             <View style={sytles.backgroundImage}></View>
             <View style={sytles.profileImage}>
-              <Text
-                style={{
-                  fontSize: 50,
-                  color: "white",
-                }}
-              >
-                S
-              </Text>
+              {myProfileData?.userProfileImg ? (
+                <Image source={myProfileData?.userProfileImg} />
+              ) : (
+                <Text
+                  style={{
+                    fontSize: 50,
+                    color: "white",
+                  }}
+                >
+                  {/* {myProfileData?.userName[0]?.toUpperCase()} */}
+                </Text>
+              )}
             </View>
             {/* 정보view */}
             <View
@@ -50,7 +75,7 @@ export default function ProfileView() {
                     color: "#2B4036",
                   }}
                 >
-                  닉네임
+                  {myProfileData?.userName}
                 </Text>
                 <Text style={{ marginBottom: 5, color: "#2B4036" }}>
                   @OOTD_Friday
@@ -71,7 +96,7 @@ export default function ProfileView() {
                         color: "#2B4036",
                       }}
                     >
-                      296{" "}
+                      {myProfileData?.followerCount}{" "}
                     </Text>
                     <Text style={{ color: "#2B4036", marginRight: 10 }}>
                       팔로워
@@ -83,7 +108,7 @@ export default function ProfileView() {
                         color: "#2B4036",
                       }}
                     >
-                      296{" "}
+                      {myProfileData?.followingCount}{" "}
                     </Text>
                     <Text>팔로잉</Text>
                   </View>
