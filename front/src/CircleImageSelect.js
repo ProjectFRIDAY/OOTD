@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
-export default function CircleImageSelect({ handleImageUrl, imageUrl }) {
+export default function CircleImageSelect({
+  handleImageUrl,
+  imageUrl,
+  formData,
+}) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
   const uploadImage = async () => {
@@ -23,6 +27,12 @@ export default function CircleImageSelect({ handleImageUrl, imageUrl }) {
     }
     // console.log(result.assets[0].uri);
     handleImageUrl(result.assets[0].uri);
+    const imageUri = result.uri;
+    const filename = imageUri.split("/").pop();
+    const match = /\.(\w+)$/.exec(filename ?? "");
+    const type = match ? `image/${match[1]}` : `image`;
+    // const formData = new FormData();
+    formData.append("image", { uri: imageUri, name: filename, type });
   };
 
   return (
