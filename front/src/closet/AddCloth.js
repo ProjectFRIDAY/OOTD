@@ -16,12 +16,16 @@ import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import CategoryPicker from "./CategoryPicker";
 import HashTagPicker from "./HashTagPicker";
+import { addDress } from "../api/api";
 
 const { StatusBarManager } = NativeModules;
 
 export default function AddCloth({ navigation }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUrl, setImageUrl] = useState("");
+  const formData = new FormData();
+
+  const [form, setForm] = useState({});
 
   const uploadImage = async () => {
     if (!status?.granted) {
@@ -40,6 +44,13 @@ export default function AddCloth({ navigation }) {
       return null;
     }
     setImageUrl(result.assets[0].uri);
+    const imageUri = result.assets[0].uri;
+    const filename = imageUri.split("/").pop();
+    const match = /\.(\w+)$/.exec(filename ?? "");
+    const type = match ? `image/${match[1]}` : `image`;
+    // const formData = new FormData();
+    formData.append("image", { uri: imageUri, name: filename, type });
+    setForm(formData);
   };
   useEffect(() => {
     Platform.OS == "ios"
@@ -49,7 +60,21 @@ export default function AddCloth({ navigation }) {
       : null;
   }, []);
 
+  useEffect(() => {
+    console.log(form);
+  });
+
   const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  const [dressName, setDressName] = useState("");
+  const changeDressName = (text) => {
+    setDressName(text);
+  };
+
+  const [hashTag, setHashTag] = useState([]);
+  const changeHashTag = (arr) => {
+    setHashTag(arr);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -112,15 +137,20 @@ export default function AddCloth({ navigation }) {
           <TextInput
             placeholder="이름을 입력해주세요"
             placeholderTextColor={"#A2C3B9"}
+            onChangeText={(text) => {
+              changeDressName(text);
+            }}
             style={styles.textInput}
           ></TextInput>
           <Text style={styles.inputTitle}>해시태그</Text>
           <View style={{ margin: 9, marginTop: 0, zIndex: 1 }}>
-            <HashTagPicker />
+            <HashTagPicker changeHashTag={changeHashTag} />
           </View>
           <TouchableOpacity
             style={styles.saveBtn}
-            onPress={() => navigation.goBack()}
+            onPress={() =>
+              addDress(dressName, "high", hashTag, imageUrl, form, navigation)
+            }
           >
             <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
           </TouchableOpacity>
