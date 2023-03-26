@@ -10,9 +10,11 @@ import {
 import ClosetSearchBar from "../input/ClosetSearchBar";
 import ClosetFlatList from "./ClosetFlatList";
 import { AntDesign } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { dressList } from "../api/api";
 
 // 가데이터
 const outerFlatListData = [
@@ -97,6 +99,12 @@ export default function ClosetView({ navigation }) {
     };
     getData();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dressList();
+    })
+  );
 
   return (
     <>
@@ -199,10 +207,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#2B4036",
     position: "absolute",
     right: 20,
-    bottom: 20,
+    bottom: "13%",
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 80,
   },
 });
