@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 
-export default function HashTagPicker() {
+export default function HashTagPicker({ changeHashTag }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [items, setItems] = useState([
@@ -14,6 +14,10 @@ export default function HashTagPicker() {
     { label: "디테일", value: "디테일" },
     { label: "버튼", value: "버튼", parent: "디테일" },
   ]);
+
+  useEffect(() => {
+    changeHashTag(value);
+  });
 
   return (
     <DropDownPicker
