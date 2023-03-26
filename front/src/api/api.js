@@ -1,10 +1,85 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const api = axios.create({
   baseURL: "https://ootd-friday-api.shop/",
 });
+const apiAuth = axios.create({
+  baseURL: "https://ootd-friday-api.shop/",
+  withCredentials: true,
+  crossDomain: true,
+  credentials: "include",
+});
+
+apiAuth.interceptors.request.use(
+  async (config) => {
+    const accessToken = await AsyncStorage.getItem("accessToken");
+    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
+    config.headers["RefreshToken"] = refreshToken;
+    // console.log(config);
+    return config;
+  },
+  async (err) => {
+    // console.log(err.response);
+    // if (err.response?.status === 401) {
+    //   const data = err.response.data;
+    //   apiAuth
+    //     .get("api/auth/token/reissuance")
+    //     .then(async (res) => {
+    //       // await AsyncStorage.setItem("accessToken", res.)
+    //       console.log(res);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    //   // err.config.headers = {
+    //   //   Authorization: `Bearer ${accessToken}`,
+    //   //   RefreshToken:
+    //   // };
+    //   const originalResponse = await axios.request(err.config);
+    //   return originalResponse.data.data;
+    // } else {
+    //   alert("문제가 발생하였습니다. 다시 시도하세요.");
+    //   return Promise.reject(err);
+    // }
+  }
+);
+
+// apiAuth.interceptors.response.use(
+//   async (res) => {
+//     console.log(res);
+//     return res;
+//   },
+//   async (err) => {
+//     if (err.response?.status === 401) {
+//       const data = err.response.data;
+//       apiAuth
+//         .get("api/auth/token/reissuance")
+//         .then(async (res) => {
+//           // await AsyncStorage.setItem("accessToken", res)
+//           console.log(res);
+//         })
+//         .catch((e) => {
+//           console.log("get err");
+//           console.log(e);
+//         });
+//       // err.config.headers = {
+//       //   Authorization: `Bearer ${accessToken}`,
+//       //   RefreshToken:
+//       // };
+//       const originalResponse = await axios.request(err.config);
+//       return originalResponse.data.data;
+//     } else {
+//       alert("문제가 발생하였습니다. 다시 시도하세요.");
+//       return Promise.reject(err);
+//     }
+//   }
+// );
+
+// //-----------------------------------------------------------------
+// // 로그인 부분
 
 export const checkName = (name, handleClickDuplicate) => {
   // const [isCheck, setIsCheck] = useState(false);
@@ -31,7 +106,8 @@ export const login = (email, password, navigation) => {
       password: password,
     })
     .then(async (res) => {
-      await AsyncStorage.setItem("auth", res.data.data.userAuthenticationId);
+      await AsyncStorage.setItem("accessToken", res.data.data.accessToken);
+      await AsyncStorage.setItem("refreshToken", res.data.data.refreshToken);
       navigation.replace("MainPage");
     })
     .catch((e) => {
@@ -59,10 +135,149 @@ export const joinMembership = (
     })
     .then((res) => {
       alert("회원가입이 완료되었습니다.");
-      navigation.navigate("Login");
+      navigation.goBack();
     })
     .catch((e) => {
       alert("필수 정보를 입력하세요.");
       console.log(e);
+    });
+};
+
+//------------------------------------------------------------
+// 게시글 부분
+
+export const writeFeed = async ({
+  title,
+  content,
+  scope,
+  files,
+  formData,
+  navigation,
+}) => {
+  apiAuth
+    .post(
+      "api/diary",
+      {
+        data: {
+          dto: {
+            title: title,
+            content: content,
+            scope: scope,
+          },
+          files: formData,
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res.data);
+      navigation.goBack();
+    })
+    .catch((e) => {
+      console.log(e);
+      if (e.response?.status === 401) {
+        alert("다시 로그인해주세요");
+        navigation.replace("Login");
+      }
+    });
+  // apiAuth
+  //   .post("api/diary", {
+  //     dto: {
+  //       title: title,
+  //       content: content,
+  //       scope: scope,
+  //     },
+  //     files: [files],
+  //   })
+  //   .then((res) => {
+  //     console.log(res);
+  //     navigation.goBack();
+  //   })
+  //   .catch(async (e) => {
+  //     console.log("errrrr");
+  //     console.log(e);
+  //   });
+};
+
+// -----------------------------------------------------------
+// 옷장 부분
+
+export const addDress = (
+  dressName,
+  dressType,
+  hashTag,
+  file,
+  formData,
+  navigation
+) => {
+  apiAuth
+    .post(
+      "api/dress",
+      {
+        req: {
+          dressName: "dressName",
+          dressType: "OUTER",
+          hashTag: hashTag,
+        },
+        file: formData,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res);
+      navigation.goBack();
+    })
+    .catch((e) => {
+      console.log(e);
+      if (e.response?.status === 401) {
+        alert("다시 로그인해주세요");
+        navigation.replace("Login");
+      }
+    });
+};
+
+export const dressList = (navigation) => {
+  apiAuth
+    .get("api/dress")
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((e) => {
+      console.log(e);
+      if (e.response?.status === 401) {
+        alert("다시 로그인해주세요");
+        navigation.replace("Login");
+      }
+    });
+};
+
+// ---------------------------------------------------------
+// 본인 프로필
+
+export const getMyData = (navigation, handleSetMyProfileData) => {
+  apiAuth
+    .get("api/profile")
+    .then((res) => {
+      console.log("get");
+      handleSetMyProfileData(res.data.data);
+      return res.data.data;
+    })
+    .catch((e) => {
+      console.log(e);
+      if (e.response?.status === 401) {
+        alert("다시 로그인해주세요");
+        navigation.replace("Login");
+      } else {
+        alert("문제가 발생하였습니다. 다시 시도해주세요");
+        navigation.replace("Login");
+      }
     });
 };
