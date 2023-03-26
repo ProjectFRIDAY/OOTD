@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import ProfileView from "./ProfileView";
 
-export default function MyPage() {
+export default function MyPage({ navigation }) {
   return (
     <View>
-      <ProfileView />
+      <ProfileView navigation={navigation} />
     </View>
   );
 }

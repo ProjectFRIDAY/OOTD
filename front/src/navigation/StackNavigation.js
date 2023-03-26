@@ -10,6 +10,8 @@ import AddCloth from "../closet/AddCloth";
 import Splash from "../Splash";
 import WriteFeed from "../feed/WriteFeed";
 import ForgotPasswordView from "../loginpage/ForgotPasswordView";
+import ProfileView from "../profile/ProfileView";
+import MyPage from "../profile/MyPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +98,17 @@ export default function StackNavigation() {
           headerBackVisible: false,
         }}
       ></Stack.Screen>
+      <Stack.Screen
+        name="MyPage"
+        component={MyPage}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerBackVisible: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
