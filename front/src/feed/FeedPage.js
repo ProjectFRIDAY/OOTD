@@ -128,8 +128,9 @@ import {
   Text,
   FlatList,
   TouchableOpacity, // here
-  Alert,
-  
+  StyleSheet,
+  Modal,
+  Pressable,
 } from "react-native";
 
 export default class FeedPage extends React.Component {
@@ -137,6 +138,7 @@ export default class FeedPage extends React.Component {
     data: [],
     page: 1, // here
     following: false,
+    modalVisible: false,
   };
 
   _renderItem = ({ item }) => (
@@ -275,29 +277,82 @@ export default class FeedPage extends React.Component {
   };
 
   render() {
+    const {modalVisible} = this.state;
+
     return (
-      <FlatList
+      <View>
+        <FlatList
         data={this.state.data}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => item.id}
         onEndReached={this._handleLoadMore}
         onEndReachedThreshold={1}
-      />
+        />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            this.setState({modalVisible: !modalVisible});
+        }}>
+          <View style={styles.container}>
+            <View style={styles.modalView}>
+              <Pressable
+                style={[styles.button]}
+                onPress={() => {this.props.navigation.navigate('NotifyView'), !this.setState({modalVisible: !modalVisible})}}>
+                <Text style={styles.modalText}>신고</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonColor]}
+                onPress={() => {!this.setState({modalVisible: !modalVisible})}}>
+                <Text style={styles.textStyle}>취소</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
     );
   }
 
   BtnClick = () => {
-    Alert.alert(
-      "어느창으로 이동하시겠습니까?",
-      "",
-      [
-        {text: "취소"},
-        {
-          text: "신고창", 
-          onPress: () => {this.props.navigation.navigate('NotifyView')},
-        },
-      ],
-      {cancleable: false}
-    );
+    const {modalVisible} = this.state;
+
+    this.setState({modalVisible: !modalVisible});
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+  },
+  buttonColor: {
+    backgroundColor: "#2B4036",
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+  modalText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+});
