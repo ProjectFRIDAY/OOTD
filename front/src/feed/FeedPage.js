@@ -131,6 +131,7 @@ import {
   StyleSheet,
   Modal,
   Pressable,
+  Alert,
 } from "react-native";
 
 export default class FeedPage extends React.Component {
@@ -299,7 +300,7 @@ export default class FeedPage extends React.Component {
             <View style={styles.modalView}>
               <Pressable
                 style={[styles.button]}
-                onPress={() => {this.props.navigation.navigate('NotifyView'), !this.setState({modalVisible: !modalVisible})}}>
+                onPress={() => {this.BtnClick, !this.setState({modalVisible: !modalVisible})}}>
                 <Text style={styles.modalText}>신고</Text>
               </Pressable>
               <Pressable
@@ -315,9 +316,16 @@ export default class FeedPage extends React.Component {
   }
 
   BtnClick = () => {
-    const {modalVisible} = this.state;
-
-    this.setState({modalVisible: !modalVisible});
+    Alert.alert('정말 신고하시겠습니까?', '',[
+      {
+        text: '예',
+        onPress: () => this.props.navigation.navigate('NotifyView')
+      },
+      {
+        text: '취소',
+        style: 'cancel'
+      }
+    ]);
   }
 }
 

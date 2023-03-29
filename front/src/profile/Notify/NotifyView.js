@@ -6,67 +6,31 @@ const DATA = [
   {
     key: '1',
     name: '@name_1',
-    notifydata: '신고당함',
+    notifydata: '신고함',
     date: '2023.03.14'
   },
   {
     key: '2',
     name: '@name_1',
-    notifydata: '신고당함',
+    notifydata: '신고함',
     date: '2023.03.14'
   },
   {
     key: '3',
     name: '@name_1',
-    notifydata: '신고당함',
+    notifydata: '신고함',
     date: '2023.03.14'
   },
   {
     key: '4',
     name: '@name_1',
-    notifydata: '신고당함',
+    notifydata: '신고함',
     date: '2023.03.14'
   },
   {
     key: '5',
     name: '@name_1',
-    notifydata: '신고당함',
-    date: '2023.03.14'
-  },
-  {
-    key: '6',
-    name: '@name_1',
-    notifydata: '신고당함',
-    date: '2023.03.14'
-  },
-  {
-    key: '7',
-    name: '@name_1',
-    notifydata: '신고당함',
-    date: '2023.03.14'
-  },
-  {
-    key: '8',
-    name: '@name_1',
-    notifydata: '신고당함',
-    date: '2023.03.14'
-  },
-  {
-    key: '9',
-    name: '@name_1',
-    notifydata: '신고당함',
-    date: '2023.03.14'
-  },
-  {
-    key: '10',
-    name: '@name_1',
-    notifydata: '신고당함',
-    date: '2023.03.14'
-  },
-  {
-    key: '11',
-    name: '@name_1',
-    notifydata: '신고당함',
+    notifydata: '신고함',
     date: '2023.03.14'
   },
 ];
