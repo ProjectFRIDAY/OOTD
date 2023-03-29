@@ -1,23 +1,58 @@
 import { 
-  Text, 
   StyleSheet, 
   View, 
-  Alert, 
   FlatList, 
   Image, 
   Pressable, 
-  NativeModules,} from "react-native";
+  NativeModules,
+  Platform,} from "react-native";
 import { useState, useEffect } from "react";
 import CameraImg from "../../assets/images/circlecamera.png";
 import InfoInput from "../joinMembership/InfoInput";
 import Btn from "../button/Btn";
+import * as ImagePicker from "expo-image-picker";
 
 const { StatusBarManager } = NativeModules;
 
 export default function EditMyProfileView ({navigation}) {
-  const ImgClick = () => {
-    Alert.alert('이미지 추가 버튼','이미지 추가 버튼임');
+
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [imageUrl, setImageUrl] = useState("");
+
+  const uploadImage = async () => {
+    if (Platform.OS !== 'web') {
+      const {
+        status,
+      } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        alert('이미지를 업로드하려면 사진첩 권한이 필요합니다.');
+        return false
+      }
+      return true
+      
+    }
+  }; //사진권한
+
+  const loadImage = async () => {
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        return null;
+      }
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+      aspect: [1, 1],
+    });
+    if (result.canceled) {
+      return null;
+    }
+    // console.log(result.assets[0].uri);
+    setImageUrl(result.assets[0].uri);
   };
+
 
 
   const [checkEssentialFill, setCheckEssentialFill] = useState(false);
@@ -67,17 +102,16 @@ export default function EditMyProfileView ({navigation}) {
           <View>
             <View style={styles.backgroundImage}/>
             <View style={styles.profileImage}>
-              <Text
-                style={{
-                  fontSize: 50,
-                  color: "white",
-                  alignSelf: "center",
-                }}
-              >
-                S
-              </Text>
+              {imageUrl ? (
+                <Image source={{ uri: imageUrl }} style={styles.imageBox} />
+              ) : (
+                <Image
+                  source={require("../../assets/images/defaultImage.png")}
+                  style={[styles.imageBox]}
+                />
+              )}
             </View>
-            <Pressable onPress={ImgClick} style={styles.CameraImage}>
+            <Pressable onPress={() => {uploadImage(); loadImage();}} style={styles.CameraImage}>
               <Image source={CameraImg} style={{width: 45,height: 45,}}/>        
             </Pressable>
             <View style = {{marginTop: 50, padding: 44}}>
@@ -142,5 +176,11 @@ const styles = StyleSheet.create({
     left: 205,
     width: 45,
     height: 45,
+  },
+  imageBox: {
+    width: 90,
+    height: 90,
+    borderRadius: 50,
+    backgroundColor: "white",
   },
 })
