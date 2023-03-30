@@ -45,7 +45,7 @@ public class DressController {
 
     @Operation(summary = "옷 생성 API", description = "옷 생성 API 입니다.", tags = { "Dress Controller" })
     @PostMapping
-    public ResponseEntity<?> createDress(@RequestPart @Valid PostDressReq req, @RequestPart MultipartFile file) {
+    public ResponseEntity<?> createDress(@RequestPart(name = "req")/* @Valid */PostDressReq req, @RequestPart(name = "file") MultipartFile file) {
 
         return httpResponseUtil.createOkHttpResponse(dressService.createDress(req, file), "생성에 성공했습니다.");
 
