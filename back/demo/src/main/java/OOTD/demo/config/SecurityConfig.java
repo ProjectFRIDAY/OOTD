@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/create").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/checkname").permitAll()
-                .antMatchers("/api/auth/token/reissuance").permitAll()
+                .antMatchers("/api/auth/reissuance").permitAll()
                 .antMatchers("/test/**").permitAll()
 
                 // swagger 관련 처리

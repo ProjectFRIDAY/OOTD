@@ -86,7 +86,7 @@ public class AuthService implements UserDetailsService {
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
+                    new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -123,16 +123,18 @@ public class AuthService implements UserDetailsService {
     }
 
     public AccessTokenRes reissueAccessToken(HttpServletRequest request) {
+        String token = getAccessToken(request);
+
+        if (token == null) {
+            return null;
+        }
+
         Optional<RefreshToken> findRefreshToken =
                 refreshTokenRepository.findByRefreshToken(request.getHeader(REFRESH_TOKEN_PREFIX));
 
         if (findRefreshToken.isPresent() && findRefreshToken.get().getExpirationPeriod().isAfter(LocalDateTime.now())) {
 
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(findRefreshToken.get().getUser().getEmail(),
-                            findRefreshToken.get().getUser().getPassword());
-
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String accessToken = tokenProvider.createToken(authentication);
@@ -182,4 +184,15 @@ public class AuthService implements UserDetailsService {
         return userRepository.existsByAccountName(name);
     }
 
+    private String getAccessToken(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        String prefix = "Bearer ";
+
+        if (header == null) {
+            return null;
+        }
+
+        return header.substring(prefix.length());
+
+    }
 }
