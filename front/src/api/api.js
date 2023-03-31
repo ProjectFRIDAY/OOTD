@@ -110,8 +110,10 @@ export const login = (email, password, navigation) => {
       password: password,
     })
     .then(async (res) => {
+      console.log(res.data.data);
       await AsyncStorage.setItem("accessToken", res.data.data.accessToken);
       await AsyncStorage.setItem("refreshToken", res.data.data.refreshToken);
+      await AsyncStorage.setItem("userId", res.data.data.memberId.toString());
       navigation.replace("MainPage");
     })
     .catch((e) => {
@@ -147,6 +149,39 @@ export const joinMembership = (
     })
     .catch((e) => {
       alert("필수 정보를 입력하세요.");
+      console.log(e);
+    });
+};
+
+export const logout = (navigation) => {
+  apiAuth
+    .post("api/auth/logout")
+    .then(async (res) => {
+      console.log(res);
+      await AsyncStorage.removeItem("accessToken");
+      await AsyncStorage.removeItem("refreshToken");
+      await AsyncStorage.removeItem("userId");
+      navigation.replace("Login");
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+export const membershipWithdrawal = async (navigation) => {
+  const userId = await AsyncStorage.getItem("userId");
+  // getMyData(navigation, handleUserId);
+  apiAuth
+    .delete(`api/user/${userId}`)
+    .then(async (res) => {
+      console.log(res);
+      await AsyncStorage.removeItem("accessToken");
+      await AsyncStorage.removeItem("refreshToken");
+      await AsyncStorage.removeItem("userId");
+      navigation.navigate("Login");
+    })
+    .catch((e) => {
+      console.log("membership");
       console.log(e);
     });
 };
@@ -316,6 +351,7 @@ export const getMyData = (navigation, handleSetMyProfileData) => {
   apiAuth
     .get("api/profile")
     .then((res) => {
+      console.log(res.data.data.userId);
       handleSetMyProfileData(res.data.data);
       return res.data.data;
     })
