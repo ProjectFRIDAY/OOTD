@@ -43,11 +43,20 @@ public class DressController {
 
     }
 
-    @Operation(summary = "옷 생성 API", description = "옷 생성 API 입니다.", tags = { "Dress Controller" })
-    @PostMapping
-    public ResponseEntity<?> createDress(@RequestPart(name = "req")/* @Valid */PostDressReq req, @RequestPart(name = "file") MultipartFile file) {
+    @Operation(summary = "옷 생성 API (dto)", description = "옷 생성 API 입니다.", tags = { "Dress Controller" })
+    @PostMapping("/req/{id}")
+    public ResponseEntity<?> createDress(@PathVariable Long id, @RequestBody @Valid PostDressReq req) {
 
-        return httpResponseUtil.createOkHttpResponse(dressService.createDress(req, file), "생성에 성공했습니다.");
+        dressService.setDressData(id, req);
+        return httpResponseUtil.createOkHttpResponse(null, "옷 정보 생성에 성공했습니다.");
+
+    }
+
+    @Operation(summary = "옷 생성 API (file)", description = "옷 생성 API 입니다.", tags = { "Dress Controller" })
+    @PostMapping("/file")
+    public ResponseEntity<?> createDress(@RequestPart MultipartFile file) {
+
+        return httpResponseUtil.createOkHttpResponse(dressService.createDress(null, file), "생성에 성공했습니다.");
 
     }
 

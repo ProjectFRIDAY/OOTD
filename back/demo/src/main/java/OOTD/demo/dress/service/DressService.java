@@ -3,6 +3,7 @@ package OOTD.demo.dress.service;
 import OOTD.demo.auth.service.AuthService;
 import OOTD.demo.dress.Dress;
 import OOTD.demo.dress.DressHashTag;
+import OOTD.demo.dress.DressType;
 import OOTD.demo.dress.dto.DressRes;
 import OOTD.demo.dress.dto.PostDressReq;
 import OOTD.demo.dress.dto.UpdateDressReq;
@@ -12,6 +13,7 @@ import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.hashtag.HashTag;
 import OOTD.demo.hashtag.repository.HashTagRepository;
 import OOTD.demo.hashtag.service.HashTagService;
+import OOTD.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,11 +49,16 @@ public class DressService {
      */
     public Long createDress(PostDressReq req, MultipartFile file) {
 
-        Dress dress = dressRepository.save(Dress.createDress(authService.getCurrentLoginUser(), req.getDressName(),
-                req.getDressType(), fileUploadUtil.uploadFile(category, file).getUrl()));
+        // TODO : 파일 업로드 로직 연동
+
+        /*Dress dress = dressRepository.save(Dress.createDress(authService.getCurrentLoginUser(), req.getDressName(),
+                req.getDressType(), fileUploadUtil.uploadFile(category, file).getUrl()));*/
+
+        Dress dress = dressRepository.save(Dress.createDress(authService.getCurrentLoginUser(), "",
+                DressType.OUTER, fileUploadUtil.uploadFile(category, file).getUrl()));
 
         // 해시태그 생성
-        for (String tagStr : req.getHashTag()) {
+        /*for (String tagStr : req.getHashTag()) {
             Optional<HashTag> findHashTag = hashTagRepository.findByName(tagStr);
 
             if (findHashTag.isEmpty()) {
@@ -63,9 +70,35 @@ public class DressService {
             }
 
             dressHashTagRepository.save(DressHashTag.createDressHashTag(dress, findHashTag.get()));
-        }
+        }*/
 
         return dress.getId();
+    }
+
+    public void setDressData(Long id, PostDressReq req) {
+
+        User currentLoginUser = authService.getCurrentLoginUser();
+        Dress dress = dressRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+
+        if (!Objects.equals(dress.getUser().getId(), currentLoginUser.getId())) {
+            return;
+        }
+
+        // 해시태그 생성
+        for (String tagStr : req.getHashTag()) {
+            Optional<HashTag> findHashTag = hashTagRepository.findByName(tagStr);
+
+            if (findHashTag.isEmpty()) {
+                // 기존에 존재하지 않던 해시태그일 경우 새로운 해시태그 생성
+                HashTag newHashTag = hashTagRepository.save(HashTag.createHashTag(tagStr));
+                dressHashTagRepository.save(DressHashTag.createDressHashTag(dress, newHashTag));
+            } else {
+                dressHashTagRepository.save(DressHashTag.createDressHashTag(dress, findHashTag.get()));
+            }
+
+        }
+
+        dress.updateDress(req.getDressName(), req.getDressType(), dress.getDressImageUrl());
     }
 
     /**

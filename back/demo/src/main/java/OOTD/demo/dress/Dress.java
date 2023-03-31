@@ -62,5 +62,4 @@ public class Dress {
         this.dressType = dressType;
         this.dressImageUrl = dressImageUrl;
     }
-
 }
