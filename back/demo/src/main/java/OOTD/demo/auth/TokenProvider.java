@@ -37,13 +37,13 @@ public class TokenProvider implements InitializingBean {
     private Key key;
 
     @Override
-    public void afterPropertiesSet()  {
+    public void afterPropertiesSet() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // Authentication 객체의 권한 정보를 이용해서 토큰을 생성
-    public String createToken(Authentication authentication){
+    public String createToken(Authentication authentication) {
 
         // authorities 설정
         String authorities = authentication.getAuthorities().stream()
@@ -63,7 +63,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     // 토큰에 담겨있는 정보를 이용해 Authentication 객체 리턴
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
 
         System.out.println("getAuthentication");
 
@@ -89,10 +89,10 @@ public class TokenProvider implements InitializingBean {
     }
 
     // 토큰의 유효성 검증 수행
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
 
         // 토큰 파싱 후 발생하는 예외 캐치하여 문제 있으면 false, 정상이면 true 리턴
-        try{
+        try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         }
