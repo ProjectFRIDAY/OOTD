@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 
-export default function CategoryPicker() {
+export default function CategoryPicker({ handleSetCategory }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: "아우터", value: "아우터" },
-    { label: "상의", value: "상의" },
-    { label: "하의", value: "하의" },
-    { label: "신발", value: "신발" },
+    { label: "아우터", value: "OUTER" },
+    { label: "상의", value: "TOP" },
+    { label: "하의", value: "BOTTOMS" },
+    { label: "신발", value: "SHOES" },
   ]);
+
+  useEffect(() => {
+    handleSetCategory(value);
+  });
 
   return (
     <DropDownPicker
