@@ -22,10 +22,11 @@ public class DressRes implements Comparable<DressRes> {
     private Long id;
     private String dressName;
     private DressType dressType;
+    private String imageUrl;
     private List<String> hashTag;
 
     public static DressRes of(Dress dress, List<DressHashTag> hashTagList) {
-        return new DressRes(dress.getId(), dress.getDressName(), dress.getDressType(),
+        return new DressRes(dress.getId(), dress.getDressName(), dress.getDressType(), dress.getDressImageUrl(),
                 hashTagList
                         .stream()
                         .map(hashTag -> hashTag.getHashTag().getName())

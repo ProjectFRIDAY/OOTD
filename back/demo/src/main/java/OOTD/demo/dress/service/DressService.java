@@ -208,6 +208,7 @@ public class DressService {
         return new DressRes(dress.getId(),
                 dress.getDressName(),
                 dress.getDressType(),
+                dress.getDressImageUrl(),
                 hashTagList
                 );
     }
