@@ -128,6 +128,10 @@ import {
   Text,
   FlatList,
   TouchableOpacity, // here
+  StyleSheet,
+  Modal,
+  Pressable,
+  Alert,
 } from "react-native";
 import { getFeed } from "../api/api";
 
@@ -136,6 +140,7 @@ export default class FeedPage extends React.Component {
     data: [],
     page: 1, // here
     following: false,
+    modalVisible: false,
   };
 
   _renderItem = ({ item }) => (
@@ -201,7 +206,7 @@ export default class FeedPage extends React.Component {
               <Text style={{ color: "white" }}>팔로우</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.BtnClick}>
             <Image
               source={require("../../assets/images/morebtn.png")}
               style={{ width: 20, height: 17 }}
@@ -274,14 +279,89 @@ export default class FeedPage extends React.Component {
   };
 
   render() {
+    const {modalVisible} = this.state;
+
     return (
-      <FlatList
+      <View>
+        <FlatList
         data={this.state.data}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => item.id}
         onEndReached={this._handleLoadMore}
         onEndReachedThreshold={1}
-      />
+        />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            this.setState({modalVisible: !modalVisible});
+        }}>
+          <View style={styles.container}>
+            <View style={styles.modalView}>
+              <Pressable
+                style={[styles.button]}
+                onPress={() => {this.BtnClick, !this.setState({modalVisible: !modalVisible})}}>
+                <Text style={styles.modalText}>신고</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonColor]}
+                onPress={() => {!this.setState({modalVisible: !modalVisible})}}>
+                <Text style={styles.textStyle}>취소</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
     );
   }
+
+  BtnClick = () => {
+    Alert.alert('정말 신고하시겠습니까?', '',[
+      {
+        text: '예',
+        onPress: () => this.props.navigation.navigate('NotifyView')
+      },
+      {
+        text: '취소',
+        style: 'cancel'
+      }
+    ]);
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 10,
+    padding: 10,
+  },
+  buttonColor: {
+    backgroundColor: "#2B4036",
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+  modalText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+});

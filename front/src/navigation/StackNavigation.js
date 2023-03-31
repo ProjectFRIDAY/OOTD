@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import JoinMembershipView from "../joinMembership/JoinMembershipView";
 import LoginPage from "../loginpage/LoginPage";
 import LogoTitle from "./LogoTitle";
+import SettingTitle from "./SettingTitle";
 import TabNavigation from "./TabNavigation";
 import TabMiddleBtn from "./TabMiddleBtn";
 import ClosetDetail from "../closet/CLosetDetail";
@@ -9,9 +10,11 @@ import ClosetView from "../closet/ClosetView";
 import AddCloth from "../closet/AddCloth";
 import Splash from "../Splash";
 import WriteFeed from "../feed/WriteFeed";
-import ForgotPasswordView from "../loginpage/ForgotPasswordView";
-import ProfileView from "../profile/ProfileView";
+import EditMyProfileView from "../profile/EditMyProfileView";
+import SettingView from "../SettingView";
+import NotifyView from "../profile/Notify/NotifyView";
 import MyPage from "../profile/MyPage";
+// import ForgotPasswordView from "../loginpage/ForgotPasswordView";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +41,7 @@ export default function StackNavigation() {
           headerTitle: (props) => <LogoTitle {...props} />,
         }}
       ></Stack.Screen>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ForgotPasswordView"
         component={ForgotPasswordView}
         options={{
@@ -47,7 +50,7 @@ export default function StackNavigation() {
           },
           headerTitle: (props) => <LogoTitle {...props} />,
         }}
-      ></Stack.Screen>
+      ></Stack.Screen> */}
       <Stack.Screen
         name="MainPage"
         component={TabNavigation}
@@ -56,6 +59,7 @@ export default function StackNavigation() {
             backgroundColor: "#3B5448",
           },
           headerTitle: (props) => <LogoTitle {...props} />,
+          headerRight: (props) => <SettingTitle {...props} />,
           headerBackVisible: false,
         }}
       ></Stack.Screen>
@@ -108,7 +112,37 @@ export default function StackNavigation() {
           headerTitle: (props) => <LogoTitle {...props} />,
           headerBackVisible: false,
         }}
-      />
+      ></Stack.Screen>
+      <Stack.Screen
+        name="EditMyProfileView"
+        component={EditMyProfileView}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="SettingView"
+        component={SettingView}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="NotifyView"
+        component={NotifyView}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+        }}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 }

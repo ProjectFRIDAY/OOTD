@@ -6,10 +6,15 @@ import {
   ScrollView,
   FlatList,
   Image,
+<<<<<<< HEAD
+=======
+  Alert, 
+>>>>>>> 44b391c9e3021185149cc32bff239cfa2ffffa28
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import FeedList from "./FeedList";
+<<<<<<< HEAD
 import { getMyData } from "../api/api";
 
 export default function ProfileView({ navigation }) {
@@ -26,13 +31,35 @@ export default function ProfileView({ navigation }) {
     }, [])
   );
 
+=======
+import { useNavigation } from "@react-navigation/core";
+
+export default function ProfileView( ) {  
+  const navigation = useNavigation()
+  
+>>>>>>> 44b391c9e3021185149cc32bff239cfa2ffffa28
   return (
     <View style={sytles.container}>
       <FlatList
         ListHeaderComponent={
           <View>
             {/* <ScrollView stickyHeaderIndices={[2]}> */}
-            <View style={sytles.backgroundImage}></View>
+            <View style={sytles.backgroundImage}>
+
+              {/* DropDownPicker로 수정 예정*/}
+              <TouchableOpacity style={{
+                width: 30, 
+                marginTop: 10, 
+                marginRight: 4, 
+                alignSelf: 'flex-end'}}
+              >
+                <Image
+                  source={require("../../assets/images/morebtn.png")}
+                  style={{ width: 30, height: 24 }}
+                />
+              </TouchableOpacity>
+
+            </View>
             <View style={sytles.profileImage}>
               {myProfileData?.userProfileImg ? (
                 <Image source={myProfileData?.userProfileImg} />
@@ -107,7 +134,10 @@ export default function ProfileView({ navigation }) {
                     </Text>
                     <Text>팔로잉</Text>
                   </View>
-                  <TouchableOpacity style={sytles.btn}>
+                  <TouchableOpacity
+                  style={sytles.btn}
+                  onPress={() => navigation.navigate('EditMyProfileView')}
+                  >
                     <Text
                       style={{
                         fontSize: 13,
