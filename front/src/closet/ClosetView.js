@@ -14,68 +14,7 @@ import React, { useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { dressList } from "../api/api";
-
-// 가데이터
-const outerFlatListData = [
-  // {
-  //   // key: "3",
-  //   hashTag: ["긴팔", "오리털"],
-  //   type: "아우터",
-  //   day: 1,
-  //   name: "패딩",
-  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/baboon.png",
-  //   numberOfWear: 7,
-  // },
-  // {
-  //   // key: "4",
-  //   hashTag: ["긴팔", "떡볶이"],
-  //   type: "아우터",
-  //   day: 5,
-  //   name: "코트",
-  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/frymire.png",
-  //   numberOfWear: 2,
-  // },
-  // {
-  //   // key: "1",
-  //   hashTag: ["2WAY", "긴팔", "기모"],
-  //   type: "아우터",
-  //   day: 2,
-  //   name: "2WAY 아노락",
-  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
-  //   numberOfWear: 5,
-  // },
-  // {
-  //   // key: "2",
-  //   hashTag: ["2WAY", "긴팔", "기모"],
-  //   type: "아우터",
-  //   day: 3,
-  //   name: "베이직 아노락",
-  //   imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
-  //   numberOfWear: 4,
-  // },
-];
-
-const highFlatListData = [
-  {
-    // key: "1",
-    hashTag: ["2WAY", "긴팔", "기모"],
-    type: "상의",
-    day: 2,
-    name: "2WAY 아노락",
-    imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
-    numberOfWear: 5,
-  },
-  {
-    // key: "2",
-    hashTag: ["2WAY", "긴팔", "기모"],
-    type: "상의",
-    day: 3,
-    name: "베이직 아노락",
-    imageUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",
-    numberOfWear: 4,
-  },
-];
+import { getDressList } from "../api/api";
 
 export default function ClosetView({ navigation }) {
   const [isHashtag, setIsHashtag] = useState(true);
@@ -100,10 +39,49 @@ export default function ClosetView({ navigation }) {
     getData();
   }, []);
 
+  const [dressList, setDressList] = useState([]);
+  const [outerFlatListData, setOuterFlatListData] = useState([]);
+  const handleOuterFlatListData = (res) => {
+    setOuterFlatListData((outerFlatListData) => [...outerFlatListData, res]);
+  };
+  const [topFlatListData, setTopFlatListData] = useState([]);
+  const handleTopFlatListData = (res) => {
+    setTopFlatListData((topFlatListData) => [...topFlatListData, res]);
+  };
+  const [bottomsFlatListData, setBottomsFlatListData] = useState([]);
+  const handleBottomsFlatListData = (res) => {
+    setBottomsFlatListData((bottomsFlatListData) => [
+      ...bottomsFlatListData,
+      res,
+    ]);
+  };
+  const [shoesFlatListData, setShoesFlatListData] = useState([]);
+  const handleShoesFlatListData = (res) => {
+    setShoesFlatListData((shoesFlatListData) => [...shoesFlatListData, res]);
+  };
+
+  const handleSetDressList = (res) => {
+    setDressList(res);
+  };
+
+  // useEffect(() => {
+
+  // }, []);
+
   useFocusEffect(
     React.useCallback(() => {
-      dressList();
-    })
+      setOuterFlatListData([]);
+      setTopFlatListData([]);
+      setBottomsFlatListData([]);
+      setShoesFlatListData([]);
+      getDressList(
+        navigation,
+        handleOuterFlatListData,
+        handleTopFlatListData,
+        handleBottomsFlatListData,
+        handleShoesFlatListData
+      );
+    }, [])
   );
 
   return (
@@ -166,7 +144,7 @@ export default function ClosetView({ navigation }) {
             상의
           </Text>
           <ClosetFlatList
-            flatListData={highFlatListData}
+            flatListData={topFlatListData}
             navigation={navigation}
             isHashtag={isHashtag}
           />
@@ -183,7 +161,24 @@ export default function ClosetView({ navigation }) {
             하의
           </Text>
           <ClosetFlatList
-            flatListData={highFlatListData}
+            flatListData={bottomsFlatListData}
+            navigation={navigation}
+            isHashtag={isHashtag}
+          />
+        </View>
+        <View>
+          <Text
+            style={{
+              fontSize: 17,
+              fontWeight: "bold",
+              margin: 15,
+              marginBottom: 0,
+            }}
+          >
+            신발
+          </Text>
+          <ClosetFlatList
+            flatListData={shoesFlatListData}
             navigation={navigation}
             isHashtag={isHashtag}
           />
