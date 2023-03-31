@@ -28,6 +28,14 @@ export default function InfoInput({
     }
   };
 
+  useEffect(() => {
+    if (emailChange.length !== 0) {
+      setCheckAuthenticate(true);
+    } else {
+      setCheckAuthenticate(false);
+    }
+  });
+
   const [passwordConfirmationChange, setPasswordConfirmationChange] =
     useState("");
   const handlepasswordConfirmationChange = (text) => {
@@ -140,16 +148,8 @@ export default function InfoInput({
           textType={false}
           handleChange={handleEmailChange}
         />
-        <TouchableOpacity
-          style={styles.inputBtn}
-          onPress={() => {
-            setClickSend(true);
-          }}
-        >
-          <Text style={{ color: "#456A5A" }}>인증코드 전송</Text>
-        </TouchableOpacity>
       </View>
-      {clickSend && (
+      {/* {clickSend && (
         <View>
           <InputText
             placeHoldText={"인증번호를 입력하세요."}
@@ -164,7 +164,7 @@ export default function InfoInput({
             <Text style={{ textAlign: "center", color: "#E6EBE9" }}>확인</Text>
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
       <View>
         <View style={styles.titleView}>
           <Text style={styles.titleText}>Password *</Text>
@@ -204,7 +204,7 @@ export default function InfoInput({
         <InputText
           placeHoldText={"YY-MM-DD"}
           keyboardType={"email-address"}
-          textType={true}
+          textType={false}
           handleChange={handleBirthChange}
         />
       </View>

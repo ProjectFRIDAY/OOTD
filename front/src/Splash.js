@@ -5,8 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Splash({ navigation }) {
   useEffect(() => {
     setTimeout(() => {
-      AsyncStorage.getItem("auth").then((value) => {
-        console.log(value);
+      AsyncStorage.getItem("accessToken").then((value) => {
+        // console.log(value);
         if (value != null) {
           navigation.replace("MainPage");
         } else {

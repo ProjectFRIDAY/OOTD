@@ -16,12 +16,17 @@ import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import CategoryPicker from "./CategoryPicker";
 import HashTagPicker from "./HashTagPicker";
+import { addDress } from "../api/api";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { StatusBarManager } = NativeModules;
 
 export default function AddCloth({ navigation }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUrl, setImageUrl] = useState("");
+
+  const [form, setForm] = useState();
 
   const uploadImage = async () => {
     if (!status?.granted) {
@@ -33,13 +38,21 @@ export default function AddCloth({ navigation }) {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
+      quality: 0.1,
       aspect: [1, 1],
     });
     if (result.canceled) {
       return null;
     }
     setImageUrl(result.assets[0].uri);
+    const imageUri = result.assets[0].uri;
+    const filename = imageUri.split("/").pop();
+    const match = /\.(\w+)$/.exec(filename ?? "");
+    const type = match ? `image/${match[1]}` : `image`;
+    const formData = new FormData();
+    formData.append("file", { uri: imageUri, name: filename, type });
+    setForm(formData);
+    console.log(form);
   };
   useEffect(() => {
     Platform.OS == "ios"
@@ -50,6 +63,21 @@ export default function AddCloth({ navigation }) {
   }, []);
 
   const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  const [category, setCategory] = useState("");
+  const handleSetCategory = (res) => {
+    setCategory(res);
+  };
+
+  const [dressName, setDressName] = useState("");
+  const changeDressName = (text) => {
+    setDressName(text);
+  };
+
+  const [hashTag, setHashTag] = useState([]);
+  const changeHashTag = (arr) => {
+    setHashTag(arr);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -66,7 +94,7 @@ export default function AddCloth({ navigation }) {
                 width: 120,
               }}
             >
-              <CategoryPicker />
+              <CategoryPicker handleSetCategory={handleSetCategory} />
             </View>
           </View>
           {imageUrl ? (
@@ -112,15 +140,20 @@ export default function AddCloth({ navigation }) {
           <TextInput
             placeholder="이름을 입력해주세요"
             placeholderTextColor={"#A2C3B9"}
+            onChangeText={(text) => {
+              changeDressName(text);
+            }}
             style={styles.textInput}
           ></TextInput>
           <Text style={styles.inputTitle}>해시태그</Text>
           <View style={{ margin: 9, marginTop: 0, zIndex: 1 }}>
-            <HashTagPicker />
+            <HashTagPicker changeHashTag={changeHashTag} />
           </View>
           <TouchableOpacity
             style={styles.saveBtn}
-            onPress={() => navigation.goBack()}
+            onPress={() =>
+              addDress(dressName, category, hashTag, imageUrl, form, navigation)
+            }
           >
             <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
           </TouchableOpacity>

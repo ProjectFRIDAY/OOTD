@@ -73,6 +73,7 @@ export default function JoinMembershipView({ navigation }) {
             handleEmailChange={handleEmailChange}
             handlePasswordChange={handlePasswordChange}
             handleBirthChange={handleBirthChange}
+            emailChange={emailChange}
             accountChange={accountChange}
             nickNameChange={nickNameChange}
             passwordChange={passwordChange}

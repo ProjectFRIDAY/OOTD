@@ -1,11 +1,12 @@
-import { 
-  StyleSheet, 
-  View, 
-  FlatList, 
-  Image, 
-  Pressable, 
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Image,
+  Pressable,
   NativeModules,
-  Platform,} from "react-native";
+  Platform,
+} from "react-native";
 import { useState, useEffect } from "react";
 import CameraImg from "../../assets/images/circlecamera.png";
 import InfoInput from "../joinMembership/InfoInput";
@@ -14,22 +15,18 @@ import * as ImagePicker from "expo-image-picker";
 
 const { StatusBarManager } = NativeModules;
 
-export default function EditMyProfileView ({navigation}) {
-
+export default function EditMyProfileView({ navigation }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUrl, setImageUrl] = useState("");
 
   const uploadImage = async () => {
-    if (Platform.OS !== 'web') {
-      const {
-        status,
-      } = await ImagePicker.requestCameraPermissionsAsync();
+    if (Platform.OS !== "web") {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== "granted") {
-        alert('이미지를 업로드하려면 사진첩 권한이 필요합니다.');
-        return false
+        alert("이미지를 업로드하려면 사진첩 권한이 필요합니다.");
+        return false;
       }
-      return true
-      
+      return true;
     }
   }; //사진권한
 
@@ -52,8 +49,6 @@ export default function EditMyProfileView ({navigation}) {
     // console.log(result.assets[0].uri);
     setImageUrl(result.assets[0].uri);
   };
-
-
 
   const [checkEssentialFill, setCheckEssentialFill] = useState(false);
   const handleCheckEssentialFill = (isFill) => {
@@ -95,12 +90,12 @@ export default function EditMyProfileView ({navigation}) {
     setBirthChange(text);
   };
 
-	return (
-		<View style={styles.container}>
+  return (
+    <View style={styles.container}>
       <FlatList
         ListHeaderComponent={
           <View>
-            <View style={styles.backgroundImage}/>
+            <View style={styles.backgroundImage} />
             <View style={styles.profileImage}>
               {imageUrl ? (
                 <Image source={{ uri: imageUrl }} style={styles.imageBox} />
@@ -111,10 +106,16 @@ export default function EditMyProfileView ({navigation}) {
                 />
               )}
             </View>
-            <Pressable onPress={() => {uploadImage(); loadImage();}} style={styles.CameraImage}>
-              <Image source={CameraImg} style={{width: 45,height: 45,}}/>        
+            <Pressable
+              onPress={() => {
+                uploadImage();
+                loadImage();
+              }}
+              style={styles.CameraImage}
+            >
+              <Image source={CameraImg} style={{ width: 45, height: 45 }} />
             </Pressable>
-            <View style = {{marginTop: 50, padding: 44}}>
+            <View style={{ marginTop: 50, padding: 44 }}>
               <InfoInput
                 handleCheckEssentialFill={handleCheckEssentialFill}
                 handleAccountChange={handleAccountChange}
@@ -122,6 +123,7 @@ export default function EditMyProfileView ({navigation}) {
                 handleEmailChange={handleEmailChange}
                 handlePasswordChange={handlePasswordChange}
                 handleBirthChange={handleBirthChange}
+                emailChange={emailChange}
                 accountChange={accountChange}
                 nickNameChange={nickNameChange}
                 passwordChange={passwordChange}
@@ -140,7 +142,7 @@ export default function EditMyProfileView ({navigation}) {
         }
       />
     </View>
-	);
+  );
 }
 
 const styles = StyleSheet.create({
@@ -183,4 +185,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "white",
   },
-})
+});

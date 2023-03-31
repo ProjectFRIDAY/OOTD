@@ -6,15 +6,27 @@ import {
   ScrollView,
   FlatList,
   Image,
-  Alert, 
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import FeedList from "./FeedList";
-import { useNavigation } from "@react-navigation/core";
+import { getMyData } from "../api/api";
 
-export default function ProfileView( ) {  
-  const navigation = useNavigation()
-  
+export default function ProfileView({ navigation }) {
+  const [myProfileData, setMyProfileData] = useState({});
+
+  const handleSetMyProfileData = (res) => {
+    setMyProfileData(res);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getMyData(navigation, handleSetMyProfileData);
+      // console.log(res);
+    }, [])
+  );
+
   return (
     <View style={sytles.container}>
       <FlatList
@@ -22,30 +34,34 @@ export default function ProfileView( ) {
           <View>
             {/* <ScrollView stickyHeaderIndices={[2]}> */}
             <View style={sytles.backgroundImage}>
-
               {/* DropDownPicker로 수정 예정*/}
-              <TouchableOpacity style={{
-                width: 30, 
-                marginTop: 10, 
-                marginRight: 4, 
-                alignSelf: 'flex-end'}}
+              <TouchableOpacity
+                style={{
+                  width: 30,
+                  marginTop: 10,
+                  marginRight: 4,
+                  alignSelf: "flex-end",
+                }}
               >
                 <Image
                   source={require("../../assets/images/morebtn.png")}
                   style={{ width: 30, height: 24 }}
                 />
               </TouchableOpacity>
-
             </View>
             <View style={sytles.profileImage}>
-              <Text
-                style={{
-                  fontSize: 50,
-                  color: "white",
-                }}
-              >
-                S
-              </Text>
+              {myProfileData?.userProfileImg ? (
+                <Image source={myProfileData?.userProfileImg} />
+              ) : (
+                <Text
+                  style={{
+                    fontSize: 50,
+                    color: "white",
+                  }}
+                >
+                  {/* {myProfileData?.userName[0]?.toUpperCase()} */}
+                </Text>
+              )}
             </View>
             {/* 정보view */}
             <View
@@ -70,7 +86,7 @@ export default function ProfileView( ) {
                     color: "#2B4036",
                   }}
                 >
-                  닉네임
+                  {myProfileData?.userName}
                 </Text>
                 <Text style={{ marginBottom: 5, color: "#2B4036" }}>
                   @OOTD_Friday
@@ -91,7 +107,7 @@ export default function ProfileView( ) {
                         color: "#2B4036",
                       }}
                     >
-                      296{" "}
+                      {myProfileData?.followerCount}{" "}
                     </Text>
                     <Text style={{ color: "#2B4036", marginRight: 10 }}>
                       팔로워
@@ -103,13 +119,13 @@ export default function ProfileView( ) {
                         color: "#2B4036",
                       }}
                     >
-                      296{" "}
+                      {myProfileData?.followingCount}{" "}
                     </Text>
                     <Text>팔로잉</Text>
                   </View>
                   <TouchableOpacity
-                  style={sytles.btn}
-                  onPress={() => navigation.navigate('EditMyProfileView')}
+                    style={sytles.btn}
+                    onPress={() => navigation.navigate("EditMyProfileView")}
                   >
                     <Text
                       style={{

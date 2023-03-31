@@ -133,6 +133,7 @@ import {
   Pressable,
   Alert,
 } from "react-native";
+import { getFeed } from "../api/api";
 
 export default class FeedPage extends React.Component {
   state = {

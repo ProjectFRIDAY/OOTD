@@ -26,22 +26,24 @@ export default function ClosetFlatList({
           style={{ backgroundColor: "white", borderRadius: 25 }}
           onPress={() => {
             navigation.navigate("ClosetDetail", {
-              name: item.name,
+              name: item.dressName,
               hashTag: item.hashTag,
               day: item.day,
               imageUrl: item.imageUrl,
               numberOfWear: item.numberOfWear,
-              type: item.type,
+              type: item.dressType,
+              id: item.id,
             });
           }}
         >
           <Image
-            source={{ uri: item.imageUrl, width: 200, height: 200 }}
+            source={{ uri: item?.imageUrl, width: 200, height: 200 }}
+            style={{ borderRadius: 20 }}
           ></Image>
         </TouchableOpacity>
         {isHashtag ? (
           <Text numberOfLines={1} style={styles.hashTag}>
-            {item.hashTag.map((value) => (
+            {item?.hashTag.map((value) => (
               <TouchableOpacity>
                 <Text style={{ color: "#456A5A" }}>#{value} </Text>
               </TouchableOpacity>
@@ -52,7 +54,7 @@ export default function ClosetFlatList({
           numberOfLines={1}
           style={[styles.itemName, isHashtag ? null : { marginTop: 10 }]}
         >
-          {item.name}
+          {item?.dressName}
         </Text>
         <Text style={styles.lastWearDay}>{item.day}일 전에 입음</Text>
       </View>
@@ -60,7 +62,7 @@ export default function ClosetFlatList({
   };
   return (
     <>
-      {flatListData.length === 0 ? (
+      {flatListData?.length === 0 ? (
         <View
           style={{
             width: "100%",

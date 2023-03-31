@@ -13,6 +13,7 @@ import WriteFeed from "../feed/WriteFeed";
 import EditMyProfileView from "../profile/EditMyProfileView";
 import SettingView from "../SettingView";
 import NotifyView from "../profile/Notify/NotifyView";
+import MyPage from "../profile/MyPage";
 // import ForgotPasswordView from "../loginpage/ForgotPasswordView";
 
 const Stack = createNativeStackNavigator();
@@ -57,8 +58,8 @@ export default function StackNavigation() {
           headerStyle: {
             backgroundColor: "#3B5448",
           },
-          headerTitle: (props) => (<LogoTitle {...props} />),
-          headerRight: (props) => (<SettingTitle {...props} />),
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerRight: (props) => <SettingTitle {...props} />,
           headerBackVisible: false,
         }}
       ></Stack.Screen>
@@ -93,6 +94,17 @@ export default function StackNavigation() {
       <Stack.Screen
         name="WriteFeed"
         component={WriteFeed}
+        options={{
+          headerStyle: {
+            backgroundColor: "#3B5448",
+          },
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerBackVisible: false,
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="MyPage"
+        component={MyPage}
         options={{
           headerStyle: {
             backgroundColor: "#3B5448",
