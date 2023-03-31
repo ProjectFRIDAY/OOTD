@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import { deleteDress } from "../api/api";
 
 export default function ClosetDetail({ route, navigation }) {
   return (
@@ -20,22 +21,26 @@ export default function ClosetDetail({ route, navigation }) {
       </View>
       <View style={{ margin: 15 }}>
         <View style={{ width: "100%", alignItems: "center" }}>
-          <View style={sytles.imageBox}>
+          <View style={styles.imageBox}>
             {/* <Image source={{ uri: route.params.imageUrl }}></Image> */}
             <Image
-              source={require("../../assets/images/logotitle.png")}
-              style={{ width: "100%", paddingBottom: "100%" }}
+              source={{
+                uri: route.params.imageUrl,
+                width: "100%",
+                paddingBottom: "100%",
+              }}
+              style={{ width: "100%", paddingBottom: "100%", borderRadius: 25 }}
             ></Image>
           </View>
         </View>
-        <Text style={sytles.typeText}>{route.params.type}</Text>
-        <Text style={sytles.itemName}>{route.params.name}</Text>
-        <View style={sytles.sub}>
+        <Text style={styles.typeText}>{route.params.type}</Text>
+        <Text style={styles.itemName}>{route.params.name}</Text>
+        <View style={styles.sub}>
           <View style={{ width: "75%" }}>
             <Text>
               {route.params.hashTag.map((value) => (
                 <TouchableOpacity>
-                  <Text style={sytles.hashTag}>#{value}</Text>
+                  <Text style={styles.hashTag}>#{value}</Text>
                 </TouchableOpacity>
               ))}
             </Text>
@@ -48,7 +53,11 @@ export default function ClosetDetail({ route, navigation }) {
                 color={"#456A5A"}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                deleteDress(navigation, route.params.id);
+              }}
+            >
               <MaterialCommunityIcons
                 name="delete-outline"
                 size={35}
@@ -75,12 +84,11 @@ export default function ClosetDetail({ route, navigation }) {
   );
 }
 
-const sytles = StyleSheet.create({
+const styles = StyleSheet.create({
   imageBox: {
     backgroundColor: "white",
     borderRadius: 25,
     width: "100%",
-    padding: 20,
     justifyContent: "center",
     alignItems: "center",
   },
