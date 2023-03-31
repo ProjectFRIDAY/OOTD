@@ -18,7 +18,7 @@ apiAuth.interceptors.request.use(
     const refreshToken = await AsyncStorage.getItem("refreshToken");
     config.headers["Authorization"] = `Bearer ${accessToken}`;
     config.headers["RefreshToken"] = refreshToken;
-    // console.log(config);
+    console.log(config);
     return config;
   },
   async (err) => {
@@ -58,8 +58,12 @@ apiAuth.interceptors.request.use(
 //       apiAuth
 //         .get("api/auth/token/reissuance")
 //         .then(async (res) => {
-//           // await AsyncStorage.setItem("accessToken", res)
-//           console.log(res);
+//           await AsyncStorage.setItem("accessToken", res.data.data.accessToken);
+//           await AsyncStorage.setItem(
+//             "refreshToken",
+//             res.data.data.refreshToken
+//           );
+//           console.log(res.data);
 //         })
 //         .catch((e) => {
 //           console.log("get err");
@@ -111,7 +115,11 @@ export const login = (email, password, navigation) => {
       navigation.replace("MainPage");
     })
     .catch((e) => {
-      alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+      if (e.response?.status === 500) {
+        alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+      } else {
+        alert("문제가 발생했습니다.");
+      }
       console.log(e);
       // console.log("err");
     });
@@ -145,6 +153,19 @@ export const joinMembership = (
 
 //------------------------------------------------------------
 // 게시글 부분
+
+export const getFeed = (isExistFollowerDiary, lastId) => {
+  apiAuth
+    .get(
+      `api/diary?isExistFollowerDiary=${isExistFollowerDiary}&lastId=${lastId}`
+    )
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 
 export const writeFeed = async ({
   title,
@@ -215,25 +236,57 @@ export const addDress = (
   navigation
 ) => {
   apiAuth
-    .post(
-      "api/dress",
-      {
-        req: {
-          dressName: "dressName",
-          dressType: "OUTER",
-          hashTag: hashTag,
-        },
-        file: formData,
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
+    .post("api/dress/file", formData)
     .then((res) => {
-      console.log(res);
-      navigation.goBack();
+      console.log(res.data);
+      apiAuth
+        .post(`api/dress/req/${res.data.data}`, {
+          dressName: dressName,
+          dressType: dressType,
+          hashTag: hashTag,
+        })
+        .then((res) => {
+          console.log(res.data);
+          navigation.goBack();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    })
+    .catch((e) => {
+      console.log(e);
+      if (e.response?.status === 401) {
+        alert("다시 로그인해주세요");
+        navigation.navigate("Login");
+      } else if (e.response?.status === 400) {
+        alert("사진을 첨부해주세요");
+      } else {
+        alert("문제 발생");
+      }
+    });
+};
+
+export const getDressList = (
+  navigation,
+  handleOuterFlatListData,
+  handleTopFlatListData,
+  handleBottomsFlatListData,
+  handleShoesFlatListData
+) => {
+  apiAuth
+    .get("api/dress")
+    .then((res) => {
+      for (let i = 0; i < res.data.data.length; i++) {
+        if (res.data.data[i].dressType === "OUTER") {
+          handleOuterFlatListData(res.data.data[i]);
+        } else if (res.data.data[i].dressType === "TOP") {
+          handleTopFlatListData(res.data.data[i]);
+        } else if (res.data.data[i].dressType === "BOTTOMS") {
+          handleBottomsFlatListData(res.data.data[i]);
+        } else {
+          handleShoesFlatListData(res.data.data[i]);
+        }
+      }
     })
     .catch((e) => {
       console.log(e);
@@ -244,18 +297,15 @@ export const addDress = (
     });
 };
 
-export const dressList = (navigation) => {
+export const deleteDress = (navigation, id) => {
   apiAuth
-    .get("api/dress")
+    .delete(`api/dress/${id}`)
     .then((res) => {
-      console.log(res.data);
+      console.log(res);
+      navigation.goBack();
     })
     .catch((e) => {
       console.log(e);
-      if (e.response?.status === 401) {
-        alert("다시 로그인해주세요");
-        navigation.replace("Login");
-      }
     });
 };
 
@@ -266,7 +316,6 @@ export const getMyData = (navigation, handleSetMyProfileData) => {
   apiAuth
     .get("api/profile")
     .then((res) => {
-      console.log("get");
       handleSetMyProfileData(res.data.data);
       return res.data.data;
     })
@@ -279,5 +328,19 @@ export const getMyData = (navigation, handleSetMyProfileData) => {
         alert("문제가 발생하였습니다. 다시 시도해주세요");
         navigation.replace("Login");
       }
+    });
+};
+
+// -----------------------------------------------------
+// 회원 정보 관련
+
+const searchUser = (id) => {
+  apiAuth
+    .get(`api/user/${id}`)
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((e) => {
+      console.log(e);
     });
 };
