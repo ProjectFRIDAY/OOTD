@@ -21,15 +21,10 @@ export default function ProfileView({ navigation }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      const res = getMyData(navigation, handleSetMyProfileData);
-      console.log(res);
-      setMyProfileData(res);
+      getMyData(navigation, handleSetMyProfileData);
+      // console.log(res);
     }, [])
   );
-
-  useEffect(() => {
-    console.log(myProfileData);
-  });
 
   return (
     <View style={sytles.container}>
