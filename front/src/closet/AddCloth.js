@@ -17,15 +17,16 @@ import { AntDesign } from "@expo/vector-icons";
 import CategoryPicker from "./CategoryPicker";
 import HashTagPicker from "./HashTagPicker";
 import { addDress } from "../api/api";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { StatusBarManager } = NativeModules;
 
 export default function AddCloth({ navigation }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUrl, setImageUrl] = useState("");
-  const formData = new FormData();
 
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState();
 
   const uploadImage = async () => {
     if (!status?.granted) {
@@ -37,7 +38,7 @@ export default function AddCloth({ navigation }) {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
+      quality: 0.1,
       aspect: [1, 1],
     });
     if (result.canceled) {
@@ -48,9 +49,10 @@ export default function AddCloth({ navigation }) {
     const filename = imageUri.split("/").pop();
     const match = /\.(\w+)$/.exec(filename ?? "");
     const type = match ? `image/${match[1]}` : `image`;
-    // const formData = new FormData();
-    formData.append("image", { uri: imageUri, name: filename, type });
+    const formData = new FormData();
+    formData.append("file", { uri: imageUri, name: filename, type });
     setForm(formData);
+    console.log(form);
   };
   useEffect(() => {
     Platform.OS == "ios"
@@ -60,11 +62,12 @@ export default function AddCloth({ navigation }) {
       : null;
   }, []);
 
-  useEffect(() => {
-    console.log(form);
-  });
-
   const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  const [category, setCategory] = useState("");
+  const handleSetCategory = (res) => {
+    setCategory(res);
+  };
 
   const [dressName, setDressName] = useState("");
   const changeDressName = (text) => {
@@ -91,7 +94,7 @@ export default function AddCloth({ navigation }) {
                 width: 120,
               }}
             >
-              <CategoryPicker />
+              <CategoryPicker handleSetCategory={handleSetCategory} />
             </View>
           </View>
           {imageUrl ? (
@@ -149,7 +152,7 @@ export default function AddCloth({ navigation }) {
           <TouchableOpacity
             style={styles.saveBtn}
             onPress={() =>
-              addDress(dressName, "high", hashTag, imageUrl, form, navigation)
+              addDress(dressName, category, hashTag, imageUrl, form, navigation)
             }
           >
             <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
