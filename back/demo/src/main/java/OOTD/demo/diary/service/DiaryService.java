@@ -1,18 +1,16 @@
 package OOTD.demo.diary.service;
 
 import OOTD.demo.auth.service.AuthService;
-import OOTD.demo.comment.dto.CommentRes;
 import OOTD.demo.comment.repository.CommentRepository;
 import OOTD.demo.comment.service.CommentService;
 import OOTD.demo.diary.Diary;
+import OOTD.demo.diary.PublicScope;
 import OOTD.demo.diary.dto.*;
 import OOTD.demo.diary.repository.DiaryRepository;
-import OOTD.demo.diarydress.DiaryDress;
 import OOTD.demo.diarydress.repository.DiaryDressRepository;
 import OOTD.demo.diaryimage.DiaryImage;
 import OOTD.demo.diaryimage.repository.DiaryImageRepository;
 import OOTD.demo.diarylike.repository.DiaryLikeRepository;
-import OOTD.demo.dress.repository.DressQueryRepository;
 import OOTD.demo.dress.repository.DressRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.file.dto.FileDto;
@@ -42,7 +40,6 @@ public class DiaryService {
 
     private final int ONCE_PAGING_NUMBER = 20;
 
-
     private final DiaryRepository diaryRepository;
     private final DressRepository dressRepository;
     private final FileUploadUtil fileUploadUtil;
@@ -60,19 +57,24 @@ public class DiaryService {
      * @param files 게시글 이미지 리스트
      * @return 생성된 게시글 엔티티의 ID를 포함한 DTO
      */
-    public PostDiaryRes createPost(PostDiaryReq dto, List<MultipartFile> files) {
-        Diary diary = diaryRepository.save(Diary.createPost(dto.getTitle(), dto.getContent(), dto.getScope(),
+    public PostDiaryRes createPostFiles(PostDiaryReq dto, List<MultipartFile> files) {
+        Diary diary = diaryRepository.save(Diary.createPost("", "", PublicScope.ALL,
                 authService.getCurrentLoginUser()));
 
         uploadImages(diary, files);
+        return new PostDiaryRes(diary.getId());
+    }
+
+    public void createPostData(Long id, PostDiaryReq dto) {
+        Diary diary = diaryRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        diary.updateDiary(dto.getTitle(), dto.getContent(), dto.getScope());
 
         for (PostDiaryDressReq dressReq : dto.getDressList()) {
             diaryDressRepository.save(createDiaryDress(diary,
                     dressRepository.findById(dressReq.getDressId()).orElseThrow(IllegalArgumentException::new)));
         }
-
-        return new PostDiaryRes(diary.getId());
     }
+
 
     /**
      * 게시글 엔티티 수정 메서드입니다.
@@ -114,6 +116,7 @@ public class DiaryService {
 
         commentService.deleteComment(id);
         deleteImages(diary);
+        diaryLikeRepository.deleteAllByDiary(diary);
 
         diaryRepository.delete(diary);
     }
