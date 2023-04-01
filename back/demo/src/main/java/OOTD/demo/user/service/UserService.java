@@ -1,6 +1,15 @@
 package OOTD.demo.user.service;
 
 
+import OOTD.demo.auth.repository.RefreshTokenRepository;
+import OOTD.demo.diary.Diary;
+import OOTD.demo.diary.repository.DiaryRepository;
+import OOTD.demo.diary.service.DiaryService;
+import OOTD.demo.dress.Dress;
+import OOTD.demo.dress.repository.DressRepository;
+import OOTD.demo.dress.service.DressService;
+import OOTD.demo.follow.repository.FollowRepository;
+import OOTD.demo.hot.repository.HotRepository;
 import OOTD.demo.user.dto.ReadUserDto;
 import OOTD.demo.user.dto.UpdateUserDto;
 import OOTD.demo.user.User;
@@ -16,8 +25,17 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DiaryRepository diaryRepository;
+    private final DressRepository dressRepository;
+    private final DiaryService diaryService;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final DressService dressService;
+    private final FollowRepository followRepository;
+    private final HotRepository hotRepository;
+
 
     @Transactional
     public User userUpdate(Long id, UpdateUserDto user){
@@ -44,9 +62,23 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long id){
+    public void deleteUser(Long id) {
+
         User user = userRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("not found user"));
+
+        for (Diary diary : diaryRepository.findByUser(user)) {
+            diaryService.deleteDiary(diary.getId());
+        }
+
+        for (Dress dress : dressRepository.findByUser(user)) {
+            dressService.deleteSingleDress(dress.getId());
+        }
+
+        followRepository.deleteByFollower(user);
+        followRepository.deleteAllByFollowee(user);
+        hotRepository.deleteAllByUserId(user.getId());
+        refreshTokenRepository.deleteAllByUser(user);
         userRepository.delete(user);
     }
 
