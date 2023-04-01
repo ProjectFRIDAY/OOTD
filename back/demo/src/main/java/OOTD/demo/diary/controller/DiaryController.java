@@ -63,9 +63,8 @@ public class DiaryController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> createDiaryData(@PathVariable Long id, @RequestPart @Valid PostDiaryReq dto) {
-        
-        diaryService.createPostData(id, dto);
 
+        diaryService.createPostData(id, dto);
         return httpResponseUtil.createOkHttpResponse(null, "게시글 정보 생성 성공했습니다.");
     }
 
