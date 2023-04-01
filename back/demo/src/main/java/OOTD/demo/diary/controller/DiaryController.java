@@ -40,11 +40,10 @@ public class DiaryController {
 
     /**
      * 게시글 생성 컨트롤러 메서드입니다.
-     * @param dto 게시글 생성 DTO
      * @param files 게시글 이미지
      * @return 생성된 게시글의 ID
      */
-    @Operation(summary = "게시글 생성 API", description = "게시글 생성 API입니다. (TODO : 현재 User가 NULL로 들어갑니다.)",
+    @Operation(summary = "게시글 생성 API", description = "게시글 생성 API입니다.",
             tags = { "Diary Controller" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
@@ -55,12 +54,18 @@ public class DiaryController {
                     content = @Content)
     })
     @PostMapping
-    public ResponseEntity<?> createDiary(
-            @Parameter(name = "dto", description = "게시글 생성 관련 DTO") @RequestPart @Valid PostDiaryReq dto,
+    public ResponseEntity<?> createDiaryFiles(
             @Parameter(name = "files", description = "게시글 사진들") @RequestPart List<MultipartFile> files) {
 
-        return httpResponseUtil.createOkHttpResponse(diaryService.createPost(dto, files),
+        return httpResponseUtil.createOkHttpResponse(diaryService.createPostFiles(null, files),
                 "게시글 생성에 성공했습니다.");
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> createDiaryData(@PathVariable Long id, @RequestPart @Valid PostDiaryReq dto) {
+
+        diaryService.createPostData(id, dto);
+        return httpResponseUtil.createOkHttpResponse(null, "게시글 정보 생성 성공했습니다.");
     }
 
     /**

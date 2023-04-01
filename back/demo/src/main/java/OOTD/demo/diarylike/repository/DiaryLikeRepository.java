@@ -14,4 +14,5 @@ import java.util.List;
 public interface DiaryLikeRepository extends JpaRepository<DiaryLike, Long> {
     List<DiaryLike> findAllByDiary(Diary diary);
     List<DiaryLike> findAllByUser(User user);
+    void deleteAllByDiary(Diary diary);
 }

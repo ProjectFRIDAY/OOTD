@@ -12,7 +12,6 @@ import OOTD.demo.dress.repository.DressRepository;
 import OOTD.demo.file.FileUploadUtil;
 import OOTD.demo.hashtag.HashTag;
 import OOTD.demo.hashtag.repository.HashTagRepository;
-import OOTD.demo.hashtag.service.HashTagService;
 import OOTD.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -129,7 +128,7 @@ public class DressService {
      */
     public List<DressRes> getDressList() {
 
-        List<Dress> findDressList = dressRepository.findDressByUser(authService.getCurrentLoginUser());
+        List<Dress> findDressList = dressRepository.findByUser(authService.getCurrentLoginUser());
         List<DressRes> result = new ArrayList<>();
 
         for (Dress dress : findDressList) {
